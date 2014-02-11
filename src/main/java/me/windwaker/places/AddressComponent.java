@@ -1,0 +1,106 @@
+package me.windwaker.places;
+
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.List;
+
+/**
+ * Represents a single component in a Place's full address.
+ */
+public class AddressComponent {
+	private final List<String> types = new ArrayList<String>();
+	private String longName, shortName;
+
+	/**
+	 * Sets the long name of the component.
+	 *
+	 * @param longName of component
+	 * @return this
+	 */
+	public AddressComponent setLongName(String longName) {
+		this.longName = longName;
+		return this;
+	}
+
+	/**
+	 * Returns the long name of the component.
+	 *
+	 * @return long name
+	 */
+	public String getLongName() {
+		return longName;
+	}
+
+	/**
+	 * Sets the short name of the component.
+	 *
+	 * @param shortName of component
+	 * @return this
+	 */
+	public AddressComponent setShortName(String shortName) {
+		this.shortName = shortName;
+		return this;
+	}
+
+	/**
+	 * Returns the short name of the component.
+	 *
+	 * @return short name
+	 */
+	public String getShortName() {
+		return shortName;
+	}
+
+	/**
+	 * Adds a collection of types to this components list of types.
+	 *
+	 * @param types to add
+	 * @return this
+	 */
+	public AddressComponent addTypes(Collection<String> types) {
+		this.types.addAll(types);
+		return this;
+	}
+
+	/**
+	 * Adds a type to this components list of types
+	 *
+	 * @param type to add
+	 * @return this
+	 */
+	public AddressComponent addType(String type) {
+		types.add(type);
+		return this;
+	}
+
+	/**
+	 * Removes the specified type from the list of types.
+	 *
+	 * @param type to remove
+	 * @return this
+	 */
+	public AddressComponent removeType(String type) {
+		types.remove(type);
+		return this;
+	}
+
+	/**
+	 * Clears all of this components types.
+	 *
+	 * @return this
+	 */
+	public AddressComponent clearTypes() {
+		types.clear();
+		return this;
+	}
+
+	/**
+	 * Returns an unmodifiable list of this components types.
+	 *
+	 * @return types
+	 */
+	public List<String> getTypes() {
+		return Collections.unmodifiableList(types);
+	}
+}
