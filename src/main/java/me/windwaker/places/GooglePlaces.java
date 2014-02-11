@@ -99,8 +99,8 @@ public class GooglePlaces {
 		 * @param value of param
 		 * @return this param
 		 */
-		public Param value(String value) {
-			this.value = value;
+		public Param value(Object value) {
+			this.value = value.toString();
 			return this;
 		}
 
