@@ -157,8 +157,7 @@ public class GooglePlaces {
 	 * @throws IOException
 	 * @throws JSONException
 	 */
-	public List<Place> getNearbyPlaces(double lat, double lng, double radius, int limit,
-									   Param... extraParams)
+	public List<Place> getNearbyPlaces(double lat, double lng, double radius, int limit, Param... extraParams)
 			throws IOException, JSONException {
 		String uri = String.format("%s%s/json?key=%s&location=%f,%f&radius=%f&sensor=%b",
 				API_URL, METHOD_NEARBY_SEARCH, apiKey, lat, lng, radius, sensor);
@@ -232,8 +231,7 @@ public class GooglePlaces {
 	 * @throws IOException
 	 * @throws JSONException
 	 */
-	public List<Place> getPlacesByRadar(double lat, double lng, double radius, int limit,
-										Param... extraParams)
+	public List<Place> getPlacesByRadar(double lat, double lng, double radius, int limit, Param... extraParams)
 			throws IOException, JSONException {
 		String uri = String.format("%sradarsearch/json?key=%s&location=%f,%f&radius=%f&sensor=%b",
 				API_URL, apiKey, lat, lng, radius, sensor);
