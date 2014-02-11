@@ -18,6 +18,7 @@ public class Place {
 	private final GooglePlaces client;
 	private final String id;
 	private double lat = -1, lon = -1;
+	private JSONObject json;
 	private String iconUrl;
 	private String name;
 	private String addr;
@@ -644,6 +645,34 @@ public class Place {
 		return this;
 	}
 
+	/**
+	 * Sets the JSON representation of this Place.
+	 *
+	 * @param json representation
+	 * @return this
+	 */
+	public Place setJson(JSONObject json) {
+		this.json = json;
+		return this;
+	}
+
+	/**
+	 * Returns the JSON representation of this place. This does not build a JSON object, it only returns the JSON
+	 * that was given in the initial response from the server.
+	 *
+	 * @return the json representation
+	 */
+	public JSONObject getJson() {
+		return json;
+	}
+
+	/**
+	 * Returns an updated Place object with more details than the Place object returned in an initial query.
+	 *
+	 * @param params extra params to include in the request url
+	 * @return a new place with more details
+	 * @throws IOException
+	 */
 	public Place getDetails(GooglePlaces.Param... params) throws IOException {
 		String uri = String.format("%s%s/json?key=%s&reference=%s&sensor=%b", API_URL,
 				METHOD_DETAILS, client.getApiKey(), referenceId, client.isSensorEnabled());
@@ -651,6 +680,13 @@ public class Place {
 		return parseDetails(client, HttpUtil.getResponse(client.getHttpClient(), uri));
 	}
 
+	/**
+	 * Parses a detailed Place object.
+	 *
+	 * @param client api client
+	 * @param rawJson json to parse
+	 * @return a detailed place
+	 */
 	public static Place parseDetails(GooglePlaces client, String rawJson) {
 		JSONObject json = new JSONObject(rawJson);
 
@@ -817,7 +853,7 @@ public class Place {
 				.setReferenceId(reference).setStatus(status).setVicinity(vicinity).setPhoneNumber(phone)
 				.setInternationalPhoneNumber(internationalPhone).setGoogleUrl(url).setWebsite(website)
 				.addPhotos(photos).addAddressComponents(addressComponents).setHours(schedule).addReviews(reviews)
-				.setUtcOffset(utcOffset);
+				.setUtcOffset(utcOffset).setJson(result);
 	}
 
 	@Override

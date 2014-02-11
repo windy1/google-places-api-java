@@ -197,8 +197,8 @@ public class GooglePlaces {
 	public List<Place> getPlacesByQuery(String query, int limit, Param... extraParams)
 			throws IOException, JSONException {
 		// build base uri
-		String uri = String.format("%stextsearch/json?query=%s&key=%s&sensor=%b",
-				API_URL, query, apiKey, sensor);
+		String uri = String.format("%s%s/json?query=%s&key=%s&sensor=%b",
+				API_URL, METHOD_TEXT_SEARCH, query, apiKey, sensor);
 		uri = addExtraParams(uri, extraParams);
 		return getPlaces(uri, METHOD_TEXT_SEARCH, sensor, limit);
 	}
@@ -233,8 +233,8 @@ public class GooglePlaces {
 	 */
 	public List<Place> getPlacesByRadar(double lat, double lng, double radius, int limit, Param... extraParams)
 			throws IOException, JSONException {
-		String uri = String.format("%sradarsearch/json?key=%s&location=%f,%f&radius=%f&sensor=%b",
-				API_URL, apiKey, lat, lng, radius, sensor);
+		String uri = String.format("%s%s/json?key=%s&location=%f,%f&radius=%f&sensor=%b",
+				API_URL, METHOD_RADAR_SEARCH, apiKey, lat, lng, radius, sensor);
 		uri = addExtraParams(uri, extraParams);
 		return getPlaces(uri, METHOD_RADAR_SEARCH, sensor, limit);
 	}
@@ -331,7 +331,7 @@ public class GooglePlaces {
 			throws IOException, JSONException {
 
 		limit = Math.min(limit, MAXIMUM_RESULTS); // max of 60 results possible
-		int pages = limit / 20;
+		int pages = limit / MAXIMUM_PAGE_RESULTS;
 
 		List<Place> places = new ArrayList<Place>();
 		// new request for each page
@@ -394,13 +394,13 @@ public class GooglePlaces {
 		return json.optString(STRING_NEXT_PAGE_TOKEN, null);
 	}
 
-	private static int parseResults(GooglePlaces client, List<Place> places, JSONArray results, int limit) throws JSONException {
+	private static void parseResults(GooglePlaces client, List<Place> places, JSONArray results, int limit) throws JSONException {
 		limit = Math.min(limit, MAXIMUM_PAGE_RESULTS);
 		for (int i = 0; i < limit; i++) {
 
 			// reached the end of the page
 			if (i >= results.length()) {
-				return results.length();
+				return;
 			}
 
 			JSONObject result = results.getJSONObject(i);
@@ -459,9 +459,7 @@ public class GooglePlaces {
 			// build a place object
 			places.add(new Place(client, id).setLatitude(lat).setLongitude(lon).setIconUrl(iconUrl).setName(name)
 					.setAddress(addr).setRating(rating).setReferenceId(reference).setStatus(status).setPrice(price)
-					.addTypes(types).setVicinity(vicinity).addEvents(events));
+					.addTypes(types).setVicinity(vicinity).addEvents(events).setJson(result));
 		}
-
-		return limit;
 	}
 }

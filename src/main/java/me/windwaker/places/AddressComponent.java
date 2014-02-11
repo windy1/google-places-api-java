@@ -6,7 +6,9 @@ import java.util.Collections;
 import java.util.List;
 
 /**
- * Represents a single component in a Place's full address.
+ * Represents a single component in a Place's full address.  For example, the address "111 8th Avenue, New York, NY"
+ * contains separate address components for "111" (the street number, "8th Avenue" (the route), "New York" (the city)
+ * and "NY" (the US state).
  */
 public class AddressComponent {
 	private final List<String> types = new ArrayList<String>();
@@ -33,7 +35,7 @@ public class AddressComponent {
 	}
 
 	/**
-	 * Sets the short name of the component.
+	 * Sets the short name of the component. For example, "New York" might be abbreviated as "NY".
 	 *
 	 * @param shortName of component
 	 * @return this
@@ -44,7 +46,7 @@ public class AddressComponent {
 	}
 
 	/**
-	 * Returns the short name of the component.
+	 * Returns the short name of the component. For example, "New York" might be abbreviated as "NY".
 	 *
 	 * @return short name
 	 */
