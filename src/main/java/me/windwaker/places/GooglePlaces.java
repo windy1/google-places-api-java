@@ -38,6 +38,15 @@ public class GooglePlaces {
 	}
 
 	/**
+	 * Creates a new GooglePlaces object using the specified API key and the default HttpClient.
+	 *
+	 * @param apiKey that has been registered on the Google Developer Console
+	 */
+	public GooglePlaces(String apiKey) {
+		this(apiKey, DEFAULT_CLIENT);
+	}
+
+	/**
 	 * Set this to true if the device you are using has a location detector such as GPS.
 	 *
 	 * @param sensor if sensor is enabled
@@ -53,15 +62,6 @@ public class GooglePlaces {
 	 */
 	public boolean isSensorEnabled() {
 		return sensor;
-	}
-
-	/**
-	 * Creates a new GooglePlaces object using the specified API key and the default HttpClient.
-	 *
-	 * @param apiKey that has been registered on the Google Developer Console
-	 */
-	public GooglePlaces(String apiKey) {
-		this(apiKey, DEFAULT_CLIENT);
 	}
 
 	/**
@@ -117,7 +117,7 @@ public class GooglePlaces {
 
 	public static String addExtraParams(String base, Param... extraParams) {
 		for (Param param : extraParams) {
-			base += String.format("&%s=%s", param.name, param.value);
+			base += "&" + param.name + (param.value != null ? "=" + param.value : "");
 		}
 		return base;
 	}
