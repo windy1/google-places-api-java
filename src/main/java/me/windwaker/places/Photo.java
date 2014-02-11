@@ -11,8 +11,8 @@ public class Photo {
 	 * Creates a new photo with the specified reference token, width and height.
 	 *
 	 * @param reference token to photo
-	 * @param width of photo
-	 * @param height of photo
+	 * @param width     of photo
+	 * @param height    of photo
 	 */
 	public Photo(String reference, int width, int height) {
 		this.reference = reference;

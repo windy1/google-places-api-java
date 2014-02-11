@@ -24,7 +24,7 @@ public final class HttpUtil {
 	 * Returns the raw GET response from the specified uri.
 	 *
 	 * @param client to use
-	 * @param uri to send
+	 * @param uri    to send
 	 * @return string response
 	 * @throws IOException
 	 */
