@@ -1,6 +1,21 @@
-# Usage
+# google-places-api-java
 
-Before using this library, you must [register an API key for Google Places API](https://developers.google.com/places/documentation/#Authentication).
+**Notice:** Before using this library, you must [register an API key for Google Places API](https://developers.google.com/places/documentation/#Authentication).
+
+## Contents
+
+* [Creating the client](#creating-the-client)
+* [Place Searches](#place-searches)
+    * [Nearby Search](#nearby-search-requests)
+    * [Text Search](#text-search-requests)
+    * [Radar Search](#radar-search-requests)
+    * [Adding extra URL parameters](#additional-url-parameters)
+* [Place Details](#place-details)
+* [Modifying a Place](#place-actions)
+* [Place Photos](#place-photos)
+* [Autocomplete](#autocomplete)
+    * [Place prediction](#place-prediction)
+    * [Query prediction](#query-prediction)
 
 ## Creating the client
 
@@ -119,11 +134,13 @@ Coming soon...
 
 Coming soon...
 
-## Place Autocomplete
+## Autocomplete
+
+# Place prediction
 
 Coming soon...
 
-## Query Autocomplete
+# Query prediction
 
 Coming soon...
 
