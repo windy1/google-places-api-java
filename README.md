@@ -136,11 +136,11 @@ Coming soon...
 
 ## Autocomplete
 
-# Place prediction
+### Place prediction
 
 Coming soon...
 
-# Query prediction
+### Query prediction
 
 Coming soon...
 
