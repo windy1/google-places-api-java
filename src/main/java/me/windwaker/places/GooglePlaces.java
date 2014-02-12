@@ -164,15 +164,16 @@ public class GooglePlaces {
 	 * @param limit       the maximum amount of places to return
 	 * @param extraParams any extra parameters to include in the request URL
 	 * @return a list of places that were found
-	 * @throws IOException
-	 * @throws JSONException
 	 */
-	public List<Place> getNearbyPlaces(double lat, double lng, double radius, int limit, Param... extraParams)
-			throws IOException {
-		String uri = String.format("%s%s/json?key=%s&location=%f,%f&radius=%f&sensor=%b",
-				API_URL, METHOD_NEARBY_SEARCH, apiKey, lat, lng, radius, sensor);
-		uri = addExtraParams(uri, extraParams);
-		return getPlaces(uri, METHOD_NEARBY_SEARCH, sensor, limit);
+	public List<Place> getNearbyPlaces(double lat, double lng, double radius, int limit, Param... extraParams) {
+		try {
+			String uri = String.format("%s%s/json?key=%s&location=%f,%f&radius=%f&sensor=%b",
+					API_URL, METHOD_NEARBY_SEARCH, apiKey, lat, lng, radius, sensor);
+			uri = addExtraParams(uri, extraParams);
+			return getPlaces(uri, METHOD_NEARBY_SEARCH, sensor, limit);
+		} catch (Exception e) {
+			throw new GooglePlacesException(e);
+		}
 	}
 
 	/**
@@ -185,10 +186,8 @@ public class GooglePlaces {
 	 * @param radius      radius
 	 * @param extraParams any extra parameters to include in the request URL
 	 * @return a list of places that were found
-	 * @throws IOException
-	 * @throws JSONException
 	 */
-	public List<Place> getNearbyPlaces(double lat, double lng, double radius, Param... extraParams) throws IOException {
+	public List<Place> getNearbyPlaces(double lat, double lng, double radius, Param... extraParams) {
 		return getNearbyPlaces(lat, lng, radius, DEFAULT_RESULTS, extraParams);
 	}
 
@@ -200,15 +199,17 @@ public class GooglePlaces {
 	 * @param limit       the maximum amount of places to return
 	 * @param extraParams any extra parameters to include in the request URL
 	 * @return a list of places that were found
-	 * @throws IOException
-	 * @throws JSONException
 	 */
-	public List<Place> getPlacesByQuery(String query, int limit, Param... extraParams) throws IOException {
-		// build base uri
-		String uri = String.format("%s%s/json?query=%s&key=%s&sensor=%b",
-				API_URL, METHOD_TEXT_SEARCH, query, apiKey, sensor);
-		uri = addExtraParams(uri, extraParams);
-		return getPlaces(uri, METHOD_TEXT_SEARCH, sensor, limit);
+	public List<Place> getPlacesByQuery(String query, int limit, Param... extraParams) {
+		try {
+			// build base uri
+			String uri = String.format("%s%s/json?query=%s&key=%s&sensor=%b",
+					API_URL, METHOD_TEXT_SEARCH, query, apiKey, sensor);
+			uri = addExtraParams(uri, extraParams);
+			return getPlaces(uri, METHOD_TEXT_SEARCH, sensor, limit);
+		} catch (Exception e) {
+			throw new GooglePlacesException(e);
+		}
 	}
 
 	/**
@@ -218,10 +219,8 @@ public class GooglePlaces {
 	 * @param query       search query
 	 * @param extraParams any extra parameters to include in the request URL
 	 * @return a list of places that were found
-	 * @throws IOException
-	 * @throws JSONException
 	 */
-	public List<Place> getPlacesByQuery(String query, Param... extraParams) throws IOException {
+	public List<Place> getPlacesByQuery(String query, Param... extraParams) {
 		return getPlacesByQuery(query, DEFAULT_RESULTS, extraParams);
 	}
 
@@ -236,15 +235,16 @@ public class GooglePlaces {
 	 * @param limit       the maximum amount of places to return
 	 * @param extraParams any extra parameters to include in the request URL
 	 * @return a list of places that were found
-	 * @throws IOException
-	 * @throws JSONException
 	 */
-	public List<Place> getPlacesByRadar(double lat, double lng, double radius, int limit, Param... extraParams)
-			throws IOException {
-		String uri = String.format("%s%s/json?key=%s&location=%f,%f&radius=%f&sensor=%b",
-				API_URL, METHOD_RADAR_SEARCH, apiKey, lat, lng, radius, sensor);
-		uri = addExtraParams(uri, extraParams);
-		return getPlaces(uri, METHOD_RADAR_SEARCH, sensor, limit);
+	public List<Place> getPlacesByRadar(double lat, double lng, double radius, int limit, Param... extraParams) {
+		try {
+			String uri = String.format("%s%s/json?key=%s&location=%f,%f&radius=%f&sensor=%b",
+					API_URL, METHOD_RADAR_SEARCH, apiKey, lat, lng, radius, sensor);
+			uri = addExtraParams(uri, extraParams);
+			return getPlaces(uri, METHOD_RADAR_SEARCH, sensor, limit);
+		} catch (Exception e) {
+			throw new GooglePlacesException(e);
+		}
 	}
 
 	/**
@@ -257,11 +257,8 @@ public class GooglePlaces {
 	 * @param radius      radius
 	 * @param extraParams any extra parameters to include in the request URL
 	 * @return a list of places that were found
-	 * @throws IOException
-	 * @throws JSONException
 	 */
-	public List<Place> getPlacesByRadar(double lat, double lng, double radius, Param... extraParams)
-			throws IOException {
+	public List<Place> getPlacesByRadar(double lat, double lng, double radius, Param... extraParams) {
 		return getPlacesByRadar(lat, lng, radius, MAXIMUM_RESULTS, extraParams);
 	}
 
@@ -271,13 +268,16 @@ public class GooglePlaces {
 	 * @param reference id
 	 * @param extraParams to append to request url
 	 * @return place
-	 * @throws IOException
 	 */
-	public Place getPlace(String reference, Param... extraParams) throws IOException {
-		String uri = String.format("%s%s/json?key=%s&reference=%s&sensor=%b", API_URL,
-				METHOD_DETAILS, apiKey, reference, sensor);
-		uri = GooglePlaces.addExtraParams(uri, extraParams);
-		return Place.parseDetails(this, get(client, uri));
+	public Place getPlace(String reference, Param... extraParams) {
+		try {
+			String uri = String.format("%s%s/json?key=%s&reference=%s&sensor=%b", API_URL,
+					METHOD_DETAILS, apiKey, reference, sensor);
+			uri = GooglePlaces.addExtraParams(uri, extraParams);
+			return Place.parseDetails(this, get(client, uri));
+		} catch (Exception e) {
+			throw new GooglePlacesException(e);
+		}
 	}
 
 	/**
@@ -292,11 +292,9 @@ public class GooglePlaces {
 	 * @param returnPlace true if the newly created place should be returned
 	 * @param extraParams to append to request url
 	 * @return newly created place
-	 * @throws JSONException
-	 * @throws IOException
 	 */
 	public Place addPlace(String name, String lang, double lat, double lng, int accuracy, Collection<String> types,
-						  boolean returnPlace, Param... extraParams) throws IOException {
+						  boolean returnPlace, Param... extraParams) {
 		try {
 			String uri = String.format("%s%s/json?sensor=%b&key=%s", API_URL, METHOD_ADD, sensor, apiKey);
 			uri = GooglePlaces.addExtraParams(uri, extraParams);
@@ -310,7 +308,7 @@ public class GooglePlaces {
 			checkStatus(status);
 			return returnPlace ? getPlace(response.getString(STRING_REFERENCE)) : null;
 		} catch (Exception e) {
-			throw new IOException(e);
+			throw new GooglePlacesException(e);
 		}
 	}
 
@@ -324,11 +322,9 @@ public class GooglePlaces {
 	 * @param accuracy of coordinates in meters
 	 * @param types collection of types
 	 * @return newly created place
-	 * @throws JSONException
-	 * @throws IOException
-	 */
+\	 */
 	public Place addPlace(String name, String lang, double lat, double lng, int accuracy, Collection<String> types,
-						  Param... extraParams) throws IOException {
+						  Param... extraParams) {
 		return addPlace(name, lang, lat, lng, accuracy, types, true, extraParams);
 	}
 
@@ -342,11 +338,9 @@ public class GooglePlaces {
 	 * @param accuracy of coordinates in meters
 	 * @param type type of place
 	 * @return newly created place
-	 * @throws JSONException
-	 * @throws IOException
 	 */
 	public Place addPlace(String name, String lang, double lat, double lng, int accuracy, String type,
-						  Param... extraParams) throws IOException {
+						  Param... extraParams) {
 		return addPlace(name, lang, lat, lng, accuracy, Arrays.asList(type), extraParams);
 	}
 
@@ -360,11 +354,9 @@ public class GooglePlaces {
 	 * @param accuracy of coordinates in meters
 	 * @param type type of place
 	 * @return newly created place
-	 * @throws JSONException
-	 * @throws IOException
 	 */
 	public Place addPlace(String name, String lang, double lat, double lng, int accuracy, String type,
-						  boolean returnPlace, Param... extraParams) throws IOException {
+						  boolean returnPlace, Param... extraParams) {
 		return addPlace(name, lang, lat, lng, accuracy, Arrays.asList(type), returnPlace, extraParams);
 	}
 
@@ -372,10 +364,8 @@ public class GooglePlaces {
 	 * Deletes the place specified by the specified reference ID.
 	 *
 	 * @param reference id
-	 * @throws JSONException
-	 * @throws IOException
 	 */
-	public void deletePlace(String reference, Param... extraParams) throws IOException {
+	public void deletePlace(String reference, Param... extraParams) {
 		try {
 			String uri = String.format("%s%s/json?sensor=%b&key=%s", API_URL, METHOD_DELETE, sensor, apiKey);
 			uri = addExtraParams(uri, extraParams);
@@ -388,7 +378,7 @@ public class GooglePlaces {
 			String status = response.getString(STRING_STATUS);
 			checkStatus(status);
 		} catch (Exception e) {
-			throw new IOException(e);
+			throw new GooglePlacesException(e);
 		}
 	}
 
@@ -396,10 +386,8 @@ public class GooglePlaces {
 	 * Deletes the specified place.
 	 *
 	 * @param place to delete
-	 * @throws JSONException
-	 * @throws IOException
 	 */
-	public void deletePlace(Place place, Param... extraParams) throws IOException {
+	public void deletePlace(Place place, Param... extraParams) {
 		deletePlace(place.getReferenceId(), extraParams);
 	}
 
@@ -410,15 +398,18 @@ public class GooglePlaces {
 	 * @param eventId id of event
 	 * @param extraParams to append to request url
 	 * @return event
-	 * @throws IOException
 	 */
-	public Event getEvent(Place place, String eventId, Param... extraParams) throws IOException {
-		String uri = String.format("%s%s/json?sensor=%b&key=%s&reference=%s&event_id=%s", API_URL, METHOD_EVENT_DETAILS,
-				sensor, apiKey, place.getReferenceId(), eventId);
-		uri = addExtraParams(uri, extraParams);
-		String response = get(client, uri);
-		System.out.println("Response: " + response);
-		return Event.parseDetails(response).setPlace(place);
+	public Event getEvent(Place place, String eventId, Param... extraParams) {
+		try {
+			String uri = String.format("%s%s/json?sensor=%b&key=%s&reference=%s&event_id=%s", API_URL, METHOD_EVENT_DETAILS,
+					sensor, apiKey, place.getReferenceId(), eventId);
+			uri = addExtraParams(uri, extraParams);
+			String response = get(client, uri);
+			System.out.println("Response: " + response);
+			return Event.parseDetails(response).setPlace(place);
+		} catch (Exception e) {
+			throw new GooglePlacesException(e);
+		}
 	}
 
 	/**
@@ -432,10 +423,9 @@ public class GooglePlaces {
 	 * @param returnEvent if GET request should be made to retrieve the newly created event
 	 * @param extraParams to append to request url
 	 * @return newly created event
-	 * @throws IOException
 	 */
 	public Event addEvent(Place place, String summary, long duration, String lang, String url, boolean returnEvent,
-						  Param... extraParams) throws IOException {
+						  Param... extraParams) {
 		try {
 			String uri = String.format("%s%s/json?sensor=%b&key=%s", API_URL, METHOD_EVENT_ADD, sensor, apiKey);
 			uri = addExtraParams(uri, extraParams);
@@ -449,7 +439,7 @@ public class GooglePlaces {
 			checkStatus(status);
 			return returnEvent ? getEvent(place, response.getString(STRING_EVENT_ID)) : null;
 		} catch (Exception e) {
-			throw new IOException(e);
+			throw new GooglePlacesException(e);
 		}
 	}
 
@@ -478,9 +468,8 @@ public class GooglePlaces {
 	 * @param duration length of event in seconds
 	 * @param extraParams to append to request url
 	 * @return newly created event
-	 * @throws IOException
 	 */
-	public Event addEvent(Place place, String summary, long duration, boolean returnEvent, Param... extraParams) throws IOException {
+	public Event addEvent(Place place, String summary, long duration, boolean returnEvent, Param... extraParams) {
 		return addEvent(place, summary, duration, null, null, returnEvent, extraParams);
 	}
 
@@ -492,9 +481,8 @@ public class GooglePlaces {
 	 * @param duration length of event in seconds
 	 * @param extraParams to append to request url
 	 * @return newly created event
-	 * @throws IOException
 	 */
-	public Event addEvent(Place place, String summary, long duration, Param... extraParams) throws IOException {
+	public Event addEvent(Place place, String summary, long duration, Param... extraParams) {
 		return addEvent(place, summary, duration, true, extraParams);
 	}
 
@@ -504,9 +492,8 @@ public class GooglePlaces {
 	 * @param placeReference that contains event
 	 * @param eventId unique event id
 	 * @param extraParams to append to request url
-	 * @throws IOException
 	 */
-	public void deleteEvent(String placeReference, String eventId, Param... extraParams) throws IOException {
+	public void deleteEvent(String placeReference, String eventId, Param... extraParams) {
 		try {
 			String uri = String.format("%s%s/json?sensor=%b&key=%s", API_URL, METHOD_EVENT_DELETE, sensor, apiKey);
 			uri = addExtraParams(uri, extraParams);
@@ -519,7 +506,7 @@ public class GooglePlaces {
 			System.out.println("Response: " + response);
 			checkStatus(response.getString(STRING_STATUS));
 		} catch (Exception e) {
-			throw new IOException(e);
+			throw new GooglePlacesException(e);
 		}
 	}
 
@@ -528,9 +515,8 @@ public class GooglePlaces {
 	 *
 	 * @param event to delete
 	 * @param extraParams to append to request url
-	 * @throws IOException
 	 */
-	public void deleteEvent(Event event, Param... extraParams) throws IOException {
+	public void deleteEvent(Event event, Param... extraParams) {
 		deleteEvent(event.getPlace().getReferenceId(), event.getId(), extraParams);
 	}
 
@@ -667,7 +653,7 @@ public class GooglePlaces {
 	 * @return list of parsed places
 	 * @throws JSONException
 	 */
-	public static String parse(GooglePlaces client, List<Place> places, String str, int limit) throws JSONException {
+	public static String parse(GooglePlaces client, List<Place> places, String str, int limit) {
 
 		// parse json
 		JSONObject json = new JSONObject(str);
@@ -685,7 +671,7 @@ public class GooglePlaces {
 		return json.optString(STRING_NEXT_PAGE_TOKEN, null);
 	}
 
-	private static void parseResults(GooglePlaces client, List<Place> places, JSONArray results, int limit) throws JSONException {
+	private static void parseResults(GooglePlaces client, List<Place> places, JSONArray results, int limit) {
 		limit = Math.min(limit, MAXIMUM_PAGE_RESULTS);
 		for (int i = 0; i < limit; i++) {
 
