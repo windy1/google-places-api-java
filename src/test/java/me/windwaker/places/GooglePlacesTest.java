@@ -80,7 +80,7 @@ public class GooglePlacesTest {
 		}
 	}
 
-	@Test
+	//@Test
 	public void testAddAndDeletePlace() {
 		try {
 			Place place = addPlace();
@@ -91,7 +91,7 @@ public class GooglePlacesTest {
 		}
 	}
 
-	@Test
+	//@Test
 	public void testAddAndDeleteEvent() {
 		try {
 			Place place = addPlace();
@@ -101,6 +101,21 @@ public class GooglePlacesTest {
 			e.printStackTrace();
 			fail(e.getMessage());
 		}
+	}
+
+	@Test
+	public void testBump() {
+		try {
+			Place place = addPlace().bump();
+			addEvent(place).bump();
+		} catch (Exception e) {
+			e.printStackTrace();
+			fail(e.getMessage());
+		}
+	}
+
+	private Event addEvent(Place place) throws IOException {
+		return google.addEvent(place, "Test Event, Please Ignore", 100000, "en", "http://www.example.com");
 	}
 
 	private Place addPlace() throws IOException {

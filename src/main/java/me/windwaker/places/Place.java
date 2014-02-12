@@ -733,13 +733,24 @@ public class Place {
 	}
 
 	/**
+	 * Bumps a place within the application. Bumps are reflected in your place searches for your application only.
+	 * Bumping a place makes it appear higher in the result set.
+	 *
+	 * @param extraParams to append to request url
+	 */
+	public Place bump(Param... extraParams) {
+		client.bumpPlace(this, extraParams);
+		return this;
+	}
+
+	/**
 	 * Returns an updated Place object with more details than the Place object returned in an initial query.
 	 *
 	 * @param params extra params to include in the request url
 	 * @return a new place with more details
 	 * @throws IOException
 	 */
-	public Place getDetails(GooglePlaces.Param... params) throws IOException {
+	public Place getDetails(Param... params) throws IOException {
 		return client.getPlace(referenceId, params);
 	}
 

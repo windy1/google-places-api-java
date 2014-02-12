@@ -33,7 +33,9 @@ public final class HttpUtil {
 	public static String get(HttpClient client, HttpGet get) throws IOException {
 		try {
 			System.out.println("GET: " + get.getURI());
-			return readString(client.execute(get));
+			String response = readString(client.execute(get));
+			System.out.println("Response: " + response);
+			return response;
 		} catch (Exception e) {
 			throw new IOException(e);
 		}
@@ -66,7 +68,9 @@ public final class HttpUtil {
 	public static String post(HttpClient client, HttpPost post) throws IOException {
 		try {
 			System.out.println("POST: " + post.getURI());
-			return readString(client.execute(post));
+			String response = readString(client.execute(post));
+			System.out.println("Response: " + response);
+			return response;
 		} catch (Exception e) {
 			throw new IOException(e);
 		}

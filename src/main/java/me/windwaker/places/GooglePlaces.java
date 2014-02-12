@@ -153,6 +153,7 @@ public class GooglePlaces {
 	public static final String METHOD_EVENT_DETAILS = "event/details";
 	public static final String METHOD_EVENT_ADD = "event/add";
 	public static final String METHOD_EVENT_DELETE = "event/delete";
+	public static final String METHOD_BUMP = "bump";
 
 	/**
 	 * Returns the places at the specified latitude and longitude within the specified radius. If the specified limit
@@ -303,7 +304,6 @@ public class GooglePlaces {
 			HttpPost post = new HttpPost(uri);
 			post.setEntity(new StringEntity(input.toString()));
 			JSONObject response = new JSONObject(post(client, post));
-			System.out.println("response: " + response);
 			String status = response.getString(STRING_STATUS);
 			checkStatus(status);
 			return returnPlace ? getPlace(response.getString(STRING_REFERENCE)) : null;
@@ -374,7 +374,6 @@ public class GooglePlaces {
 			HttpPost post = new HttpPost(uri);
 			post.setEntity(new StringEntity(input.toString()));
 			JSONObject response = new JSONObject(post(client, post));
-			System.out.println("response: " + response);
 			String status = response.getString(STRING_STATUS);
 			checkStatus(status);
 		} catch (Exception e) {
@@ -392,6 +391,49 @@ public class GooglePlaces {
 	}
 
 	/**
+	 * Bumps a place within the application. Bumps are reflected in your place searches for your application only.
+	 * Bumping a place makes it appear higher in the result set.
+	 *
+	 * @param place to bump
+	 * @param extraParams to append to request url
+	 */
+	public void bumpPlace(Place place, Param... extraParams) {
+		try {
+			String uri = String.format("%s%s/json?sensor=%b&key=%s", API_URL, METHOD_BUMP, sensor, apiKey);
+			uri = addExtraParams(uri, extraParams);
+			HttpPost post = new HttpPost(uri);
+			JSONObject input = new JSONObject().put(STRING_REFERENCE, place.getReferenceId());
+			post.setEntity(new StringEntity(input.toString()));
+			JSONObject response = new JSONObject(post(client, post));
+			checkStatus(response.getString(STRING_STATUS));
+		} catch (Exception e) {
+			throw new GooglePlacesException(e);
+		}
+	}
+
+	/**
+	 * Bumps an event within the application. Bumps are reflected in your place searches for your application only.
+	 * Bumping an event makes it appear higher in the result set.
+	 *
+	 * @param event to bump
+	 * @param extraParams to append to request url
+	 */
+	public void bumpEvent(Event event, Param... extraParams) {
+		try {
+			String uri = String.format("%s%s/json?sensor=%b&key=%s", API_URL, METHOD_BUMP, sensor, apiKey);
+			uri = addExtraParams(uri, extraParams);
+			HttpPost post = new HttpPost(uri);
+			JSONObject input = new JSONObject().put(STRING_REFERENCE, event.getPlace().getReferenceId())
+					.put(STRING_EVENT_ID, event.getId());
+			post.setEntity(new StringEntity(input.toString()));
+			JSONObject response = new JSONObject(post(client, post));
+			checkStatus(response.getString(STRING_STATUS));
+		} catch (Exception e) {
+			throw new GooglePlacesException(e);
+		}
+	}
+
+	/**
 	 * Returns the event at the specified place with the specified event id.
 	 *
 	 * @param place reference to place the event is at
@@ -405,7 +447,6 @@ public class GooglePlaces {
 					sensor, apiKey, place.getReferenceId(), eventId);
 			uri = addExtraParams(uri, extraParams);
 			String response = get(client, uri);
-			System.out.println("Response: " + response);
 			return Event.parseDetails(response).setPlace(place);
 		} catch (Exception e) {
 			throw new GooglePlacesException(e);
@@ -434,7 +475,6 @@ public class GooglePlaces {
 			System.out.println("Input: " + input);
 			post.setEntity(new StringEntity(input.toString()));
 			JSONObject response = new JSONObject(post(client, post));
-			System.out.println("Response: " + response);
 			String status = response.getString(STRING_STATUS);
 			checkStatus(status);
 			return returnEvent ? getEvent(place, response.getString(STRING_EVENT_ID)) : null;
@@ -503,7 +543,6 @@ public class GooglePlaces {
 			System.out.println("Input: " + input);
 			post.setEntity(new StringEntity(input.toString()));
 			JSONObject response = new JSONObject(post(client, post));
-			System.out.println("Response: " + response);
 			checkStatus(response.getString(STRING_STATUS));
 		} catch (Exception e) {
 			throw new GooglePlacesException(e);

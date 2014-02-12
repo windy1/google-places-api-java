@@ -169,6 +169,17 @@ public class Event {
 	}
 
 	/**
+	 * Bumps an event within the application. Bumps are reflected in your place searches for your application only.
+	 * Bumping an event makes it appear higher in the result set.
+	 *
+	 * @param extraParams to append to request url
+	 */
+	public Event bump(Param... extraParams) {
+		place.getClient().bumpEvent(this, extraParams);
+		return this;
+	}
+
+	/**
 	 * Returns a more detailed version of this event.
 	 *
 	 * @return event details
