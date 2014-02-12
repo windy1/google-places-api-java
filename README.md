@@ -144,6 +144,14 @@ over 250 characters long, the language must be one of
 [these approved codes](https://spreadsheets.google.com/pub?key=p9pdwsai2hDMsLkXsoM05KQ&gid=1), and the type must be one
 of [these approved types](https://developers.google.com/places/documentation/supported_types).
 
+Creating a place with this method sends one POST request and one GET request to retrieve the newly created place. If you
+would like to skip the GET request, create a place using this method.
+
+```java
+Place place = client.addPlace(new Place().setLatitude(23.855917).setLongitude(11.452065).setAccuracy(50).setName("Test")
+    .addType("spa").setLanguage("en"), false);
+```
+
 ### Delete Place
 
 You can delete places with:
