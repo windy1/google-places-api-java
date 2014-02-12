@@ -748,9 +748,8 @@ public class Place {
 	 *
 	 * @param params extra params to include in the request url
 	 * @return a new place with more details
-	 * @throws IOException
 	 */
-	public Place getDetails(Param... params) throws IOException {
+	public Place getDetails(Param... params) {
 		return client.getPlace(referenceId, params);
 	}
 
@@ -840,6 +839,8 @@ public class Place {
 			}
 		}
 
+		Place place = new Place();
+
 		// photos
 		JSONArray jsonPhotos = result.optJSONArray(ARRAY_PHOTOS);
 		List<Photo> photos = new ArrayList<Photo>();
@@ -848,7 +849,7 @@ public class Place {
 				JSONObject jsonPhoto = jsonPhotos.getJSONObject(i);
 				String photoReference = jsonPhoto.getString(STRING_PHOTO_REFERENCE);
 				int width = jsonPhoto.getInt(INTEGER_WIDTH), height = jsonPhoto.getInt(INTEGER_HEIGHT);
-				photos.add(new Photo(photoReference, width, height));
+				photos.add(new Photo(place, photoReference, width, height));
 			}
 		}
 
@@ -878,8 +879,6 @@ public class Place {
 				addressComponents.add(addr);
 			}
 		}
-
-		Place place = new Place();
 
 		// events
 		JSONArray events = result.optJSONArray(ARRAY_EVENTS);

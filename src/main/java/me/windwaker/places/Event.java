@@ -185,7 +185,7 @@ public class Event {
 	 * @return event details
 	 * @throws IOException
 	 */
-	public Event getDetails() throws IOException {
+	public Event getDetails() {
 		return place.getClient().getEvent(place, id);
 	}
 

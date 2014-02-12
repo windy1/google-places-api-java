@@ -2,13 +2,19 @@ package me.windwaker.places;
 
 import me.windwaker.places.exception.GooglePlacesException;
 import org.apache.http.client.HttpClient;
+import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.entity.StringEntity;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import javax.imageio.ImageIO;
+import javax.imageio.stream.ImageInputStream;
+import java.awt.*;
+import java.awt.image.BufferedImage;
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
@@ -434,6 +440,70 @@ public class GooglePlaces {
 	}
 
 	/**
+	 * Returns an ImageInputStream from the specified photo reference.
+	 *
+	 * @param photo to get image of
+	 * @param maxWidth of image, -1 for none
+	 * @param maxHeight of image, -1 for none
+	 * @param extraParams to append to request url
+	 * @return image input stream
+	 */
+	public ImageInputStream getImageInputStream(Photo photo, int maxWidth, int maxHeight, Param... extraParams) {
+		try {
+			String uri = String.format("%sphoto?%s%s&photoreference=%s&sensor=%b&key=%s", API_URL,
+					maxWidth == -1 ? "" : maxWidth, maxHeight == -1 ? "" : maxHeight, photo.getReference(), sensor,
+					apiKey);
+			uri = addExtraParams(uri, extraParams);
+			System.out.println("URL: " + uri);
+			HttpGet get = new HttpGet(uri);
+			InputStream in = client.execute(get).getEntity().getContent();
+			System.out.println(in);
+			return ImageIO.createImageInputStream(in);
+		} catch (Exception e) {
+			throw new GooglePlacesException(e);
+		}
+	}
+
+	/**
+	 * Returns the image in it's original form.
+	 *
+	 * @param photo to return
+	 * @param extraParams to append to request url
+	 * @return input stream
+	 */
+	public ImageInputStream getImageInputStream(Photo photo, Param... extraParams) {
+		return getImageInputStream(photo, -1, -1, extraParams);
+	}
+
+	/**
+	 * Returns an Image from the specified photo reference.
+	 *
+	 * @param photo to get image of
+	 * @param maxWidth of image
+	 * @param maxHeight of image
+	 * @param extraParams to append to request url
+	 * @return image
+	 */
+	public BufferedImage getImage(Photo photo, int maxWidth, int maxHeight, Param... extraParams) {
+		try {
+			return ImageIO.read(getImageInputStream(photo, maxWidth, maxHeight, extraParams));
+		} catch (Exception e) {
+			throw new GooglePlacesException(e);
+		}
+	}
+
+	/**
+	 * Returns an image in it's original form.
+	 *
+	 * @param photo to get
+	 * @param extraParams to append to request url
+	 * @return image
+	 */
+	public Image getImage(Photo photo, Param... extraParams) {
+		return getImage(photo, -1, -1, extraParams);
+	}
+
+	/**
 	 * Returns the event at the specified place with the specified event id.
 	 *
 	 * @param place reference to place the event is at
@@ -493,10 +563,8 @@ public class GooglePlaces {
 	 * @param duration length of event in seconds
 	 * @param extraParams to append to request url
 	 * @return newly created event
-	 * @throws IOException
 	 */
-	public Event addEvent(Place place, String summary, long duration, String lang, String url, Param... extraParams)
-			throws IOException {
+	public Event addEvent(Place place, String summary, long duration, String lang, String url, Param... extraParams) {
 		return addEvent(place, summary, duration, lang, url, true, extraParams);
 	}
 
@@ -690,7 +758,6 @@ public class GooglePlaces {
 	 * @param str    raw json
 	 * @param limit  the maximum amount of places to return
 	 * @return list of parsed places
-	 * @throws JSONException
 	 */
 	public static String parse(GooglePlaces client, List<Place> places, String str, int limit) {
 
