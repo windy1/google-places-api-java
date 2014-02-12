@@ -1,5 +1,7 @@
 package me.windwaker.places;
 
+import org.apache.http.client.methods.HttpPost;
+import org.apache.http.entity.StringEntity;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
@@ -10,6 +12,7 @@ import java.util.Collections;
 import java.util.List;
 
 import static me.windwaker.places.GooglePlaces.*;
+import static me.windwaker.places.HttpUtil.*;
 
 /**
  * Represents a place returned by Google Places API_
@@ -485,7 +488,7 @@ public class Place {
 	}
 
 	/**
-	 * Adds a collection of events to this place.
+	 * Adds a collection of events to this place. This does not send a Event add request to the Google Places API.
 	 *
 	 * @param events to add
 	 * @return this
@@ -496,7 +499,7 @@ public class Place {
 	}
 
 	/**
-	 * Adds an event to this place.
+	 * Adds an event to this place. This does not send a Event add request to the Google Places API.
 	 *
 	 * @param event to add
 	 * @return this
@@ -516,7 +519,7 @@ public class Place {
 	}
 
 	/**
-	 * Removes the specified event from the place.
+	 * Removes the specified event from the place. This does not send a Event deletion request to Google Places API.
 	 *
 	 * @param event to remove
 	 * @return this
@@ -527,7 +530,7 @@ public class Place {
 	}
 
 	/**
-	 * Clears all events in this place.
+	 * Clears all events in this place. This does not send a Event deletion request to Google Places API.
 	 *
 	 * @return this
 	 */
@@ -864,6 +867,8 @@ public class Place {
 			}
 		}
 
+		Place place = new Place();
+
 		// events
 		JSONArray events = result.optJSONArray(ARRAY_EVENTS);
 		List<Event> eventList = new ArrayList<Event>();
@@ -875,7 +880,8 @@ public class Place {
 				String summary = event.optString(STRING_SUMMARY, null);
 				String eventUrl = event.optString(STRING_URL, null);
 
-				eventList.add(new Event(eventId).setSummary(summary).setUrl(eventUrl).setStartTime(startTime));
+				eventList.add(new Event().setId(id).setSummary(summary).setUrl(eventUrl).setStartTime(startTime)
+						.setPlace(place));
 			}
 		}
 
@@ -919,7 +925,7 @@ public class Place {
 			}
 		}
 
-		return new Place().setClient(client).setId(id).setName(name).setAddress(address).setIconUrl(iconUrl).setPrice(price)
+		return place.setClient(client).setId(id).setName(name).setAddress(address).setIconUrl(iconUrl).setPrice(price)
 				.setLatitude(lat).setLongitude(lng).addEvents(eventList).addTypes(types).setRating(rating)
 				.setReferenceId(reference).setStatus(status).setVicinity(vicinity).setPhoneNumber(phone)
 				.setInternationalPhoneNumber(internationalPhone).setGoogleUrl(url).setWebsite(website)

@@ -4,6 +4,7 @@ import org.apache.commons.io.IOUtils;
 import org.junit.Before;
 import org.junit.Test;
 
+import java.io.IOException;
 import java.util.List;
 
 import static org.junit.Assert.*;
@@ -80,17 +81,34 @@ public class GooglePlacesTest {
 		}
 	}
 
-	@Test
+	//@Test
 	public void testAddAndDeletePlace() {
 		try {
-			Place place = google.addPlace(new Place().setLatitude(23.855917).setLongitude(11.452065).setAccuracy(50)
-					.setName("Test Location, Please Ignore").addType("spa").setLanguage("en"));
+			Place place = addPlace();
 			Thread.sleep(3000);
 			google.deletePlace(place.getReferenceId());
 		} catch (Exception e) {
 			e.printStackTrace();
 			fail(e.getMessage());
 		}
+	}
+
+	@Test
+	public void testAddAndDeleteEvent() {
+		try {
+			Place place = addPlace();
+			Event event = google.addEvent(new Event().setDuration(100000).setLanguage("en").setPlace(place)
+					.setSummary("Test Event, Please Ignore").setUrl("http://www.example.com"));
+			google.deleteEvent(event);
+		} catch (Exception e) {
+			e.printStackTrace();
+			fail(e.getMessage());
+		}
+	}
+
+	private Place addPlace() throws IOException {
+		return google.addPlace(new Place().setLatitude(23.855917).setLongitude(11.452065).setAccuracy(50)
+				.setName("Test Location, Please Ignore").addType("spa").setLanguage("en"));
 	}
 
 	private boolean placeNameInList(String name, List<Place> places) {
