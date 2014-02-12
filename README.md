@@ -12,6 +12,8 @@
     * [Adding extra URL parameters](#additional-url-parameters)
 * [Place Details](#place-details)
 * [Modifying a Place](#place-actions)
+    * [Add place](#add-place)
+    * [Delete place](#delete-place)
 * [Place Photos](#place-photos)
 * [Autocomplete](#autocomplete)
     * [Place prediction](#place-prediction)
