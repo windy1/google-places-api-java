@@ -14,6 +14,9 @@ public class Review {
 	private int rating;
 	private long time;
 
+	protected Review() {
+	}
+
 	/**
 	 * Returns the author of the review.
 	 *

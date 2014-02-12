@@ -14,6 +14,9 @@ public class AddressComponent {
 	private final List<String> types = new ArrayList<String>();
 	private String longName, shortName;
 
+	protected AddressComponent() {
+	}
+
 	/**
 	 * Sets the long name of the component.
 	 *

@@ -135,9 +135,11 @@ SATURDAY 08:00 -- SUNDAY 02:00
 You can add and delete your own places to Google Places API.
 
 ```java
-Place place = client.addPlace(new Place().setLatitude(23.855917).setLongitude(11.452065).setAccuracy(50).setName("Test")
-    .addType("spa").setLanguage("en"));
+Place place = client.addPlace("Test Location", "en", lat, lng, 50, "spa");
 ```
+
+The parameters are as followed: Name, Language Code, latitude, longitude, accuracy of location (in meters), and types.
+The types parameter may be a single type or a collection of types.
 
 These fields must be set when adding a new place or a `GooglePlacesException` will be thrown. The name field must not be
 over 250 characters long, the language must be one of
@@ -148,8 +150,7 @@ Creating a place with this method sends one POST request and one GET request to 
 would like to skip the GET request, create a place using this method.
 
 ```java
-Place place = client.addPlace(new Place().setLatitude(23.855917).setLongitude(11.452065).setAccuracy(50).setName("Test")
-    .addType("spa").setLanguage("en"), false);
+Place place = client.addPlace("Test Location", "en", lat, lng, 50, "spa", false);
 ```
 
 ### Delete Place
@@ -158,6 +159,28 @@ You can delete places with:
 
 ```java
 client.deletePlace(place);
+```
+
+### Add Event
+
+You can add an delete your own place events to Google Places API.
+
+```java
+Event event = client.addEvent(place, "Test Event", 100000, "en", "http://www.example.com");
+```
+
+The parameters are as followed: Place to add event to, summary, duration (in seconds), language code, url. The language
+code an URL are both optional.
+
+These fields must be set when adding a new place or a `GooglePlacesException` will be thrown. The language must be one
+of [these approved codes](https://spreadsheets.google.com/pub?key=p9pdwsai2hDMsLkXsoM05KQ&gid=1) and the type must be
+one of [these approved types](https://developers.google.com/places/documentation/supported_types).
+
+Creating an event with this method sends one POST request and one GET request to retrieve the newly created place. If
+you would like to skip the GET request, create an event using this method.
+
+```java
+Event event = client.addEvent(place, "Test Event", 100000, "en", "http://www.example.com", false);
 ```
 
 ## Place Photos

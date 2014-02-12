@@ -74,18 +74,16 @@ public class GooglePlacesTest {
 			System.out.println("Vicinity: " + detailedEmpireStateBuilding.getVicinity());
 			System.out.println("Reviews: " + detailedEmpireStateBuilding.getReviews().size());
 			System.out.println("Hours:\n" + detailedEmpireStateBuilding.getHours());
-
 		} catch (Exception e) {
 			e.printStackTrace();
 			fail(e.getMessage());
 		}
 	}
 
-	//@Test
+	@Test
 	public void testAddAndDeletePlace() {
 		try {
 			Place place = addPlace();
-			Thread.sleep(3000);
 			google.deletePlace(place.getReferenceId());
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -97,8 +95,7 @@ public class GooglePlacesTest {
 	public void testAddAndDeleteEvent() {
 		try {
 			Place place = addPlace();
-			Event event = google.addEvent(new Event().setDuration(100000).setLanguage("en").setPlace(place)
-					.setSummary("Test Event, Please Ignore").setUrl("http://www.example.com"));
+			Event event = google.addEvent(place, "Test Event, Please Ignore", 100000, "en", "http://www.example.com");
 			google.deleteEvent(event);
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -107,8 +104,7 @@ public class GooglePlacesTest {
 	}
 
 	private Place addPlace() throws IOException {
-		return google.addPlace(new Place().setLatitude(23.855917).setLongitude(11.452065).setAccuracy(50)
-				.setName("Test Location, Please Ignore").addType("spa").setLanguage("en"));
+		return google.addPlace("Test Location, Please Ignore", "en", 23.855917, 11.452065, 50, "spa");
 	}
 
 	private boolean placeNameInList(String name, List<Place> places) {

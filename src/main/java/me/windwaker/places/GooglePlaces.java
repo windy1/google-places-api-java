@@ -10,6 +10,8 @@ import org.json.JSONObject;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collection;
 import java.util.List;
 
 import static me.windwaker.places.HttpUtil.DEFAULT_CLIENT;
@@ -281,18 +283,24 @@ public class GooglePlaces {
 	/**
 	 * Adds a new place to Places API and gets the newly created place if returnPlace is set to true.
 	 *
-	 * @param place to create
+	 * @param name of place
+	 * @param lang language of place
+	 * @param lat latitude coordinate
+	 * @param lng longitude coordinate
+	 * @param accuracy of coordinates in meters
+	 * @param types collection of types
 	 * @param returnPlace true if the newly created place should be returned
 	 * @param extraParams to append to request url
 	 * @return newly created place
 	 * @throws JSONException
 	 * @throws IOException
 	 */
-	public Place addPlace(Place place, boolean returnPlace, Param... extraParams) throws IOException {
+	public Place addPlace(String name, String lang, double lat, double lng, int accuracy, Collection<String> types,
+						  boolean returnPlace, Param... extraParams) throws IOException {
 		try {
 			String uri = String.format("%s%s/json?sensor=%b&key=%s", API_URL, METHOD_ADD, sensor, apiKey);
 			uri = GooglePlaces.addExtraParams(uri, extraParams);
-			JSONObject input = place.buildInput();
+			JSONObject input = Place.buildInput(lat, lng, accuracy, name, types, lang);
 			System.out.println("Input: " + input);
 			HttpPost post = new HttpPost(uri);
 			post.setEntity(new StringEntity(input.toString()));
@@ -309,13 +317,55 @@ public class GooglePlaces {
 	/**
 	 * Adds a new place to Places API and returns the newly created Place.
 	 *
-	 * @param place to create
+	 * @param name of place
+	 * @param lang language of place
+	 * @param lat latitude coordinate
+	 * @param lng longitude coordinate
+	 * @param accuracy of coordinates in meters
+	 * @param types collection of types
 	 * @return newly created place
 	 * @throws JSONException
 	 * @throws IOException
 	 */
-	public Place addPlace(Place place, Param... extraParams) throws IOException {
-		return addPlace(place, true, extraParams);
+	public Place addPlace(String name, String lang, double lat, double lng, int accuracy, Collection<String> types,
+						  Param... extraParams) throws IOException {
+		return addPlace(name, lang, lat, lng, accuracy, types, true, extraParams);
+	}
+
+	/**
+	 * Adds a new place to Places API and returns the newly created Place.
+	 *
+	 * @param name of place
+	 * @param lang language of place
+	 * @param lat latitude coordinate
+	 * @param lng longitude coordinate
+	 * @param accuracy of coordinates in meters
+	 * @param type type of place
+	 * @return newly created place
+	 * @throws JSONException
+	 * @throws IOException
+	 */
+	public Place addPlace(String name, String lang, double lat, double lng, int accuracy, String type,
+						  Param... extraParams) throws IOException {
+		return addPlace(name, lang, lat, lng, accuracy, Arrays.asList(type), extraParams);
+	}
+
+	/**
+	 * Adds a new place to Places API and returns the newly created Place.
+	 *
+	 * @param name of place
+	 * @param lang language of place
+	 * @param lat latitude coordinate
+	 * @param lng longitude coordinate
+	 * @param accuracy of coordinates in meters
+	 * @param type type of place
+	 * @return newly created place
+	 * @throws JSONException
+	 * @throws IOException
+	 */
+	public Place addPlace(String name, String lang, double lat, double lng, int accuracy, String type,
+						  boolean returnPlace, Param... extraParams) throws IOException {
+		return addPlace(name, lang, lat, lng, accuracy, Arrays.asList(type), returnPlace, extraParams);
 	}
 
 	/**
@@ -374,25 +424,30 @@ public class GooglePlaces {
 	/**
 	 * Adds a new Event to Google Places API.
 	 *
-	 * @param event to add
+	 * @param place to add to
+	 * @param summary of event
+	 * @param lang language of event
+	 * @param url url of event
+	 * @param duration length of event in seconds
 	 * @param returnEvent if GET request should be made to retrieve the newly created event
 	 * @param extraParams to append to request url
 	 * @return newly created event
 	 * @throws IOException
 	 */
-	public Event addEvent(Event event, boolean returnEvent, Param... extraParams) throws IOException {
+	public Event addEvent(Place place, String summary, long duration, String lang, String url, boolean returnEvent,
+						  Param... extraParams) throws IOException {
 		try {
 			String uri = String.format("%s%s/json?sensor=%b&key=%s", API_URL, METHOD_EVENT_ADD, sensor, apiKey);
 			uri = addExtraParams(uri, extraParams);
 			HttpPost post = new HttpPost(uri);
-			JSONObject input = event.buildInput();
+			JSONObject input = Event.buildInput(duration, lang, place.getReferenceId(), summary, url);
 			System.out.println("Input: " + input);
 			post.setEntity(new StringEntity(input.toString()));
 			JSONObject response = new JSONObject(post(client, post));
 			System.out.println("Response: " + response);
 			String status = response.getString(STRING_STATUS);
 			checkStatus(status);
-			return returnEvent ? getEvent(event.getPlace(), response.getString(STRING_EVENT_ID)) : null;
+			return returnEvent ? getEvent(place, response.getString(STRING_EVENT_ID)) : null;
 		} catch (Exception e) {
 			throw new IOException(e);
 		}
@@ -401,13 +456,46 @@ public class GooglePlaces {
 	/**
 	 * Adds a new Event to Google Places API.
 	 *
-	 * @param event to add
+	 * @param place to add to
+	 * @param summary of event
+	 * @param lang language of event
+	 * @param url url of event
+	 * @param duration length of event in seconds
 	 * @param extraParams to append to request url
 	 * @return newly created event
 	 * @throws IOException
 	 */
-	public Event addEvent(Event event, Param... extraParams) throws IOException {
-		return addEvent(event, true, extraParams);
+	public Event addEvent(Place place, String summary, long duration, String lang, String url, Param... extraParams)
+			throws IOException {
+		return addEvent(place, summary, duration, lang, url, true, extraParams);
+	}
+
+	/**
+	 * Adds a new Event to Google Places API.
+	 *
+	 * @param place to add to
+	 * @param summary of event
+	 * @param duration length of event in seconds
+	 * @param extraParams to append to request url
+	 * @return newly created event
+	 * @throws IOException
+	 */
+	public Event addEvent(Place place, String summary, long duration, boolean returnEvent, Param... extraParams) throws IOException {
+		return addEvent(place, summary, duration, null, null, returnEvent, extraParams);
+	}
+
+	/**
+	 * Adds a new Event to Google Places API.
+	 *
+	 * @param place to add to
+	 * @param summary of event
+	 * @param duration length of event in seconds
+	 * @param extraParams to append to request url
+	 * @return newly created event
+	 * @throws IOException
+	 */
+	public Event addEvent(Place place, String summary, long duration, Param... extraParams) throws IOException {
+		return addEvent(place, summary, duration, true, extraParams);
 	}
 
 	/**

@@ -12,6 +12,9 @@ public class Hours {
 	private final List<Period> periods = new ArrayList<Period>();
 	private boolean alwaysOpened;
 
+	protected Hours() {
+	}
+
 	/**
 	 * Sets if the establishment is always opened.
 	 *

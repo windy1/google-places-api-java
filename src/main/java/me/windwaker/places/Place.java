@@ -1,7 +1,5 @@
 package me.windwaker.places;
 
-import org.apache.http.client.methods.HttpPost;
-import org.apache.http.entity.StringEntity;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
@@ -12,7 +10,6 @@ import java.util.Collections;
 import java.util.List;
 
 import static me.windwaker.places.GooglePlaces.*;
-import static me.windwaker.places.HttpUtil.*;
 
 /**
  * Represents a place returned by Google Places API_
@@ -41,6 +38,9 @@ public class Place {
 	private int utcOffset;
 	private int accuracy;
 	private String lang;
+
+	protected Place() {
+	}
 
 	/**
 	 * Sets the {@link me.windwaker.places.GooglePlaces} client associated with this Place object.
@@ -748,7 +748,8 @@ public class Place {
 	 *
 	 * @return JSON object to represent place
 	 */
-	public JSONObject buildInput() {
+	public static JSONObject buildInput(double lat, double lng, int accuracy, String name, Collection<String> types,
+										String lang) {
 		return new JSONObject().put(OBJECT_LOCATION, new JSONObject().put("lat", lat).put("lng", lng))
 				.put(INTEGER_ACCURACY, accuracy).put(STRING_NAME, name).put(ARRAY_TYPES, new JSONArray(types))
 				.put(STRING_LANGUAGE, lang);

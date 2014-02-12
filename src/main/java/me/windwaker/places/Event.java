@@ -16,6 +16,9 @@ public class Event {
 	private String summary, url, lang;
 	private long startTime, duration;
 
+	protected Event() {
+	}
+
 	/**
 	 * Sets the unique id of this event
 	 *
@@ -180,9 +183,9 @@ public class Event {
 	 *
 	 * @return json representation of event
 	 */
-	public JSONObject buildInput() {
+	public static JSONObject buildInput(long duration, String lang, String reference, String summary, String url) {
 		return new JSONObject().put("duration", duration).putOpt("language", lang)
-				.put("reference", place.getReferenceId()).put("summary", summary).putOpt("url", url);
+				.put("reference", reference).put("summary", summary).putOpt("url", url);
 	}
 
 	/**
