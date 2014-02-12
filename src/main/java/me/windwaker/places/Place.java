@@ -15,9 +15,9 @@ import static me.windwaker.places.GooglePlaces.*;
  * Represents a place returned by Google Places API_
  */
 public class Place {
-	private final GooglePlaces client;
-	private final String id;
-	private double lat = -1, lon = -1;
+	private GooglePlaces client;
+	private String id;
+	private double lat = -1, lng = -1;
 	private JSONObject json;
 	private String iconUrl;
 	private String name;
@@ -36,15 +36,38 @@ public class Place {
 	private String googleUrl, website;
 	private Hours hours;
 	private int utcOffset;
+	private int accuracy;
+	private String lang;
 
 	/**
-	 * Creates a new place with the specified id.
+	 * Sets the {@link me.windwaker.places.GooglePlaces} client associated with this Place object.
 	 *
-	 * @param id to create location for
+	 * @param client to set
+	 * @return this
 	 */
-	public Place(GooglePlaces client, String id) {
+	public Place setClient(GooglePlaces client) {
 		this.client = client;
+		return this;
+	}
+
+	/**
+	 * Returns the client associated with this Place object.
+	 *
+	 * @return client
+	 */
+	public GooglePlaces getClient() {
+		return client;
+	}
+
+	/**
+	 * Sets the unique id associated with this place.
+	 *
+	 * @param id id
+	 * @return this
+	 */
+	public Place setId(String id) {
 		this.id = id;
+		return this;
 	}
 
 	/**
@@ -82,7 +105,7 @@ public class Place {
 	 * @return longitude
 	 */
 	public double getLongitude() {
-		return lon;
+		return lng;
 	}
 
 	/**
@@ -92,7 +115,7 @@ public class Place {
 	 * @return this
 	 */
 	public Place setLongitude(double lon) {
-		this.lon = lon;
+		this.lng = lon;
 		return this;
 	}
 
@@ -667,6 +690,46 @@ public class Place {
 	}
 
 	/**
+	 * Sets the accuracy of the location, expressed in meters.
+	 *
+	 * @param accuracy of location
+	 * @return this
+	 */
+	public Place setAccuracy(int accuracy) {
+		this.accuracy = accuracy;
+		return this;
+	}
+
+	/**
+	 * Returns the accuracy of the location, expressed in meters.
+	 *
+	 * @return accuracy of location
+	 */
+	public int getAccuracy() {
+		return accuracy;
+	}
+
+	/**
+	 * Sets the language of the location.
+	 *
+	 * @param lang place language
+	 * @return this
+	 */
+	public Place setLanguage(String lang) {
+		this.lang = lang;
+		return this;
+	}
+
+	/**
+	 * Returns the language of the place.
+	 *
+	 * @return language
+	 */
+	public String getLanguage() {
+		return lang;
+	}
+
+	/**
 	 * Returns an updated Place object with more details than the Place object returned in an initial query.
 	 *
 	 * @param params extra params to include in the request url
@@ -674,10 +737,18 @@ public class Place {
 	 * @throws IOException
 	 */
 	public Place getDetails(GooglePlaces.Param... params) throws IOException {
-		String uri = String.format("%s%s/json?key=%s&reference=%s&sensor=%b", API_URL,
-				METHOD_DETAILS, client.getApiKey(), referenceId, client.isSensorEnabled());
-		uri = GooglePlaces.addExtraParams(uri, params);
-		return parseDetails(client, HttpUtil.getResponse(client.getHttpClient(), uri));
+		return client.getPlace(referenceId, params);
+	}
+
+	/**
+	 * Creates a JSON object for POSTing new places to Google Places API.
+	 *
+	 * @return JSON object to represent place
+	 */
+	public JSONObject buildInput() {
+		return new JSONObject().put(OBJECT_LOCATION, new JSONObject().put("lat", lat).put("lng", lng))
+				.put(INTEGER_ACCURACY, accuracy).put(STRING_NAME, name).put(ARRAY_TYPES, new JSONArray(types))
+				.put(STRING_LANGUAGE, lang);
 	}
 
 	/**
@@ -848,7 +919,7 @@ public class Place {
 			}
 		}
 
-		return new Place(client, id).setName(name).setAddress(address).setIconUrl(iconUrl).setPrice(price)
+		return new Place().setClient(client).setId(id).setName(name).setAddress(address).setIconUrl(iconUrl).setPrice(price)
 				.setLatitude(lat).setLongitude(lng).addEvents(eventList).addTypes(types).setRating(rating)
 				.setReferenceId(reference).setStatus(status).setVicinity(vicinity).setPhoneNumber(phone)
 				.setInternationalPhoneNumber(internationalPhone).setGoogleUrl(url).setWebsite(website)
@@ -858,7 +929,7 @@ public class Place {
 
 	@Override
 	public String toString() {
-		return String.format("Place{id=%s,loc=%f,%f,name=%s,addr=%s,ref=%s", id, lat, lon, name, addr, referenceId);
+		return String.format("Place{id=%s,loc=%f,%f,name=%s,addr=%s,ref=%s", id, lat, lng, name, addr, referenceId);
 	}
 
 	@Override

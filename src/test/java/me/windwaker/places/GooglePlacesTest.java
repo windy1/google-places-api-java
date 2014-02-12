@@ -6,7 +6,7 @@ import org.junit.Test;
 
 import java.util.List;
 
-import static org.junit.Assert.fail;
+import static org.junit.Assert.*;
 
 public class GooglePlacesTest {
 	private static final double EMPIRE_STATE_BUILDING_LATITUDE = 40.748444;
@@ -72,8 +72,21 @@ public class GooglePlacesTest {
 			System.out.println("Address: " + detailedEmpireStateBuilding.getAddress());
 			System.out.println("Vicinity: " + detailedEmpireStateBuilding.getVicinity());
 			System.out.println("Reviews: " + detailedEmpireStateBuilding.getReviews().size());
-			System.out.println("Hours:\n " + detailedEmpireStateBuilding.getHours());
+			System.out.println("Hours:\n" + detailedEmpireStateBuilding.getHours());
 
+		} catch (Exception e) {
+			e.printStackTrace();
+			fail(e.getMessage());
+		}
+	}
+
+	@Test
+	public void testAddAndDeletePlace() {
+		try {
+			Place place = google.addPlace(new Place().setLatitude(23.855917).setLongitude(11.452065).setAccuracy(50)
+					.setName("Test Location, Please Ignore").addType("spa").setLanguage("en"));
+			Thread.sleep(3000);
+			google.deletePlace(place.getReferenceId());
 		} catch (Exception e) {
 			e.printStackTrace();
 			fail(e.getMessage());

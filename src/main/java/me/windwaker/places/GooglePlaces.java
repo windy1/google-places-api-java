@@ -2,6 +2,8 @@ package me.windwaker.places;
 
 import me.windwaker.places.exception.GooglePlacesException;
 import org.apache.http.client.HttpClient;
+import org.apache.http.client.methods.HttpPost;
+import org.apache.http.entity.StringEntity;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -11,7 +13,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static me.windwaker.places.HttpUtil.DEFAULT_CLIENT;
-import static me.windwaker.places.HttpUtil.getResponse;
+import static me.windwaker.places.HttpUtil.get;
+import static me.windwaker.places.HttpUtil.post;
 
 /**
  * A Java binding for the Google Places API:
@@ -143,6 +146,8 @@ public class GooglePlaces {
 	public static final String METHOD_TEXT_SEARCH = "textsearch";
 	public static final String METHOD_RADAR_SEARCH = "radarsearch";
 	public static final String METHOD_DETAILS = "details";
+	public static final String METHOD_ADD = "add";
+	public static final String METHOD_DELETE = "delete";
 
 	/**
 	 * Returns the places at the specified latitude and longitude within the specified radius. If the specified limit
@@ -257,6 +262,95 @@ public class GooglePlaces {
 		return getPlacesByRadar(lat, lng, radius, MAXIMUM_RESULTS, extraParams);
 	}
 
+	/**
+	 * Returns the place using the specified reference ID.
+	 *
+	 * @param reference id
+	 * @param extraParams to append to request url
+	 * @return place
+	 * @throws IOException
+	 */
+	public Place getPlace(String reference, Param... extraParams) throws IOException {
+		String uri = String.format("%s%s/json?key=%s&reference=%s&sensor=%b", API_URL,
+				METHOD_DETAILS, apiKey, reference, sensor);
+		uri = GooglePlaces.addExtraParams(uri, extraParams);
+		return Place.parseDetails(this, get(client, uri));
+	}
+
+	/**
+	 * Adds a new place to Places API and gets the newly created place if returnPlace is set to true.
+	 *
+	 * @param place to create
+	 * @param returnPlace true if the newly created place should be returned
+	 * @param extraParams to append to request url
+	 * @return newly created place
+	 * @throws JSONException
+	 * @throws IOException
+	 */
+	public Place addPlace(Place place, boolean returnPlace, Param... extraParams) throws JSONException, IOException {
+		try {
+			String uri = String.format("%s%s/json?sensor=%b&key=%s", API_URL, METHOD_ADD, sensor, apiKey);
+			uri = GooglePlaces.addExtraParams(uri, extraParams);
+			JSONObject input = place.buildInput();
+			System.out.println("Input: " + input);
+			HttpPost post = new HttpPost(uri);
+			post.setEntity(new StringEntity(input.toString()));
+			JSONObject response = new JSONObject(post(client, post));
+			System.out.println("response: " + response);
+			String status = response.getString(STRING_STATUS);
+			checkStatus(status);
+			return returnPlace ? getPlace(response.getString(STRING_REFERENCE)) : null;
+		} catch (Exception e) {
+			throw new IOException(e);
+		}
+	}
+
+	/**
+	 * Adds a new place to Places API and returns the newly created Place.
+	 *
+	 * @param place to create
+	 * @return newly created place
+	 * @throws JSONException
+	 * @throws IOException
+	 */
+	public Place addPlace(Place place) throws JSONException, IOException {
+		return addPlace(place, true);
+	}
+
+	/**
+	 * Deletes the place specified by the specified reference ID.
+	 *
+	 * @param reference id
+	 * @throws JSONException
+	 * @throws IOException
+	 */
+	public void deletePlace(String reference) throws JSONException, IOException {
+		try {
+			String uri = String.format("%s%s/json?sensor=%b&key=%s", API_URL, METHOD_DELETE, sensor, apiKey);
+			JSONObject input = new JSONObject().put(STRING_REFERENCE, reference);
+			System.out.println("Input: " + input);
+			HttpPost post = new HttpPost(uri);
+			post.setEntity(new StringEntity(input.toString()));
+			JSONObject response = new JSONObject(post(client, post));
+			System.out.println("response: " + response);
+			String status = response.getString(STRING_STATUS);
+			checkStatus(status);
+		} catch (Exception e) {
+			throw new IOException(e);
+		}
+	}
+
+	/**
+	 * Deletes the specified place.
+	 *
+	 * @param place to delete
+	 * @throws JSONException
+	 * @throws IOException
+	 */
+	public void deletePlace(Place place) throws JSONException, IOException {
+		deletePlace(place.getReferenceId());
+	}
+
 	// ARRAYS
 	public static final String ARRAY_RESULTS = "results"; // Array for results
 	public static final String ARRAY_TYPES = "types"; // Types of place
@@ -282,6 +376,7 @@ public class GooglePlaces {
 	public static final String INTEGER_HEIGHT = "height"; // Used for describing a photo's height
 	public static final String INTEGER_RATING = "rating"; // Reviews use integer ratings.
 	public static final String INTEGER_UTC_OFFSET = "utc_offset"; // Minutes that a location is of from UTC
+	public static final String INTEGER_ACCURACY = "accuracy"; // Accuracy of location, in meters
 
 	// LONGS
 	public static final String LONG_START_TIME = "start_time"; // The start time for an event
@@ -301,6 +396,8 @@ public class GooglePlaces {
 	public static final String STATUS_OVER_QUERY_LIMIT = "OVER_QUERY_LIMIT"; // Indicates that you are over the quota for queries to Google Places API
 	public static final String STATUS_REQUEST_DENIED = "REQUEST_DENIED"; // Indicates that the request was denied
 	public static final String STATUS_INVALID_REQUEST = "INVALID_REQUEST"; // Indicates the request was invalid, generally indicating a missing parameter
+	public static final String STATUS_UNKNOWN_ERROR = "UNKNOWN_ERROR"; // Indicates an internal server-side error
+	public static final String STATUS_NOT_FOUND = "NOT_FOUND"; // Indicates that a resource was could not be resolved
 
 	// STRINGS
 	public static final String STRING_ID = "id"; // The unique, stable, identifier for this place
@@ -336,7 +433,7 @@ public class GooglePlaces {
 		List<Place> places = new ArrayList<Place>();
 		// new request for each page
 		for (int i = 0; i < pages; i++) {
-			String raw = getResponse(client, uri);
+			String raw = get(client, uri);
 			String nextPage = parse(this, places, raw, limit);
 			if (nextPage != null) {
 				limit -= MAXIMUM_PAGE_RESULTS;
@@ -359,6 +456,24 @@ public class GooglePlaces {
 		}
 	}
 
+	private static void checkStatus(String statusCode) {
+		if (statusCode.equals(STATUS_OVER_QUERY_LIMIT)) {
+			throw new GooglePlacesException(statusCode,
+					"You have fufilled the maximum amount of queries permitted by your API key.");
+		} else if (statusCode.equals(STATUS_REQUEST_DENIED)) {
+			throw new GooglePlacesException(statusCode,
+					"The request to the server was denied. (are you missing the sensor parameter?)");
+		} else if (statusCode.equals(STATUS_INVALID_REQUEST)) {
+			throw new GooglePlacesException(statusCode,
+					"The request sent to the server was invalid. (are you missing a required parameter?)");
+		} else if (statusCode.equals(STATUS_UNKNOWN_ERROR)) {
+			throw new GooglePlacesException(statusCode,
+					"An internal server-side error occurred. Trying again may be successful.");
+		} else if (statusCode.equals(STATUS_NOT_FOUND)) {
+			throw new GooglePlacesException(statusCode, "The requested resource was not found.");
+		}
+	}
+
 	/**
 	 * Parses the specified raw json String into a list of places.
 	 *
@@ -375,17 +490,9 @@ public class GooglePlaces {
 
 		// check root elements
 		String statusCode = json.getString(STRING_STATUS);
+		checkStatus(statusCode);
 		if (statusCode.equals(STATUS_ZERO_RESULTS)) {
 			return null;
-		} else if (statusCode.equals(STATUS_OVER_QUERY_LIMIT)) {
-			throw new GooglePlacesException(statusCode,
-					"You have fufilled the maximum amount of queries permitted by your API key.");
-		} else if (statusCode.equals(STATUS_REQUEST_DENIED)) {
-			throw new GooglePlacesException(statusCode,
-					"The request to the server was denied. (are you missing the sensor parameter?)");
-		} else if (statusCode.equals(STATUS_INVALID_REQUEST)) {
-			throw new GooglePlacesException(statusCode,
-					"The request sent to the server was invalid. (are you missing a required parameter?)");
 		}
 
 		JSONArray results = json.getJSONArray(ARRAY_RESULTS);
@@ -457,7 +564,7 @@ public class GooglePlaces {
 			}
 
 			// build a place object
-			places.add(new Place(client, id).setLatitude(lat).setLongitude(lon).setIconUrl(iconUrl).setName(name)
+			places.add(new Place().setClient(client).setId(id).setLatitude(lat).setLongitude(lon).setIconUrl(iconUrl).setName(name)
 					.setAddress(addr).setRating(rating).setReferenceId(reference).setStatus(status).setPrice(price)
 					.addTypes(types).setVicinity(vicinity).addEvents(events).setJson(result));
 		}

@@ -4,6 +4,7 @@ import org.apache.commons.io.IOUtils;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpGet;
+import org.apache.http.client.methods.HttpPost;
 import org.apache.http.impl.client.DefaultHttpClient;
 
 import java.io.IOException;
@@ -12,13 +13,31 @@ import java.io.IOException;
  * HTTP utility class.
  */
 public final class HttpUtil {
-	private HttpUtil() {
-	}
-
 	/**
 	 * The default HttpClient
 	 */
 	public static final HttpClient DEFAULT_CLIENT = new DefaultHttpClient();
+
+	private HttpUtil() {
+	}
+
+
+	/**
+	 * Returns the raw GET response from the specified uri.
+	 *
+	 * @param client to use
+	 * @param get    to send
+	 * @return string response
+	 * @throws IOException
+	 */
+	public static String get(HttpClient client, HttpGet get) throws IOException {
+		try {
+			System.out.println("GET: " + get.getURI());
+			return readString(client.execute(get));
+		} catch (Exception e) {
+			throw new IOException(e);
+		}
+	}
 
 	/**
 	 * Returns the raw GET response from the specified uri.
@@ -28,11 +47,42 @@ public final class HttpUtil {
 	 * @return string response
 	 * @throws IOException
 	 */
-	public static String getResponse(HttpClient client, String uri) throws IOException {
+	public static String get(HttpClient client, String uri) throws IOException {
 		try {
-			System.out.println(uri);
-			HttpGet get = new HttpGet(uri);
-			return readString(client.execute(get));
+			return get(client, new HttpGet(uri));
+		} catch (Exception e) {
+			throw new IOException(e);
+		}
+	}
+
+	/**
+	 * Returns the raw POST response from the specified uri.
+	 *
+	 * @param client to use
+	 * @param post to send
+	 * @return string response
+	 * @throws IOException
+	 */
+	public static String post(HttpClient client, HttpPost post) throws IOException {
+		try {
+			System.out.println("POST: " + post.getURI());
+			return readString(client.execute(post));
+		} catch (Exception e) {
+			throw new IOException(e);
+		}
+	}
+
+	/**
+	 * Returns the raw POST response from the specified uri.
+	 *
+	 * @param client to use
+	 * @param uri to send
+	 * @return string response
+	 * @throws IOException
+	 */
+	public static String post(HttpClient client, String uri) throws IOException {
+		try {
+			return post(client, new HttpPost(uri));
 		} catch (Exception e) {
 			throw new IOException(e);
 		}
