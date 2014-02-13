@@ -10,6 +10,9 @@ import java.util.List;
 
 import static me.windwaker.places.GooglePlaces.*;
 
+/**
+ * Represents a autocomplete prediction based on a query.
+ */
 public class Prediction {
 	private GooglePlaces client;
 	private String placeId, placeReference;
@@ -26,10 +29,21 @@ public class Prediction {
 		return this;
 	}
 
+	/**
+	 * Returns the client for this prediction.
+	 *
+	 * @return client
+	 */
 	public GooglePlaces getClient() {
 		return client;
 	}
 
+	/**
+	 * Returns the place this prediction is suggesting.
+	 *
+	 * @param extraParams to append to request URL
+	 * @return place
+	 */
 	public Place getPlace(Param... extraParams) {
 		return client.getPlace(placeReference, extraParams);
 	}
@@ -106,10 +120,20 @@ public class Prediction {
 		return this;
 	}
 
+	/**
+	 * Returns the components of the description.
+	 *
+	 * @return description components
+	 */
 	public List<DescriptionTerm> getTerms() {
 		return Collections.unmodifiableList(terms);
 	}
 
+	/**
+	 * Returns the id of the place this prediction is suggesting.
+	 *
+	 * @return place id
+	 */
 	public String getPlaceId() {
 		return placeId;
 	}
@@ -119,6 +143,11 @@ public class Prediction {
 		return this;
 	}
 
+	/**
+	 * Returns the reference to the place being suggested.
+	 *
+	 * @return place reference
+	 */
 	public String getPlaceReference() {
 		return placeReference;
 	}
@@ -128,6 +157,11 @@ public class Prediction {
 		return this;
 	}
 
+	/**
+	 * Returns a description of the prediction in human-readable form.
+	 *
+	 * @return description
+	 */
 	public String getDescription() {
 		return description;
 	}
@@ -137,6 +171,11 @@ public class Prediction {
 		return this;
 	}
 
+	/**
+	 * Returns the offset from the query where the matched string starts.
+	 *
+	 * @return offset
+	 */
 	public int getSubstringOffset() {
 		return substrOffset;
 	}
@@ -146,6 +185,11 @@ public class Prediction {
 		return this;
 	}
 
+	/**
+	 * Returns the length from the substring offset of the matched string.
+	 *
+	 * @return length of substring
+	 */
 	public int getSubstringLength() {
 		return substrLength;
 	}
@@ -160,6 +204,13 @@ public class Prediction {
 		return "[" + description + "]";
 	}
 
+	/**
+	 * Returns a list of predictions from JSON.
+	 *
+	 * @param client of request
+	 * @param rawJson to parse
+	 * @return list of predictions
+	 */
 	public static List<Prediction> parse(GooglePlaces client, String rawJson) {
 		JSONObject json = new JSONObject(rawJson);
 		checkStatus(json.getString(STRING_STATUS));
@@ -200,6 +251,9 @@ public class Prediction {
 		return predictions;
 	}
 
+	/**
+	 * Represents an element within a description.
+	 */
 	public static class DescriptionTerm {
 		private final String value;
 		private final int offset;
@@ -209,10 +263,20 @@ public class Prediction {
 			this.offset = offset;
 		}
 
+		/**
+		 * Returns the value of the term.
+		 *
+		 * @return value
+		 */
 		public String getValue() {
 			return value;
 		}
 
+		/**
+		 * Returns the terms position in the description.
+		 *
+		 * @return description position
+		 */
 		public int getOffset() {
 			return offset;
 		}
