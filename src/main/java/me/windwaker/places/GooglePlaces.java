@@ -161,6 +161,7 @@ public class GooglePlaces {
 	public static final String METHOD_EVENT_DELETE = "event/delete";
 	public static final String METHOD_BUMP = "bump";
 	public static final String METHOD_AUTOCOMPLETE = "autocomplete";
+	public static final String METHOD_QUERY_AUTOCOMPLETE = "queryautocomplete";
 
 	/**
 	 * Returns the places at the specified latitude and longitude within the specified radius. If the specified limit
@@ -635,11 +636,11 @@ public class GooglePlaces {
 		deleteEvent(event.getPlace().getReferenceId(), event.getId(), extraParams);
 	}
 
-	public List<Prediction> getPredictions(String input, int offset, double lat, double lng, double radius, String lang,
-									String type, String country, Param... extraParams) {
+	private List<Prediction> getPredictions(String input, int offset, double lat, double lng, double radius,
+											String lang, String type, String country, String method,
+											Param... extraParams) {
 		try {
-			String uri = String.format("%s%s/json?input=%s&sensor=%b&key=%s", API_URL, METHOD_AUTOCOMPLETE, input, sensor,
-					apiKey);
+			String uri = String.format("%s%s/json?input=%s&sensor=%b&key=%s", API_URL, method, input, sensor, apiKey);
 
 			List<Param> params = new ArrayList<Param>(Arrays.asList(extraParams));
 			if (offset != -1) params.add(Param.name("offset").value(offset));
@@ -658,8 +659,62 @@ public class GooglePlaces {
 		}
 	}
 
-	public List<Prediction> getPredictions(String input, Param... extraParams) {
-		return getPredictions(input, -1, -1, -1, -1, null, null, null, extraParams);
+	/**
+	 * Returns a list of auto-complete predictions for searching for a specific place.
+	 *
+	 * @param input user input
+	 * @param offset to start from input
+	 * @param lat latitude coordinate
+	 * @param lng longitude coordinate
+	 * @param radius radius around coordinates
+	 * @param lang language
+	 * @param type type of place
+	 * @param country country code
+	 * @param extraParams to append to request url
+	 * @return list of predictions
+	 */
+	public List<Prediction> getPlacePredictions(String input, int offset, double lat, double lng, double radius,
+												String lang, String type, String country, Param... extraParams) {
+		return getPredictions(input, offset, lat, lng, radius, lang, type, country, METHOD_AUTOCOMPLETE, extraParams);
+	}
+
+	/**
+	 * Returns a list of auto-complete predictions for searching for a specific place.
+	 *
+	 * @param input user input
+	 * @param extraParams to append to request url
+	 * @return list of predictions
+	 */
+	public List<Prediction> getPlacePredictions(String input, Param... extraParams) {
+		return getPlacePredictions(input, -1, -1, -1, -1, null, null, null, extraParams);
+	}
+
+	/**
+	 * Returns a list of auto-complete predictions for searching for a place by a query.
+	 *
+	 * @param input user input
+	 * @param offset where to start on the query string
+	 * @param lat latitude coordinate
+	 * @param lng longitude coordinate
+	 * @param radius radius around coordinates
+	 * @param lang language of place
+	 * @param extraParams to append to request url
+	 * @return list of predictions
+	 */
+	public List<Prediction> getQueryPredictions(String input, int offset, double lat, double lng, double radius,
+												String lang, Param... extraParams) {
+		return getPredictions(input, offset, lat, lng, radius, lang, null, null, METHOD_QUERY_AUTOCOMPLETE, extraParams);
+	}
+
+	/**
+	 * Returns a list of auto-complete predictions for searching for a place by a query.
+	 *
+	 * @param input user input
+	 * @param extraParams to append to request url
+	 * @return list of predictions
+	 */
+	public List<Prediction> getQueryPredictions(String input, Param... extraParams) {
+		return getQueryPredictions(input, -1, -1, -1, -1, null, extraParams);
 	}
 
 	// ARRAYS

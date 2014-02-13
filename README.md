@@ -220,7 +220,7 @@ client.getImageInputStream(100, 100);
 You can receive auto-complete predictions for Places with:
 
 ```java
-List<Prediction> predictions = client.getPredictions("Empire");
+List<Prediction> predictions = client.getPlacePredictions("Empire");
 ```
 
 As you might expect, The Empire State Building is the first result returned here. The prediction object contains a
@@ -229,7 +229,11 @@ development)
 
 ### Query prediction
 
-Coming soon...
+You can also receive auto-complete predictions for Places with general queries such as "pizza in New York".
+
+```java
+List<Prediction> predictions = client.getPlacePredictions("pizza+in+New+York");
+```
 
 
 

@@ -5,11 +5,8 @@ import org.junit.Before;
 import org.junit.Test;
 
 import javax.imageio.ImageIO;
-import javax.swing.*;
-import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.File;
-import java.io.IOException;
 import java.util.List;
 import java.util.Random;
 
@@ -83,7 +80,8 @@ public class GooglePlacesTest {
 
 	@Test
 	public void testPredictions() {
-		System.out.println("Predictions: " + google.getPredictions("Empire"));
+		System.out.println("Places Predictions: " + google.getPlacePredictions("Empire"));
+		System.out.println("Query Predictions: " + google.getPlacePredictions("pizza+in+New+York"));
 	}
 
 	// KEEP THE FOLLOWING COMMENTED TO AVOID FILLING THE QUOTA QUICKLY
