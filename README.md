@@ -200,7 +200,7 @@ ImageIO.write(image, "jpg", file);
 
 You can also specify a max width and max height for the image. The aspect ratio of the image will always be maintained.
 
-``java
+```java
 photo.getImage(100, 100);
 ```
 
