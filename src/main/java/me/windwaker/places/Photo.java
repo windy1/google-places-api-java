@@ -36,7 +36,7 @@ public class Photo {
 	 * @return image
 	 */
 	public BufferedImage getImage(GooglePlaces.Param... extraParams) {
-		return getImage(-1, -1, extraParams);
+		return getImage(1600, 1600, extraParams);
 	}
 
 	/**

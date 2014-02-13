@@ -650,7 +650,7 @@ public class GooglePlaces {
 
 			uri = addExtraParams(uri, extraParams);
 			String response = get(client, uri);
-			return Prediction.parse(response);
+			return Prediction.parse(this, response);
 		} catch (Exception e) {
 			throw new GooglePlacesException(e);
 		}
