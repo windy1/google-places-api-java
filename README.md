@@ -254,8 +254,8 @@ new Thread(new Runnable() {
 
 ## Binaries
 
-* [JAR without dependencies](/bin/google-places-api-java.jar)
-* [JAR with dependencies](/bin/google-places-api-java-depends.jar)
+* [JAR without dependencies](/bin/google-places-api-java.jar?raw=true)
+* [JAR with dependencies](/bin/google-places-api-java-depends.jar?raw=true)
 
 
 
