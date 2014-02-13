@@ -74,7 +74,7 @@ public class GooglePlacesTest {
 			System.out.println(System.getProperty("user.dir"));
 			file.delete();
 			file.createNewFile();
-			ImageIO.write(image, "jpg", new File("target/test.jpg"));
+			ImageIO.write(image, "jpg", file);
 		} catch (Exception e) {
 			e.printStackTrace();
 			fail(e.getMessage());

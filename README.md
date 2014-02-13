@@ -185,13 +185,47 @@ Event event = client.addEvent(place, "Test Event", 100000, "en", "http://www.exa
 
 ## Place Photos
 
-Coming soon...
+You can retrieve photos of places from Google as well. For example, here's how I can choose a random photo from a place
+and save it to disk.
+
+```java
+List<Photo> photos = place.getPhotos();
+Photo photo = photos.get(new Random().nextInt(photos.size()));
+BufferedImage image = photo.getImage();
+
+File file = new File("test.jpg");
+file.createNewFile();
+ImageIO.write(image, "jpg", file);
+```
+
+You can also specify a max width and max height for the image. The aspect ratio of the image will always be maintained.
+
+``java
+photo.getImage(100, 100);
+```
+
+To specify one and not the other, just set one of them to -1. If you do not specify them, the max size (1600) will be
+passed. **NOTE:** You must pass at least one of the size parameters.
+
+You can also directly access the Image's `ImageInputStream`.
+
+```java
+client.getImageInputStream(100, 100);
+```
 
 ## Autocomplete
 
 ### Place prediction
 
-Coming soon...
+You can receive auto-complete predictions for Places with:
+
+```java
+List<Prediction> predictions = client.getPredictions("Empire");
+```
+
+As you might expect, The Empire State Building is the first result returned here. The prediction object contains a
+human-readable description and a Place accessor so you can easily build a UI around it. (Particularly useful for Android
+development)
 
 ### Query prediction
 

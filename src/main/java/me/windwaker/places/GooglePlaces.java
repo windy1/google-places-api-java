@@ -498,6 +498,8 @@ public class GooglePlaces {
 		}
 	}
 
+	public static final int MAX_PHOTO_SIZE = 1600;
+
 	/**
 	 * Returns an image in it's original form.
 	 *
@@ -506,7 +508,7 @@ public class GooglePlaces {
 	 * @return image
 	 */
 	public Image getImage(Photo photo, Param... extraParams) {
-		return getImage(photo, -1, -1, extraParams);
+		return getImage(photo, MAX_PHOTO_SIZE, MAX_PHOTO_SIZE, extraParams);
 	}
 
 	/**

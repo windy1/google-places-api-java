@@ -36,7 +36,7 @@ public class Photo {
 	 * @return image
 	 */
 	public BufferedImage getImage(GooglePlaces.Param... extraParams) {
-		return getImage(1600, 1600, extraParams);
+		return getImage(GooglePlaces.MAX_PHOTO_SIZE, GooglePlaces.MAX_PHOTO_SIZE, extraParams);
 	}
 
 	/**
