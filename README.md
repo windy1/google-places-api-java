@@ -201,7 +201,7 @@ ImageIO.write(image, "jpg", file);
 You can also specify a max width and max height for the image. The aspect ratio of the image will always be maintained.
 
 ```java
-photo.getImage(100, 100);
+BufferedImage image = photo.getImage(100, 100);
 ```
 
 To specify one and not the other, just set one of them to -1. If you do not specify them, the max size (1600) will be
@@ -210,7 +210,7 @@ passed. **NOTE:** You must pass at least one of the size parameters.
 You can also directly access the Image's `ImageInputStream`.
 
 ```java
-client.getImageInputStream(100, 100);
+ImageInputStream in = client.getImageInputStream(100, 100);
 ```
 
 ## Autocomplete
