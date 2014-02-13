@@ -85,20 +85,20 @@ public class GooglePlacesTest {
 
 	// KEEP THE FOLLOWING COMMENTED TO AVOID FILLING THE QUOTA QUICKLY
 
-	@Test
+	//@Test
 	public void testAddAndDeletePlace() {
 		Place place = addPlace();
 		google.deletePlace(place.getReferenceId());
 	}
 
-	@Test
+	//@Test
 	public void testAddAndDeleteEvent() {
 		Place place = addPlace();
 		Event event = google.addEvent(place, "Test Event, Please Ignore", 100000, "en", "http://www.example.com");
 		google.deleteEvent(event);
 	}
 
-	@Test
+	//@Test
 	public void testBump() {
 		Place place = addPlace().bump();
 		addEvent(place).bump();

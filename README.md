@@ -19,6 +19,7 @@
     * [Place prediction](#place-prediction)
     * [Query prediction](#query-prediction)
 * [Android integration](#android-integration)
+* [Binaries](#binaries)
 
 ## Creating the client
 
@@ -250,6 +251,11 @@ new Thread(new Runnable() {
 ```
 
 ...or run it in an [AsyncTask](http://developer.android.com/reference/android/os/AsyncTask.html).
+
+## Binaries
+
+* [JAR without dependencies](/bin/google-places-api-java.jar)
+* [JAR with dependencies](/bin/google-places-api-java-depends.jar)
 
 
 

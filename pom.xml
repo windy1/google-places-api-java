@@ -4,9 +4,10 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
+    <name>google-places-api-java</name>
     <groupId>me.windwaker.places</groupId>
     <artifactId>google-places-api-java</artifactId>
-    <version>1.0</version>
+    <version>1.0.0</version>
 
     <dependencies>
         <dependency>
@@ -33,23 +34,36 @@
     </dependencies>
 
     <build>
-        <defaultGoal>clean package install</defaultGoal>
-        <directory>target</directory>
-        <outputDirectory>target/classes</outputDirectory>
-        <finalName>${artifactId}-${version}</finalName>
-        <testOutputDirectory>target/test-classes</testOutputDirectory>
-        <sourceDirectory>src/main/java</sourceDirectory>
-        <testSourceDirectory>src/test/java</testSourceDirectory>
+        <defaultGoal>clean install</defaultGoal>
+
         <resources>
             <resource>
+                <filtering>false</filtering>
                 <directory>src/main/resources</directory>
+                <targetPath>.</targetPath>
+                <includes>
+                    <include>**/*</include>
+                </includes>
             </resource>
         </resources>
-        <testResources>
-            <testResource>
-                <directory>src/test/resources</directory>
-            </testResource>
-        </testResources>
+
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-shade-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>shade</goal>
+                        </goals>
+                    </execution>
+                </executions>
+                <configuration>
+                    <createDependencyReducedPom>false</createDependencyReducedPom>
+                </configuration>
+            </plugin>
+        </plugins>
     </build>
 
 </project>
