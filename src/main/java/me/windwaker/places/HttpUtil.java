@@ -32,10 +32,7 @@ public final class HttpUtil {
 	 */
 	protected static String get(HttpClient client, HttpGet get) throws IOException {
 		try {
-			System.out.println("GET: " + get.getURI());
-			String response = readString(client.execute(get));
-			System.out.println("Response: " + response);
-			return response;
+			return readString(client.execute(get));
 		} catch (Exception e) {
 			throw new IOException(e);
 		}
@@ -67,10 +64,7 @@ public final class HttpUtil {
 	 */
 	protected static String post(HttpClient client, HttpPost post) throws IOException {
 		try {
-			System.out.println("POST: " + post.getURI());
-			String response = readString(client.execute(post));
-			System.out.println("Response: " + response);
-			return response;
+			return readString(client.execute(post));
 		} catch (Exception e) {
 			throw new IOException(e);
 		}

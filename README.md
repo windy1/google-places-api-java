@@ -18,6 +18,7 @@
 * [Autocomplete](#autocomplete)
     * [Place prediction](#place-prediction)
     * [Query prediction](#query-prediction)
+* [Android integration](#android-integration)
 
 ## Creating the client
 
@@ -234,6 +235,21 @@ You can also receive auto-complete predictions for Places with general queries s
 ```java
 List<Prediction> predictions = client.getPlacePredictions("pizza+in+New+York");
 ```
+
+## Android integration
+
+Just remember that if you are using this library with Android you should never execute network code on the main thread.
+Either run it in another thread...
+
+```java
+new Thread(new Runnable() {
+    public void run() {
+        // do something
+    }
+}).start();
+```
+
+...or run it in an [AsyncTask](http://developer.android.com/reference/android/os/AsyncTask.html).
 
 
 

@@ -6,7 +6,7 @@
 
     <groupId>me.windwaker.places</groupId>
     <artifactId>google-places-api-java</artifactId>
-    <version>dev-SNAPSHOT</version>
+    <version>1.0</version>
 
     <dependencies>
         <dependency>

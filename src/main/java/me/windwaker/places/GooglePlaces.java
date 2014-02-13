@@ -308,7 +308,6 @@ public class GooglePlaces {
 			String uri = String.format("%s%s/json?sensor=%b&key=%s", API_URL, METHOD_ADD, sensor, apiKey);
 			uri = GooglePlaces.addExtraParams(uri, extraParams);
 			JSONObject input = Place.buildInput(lat, lng, accuracy, name, types, lang);
-			System.out.println("Input: " + input);
 			HttpPost post = new HttpPost(uri);
 			post.setEntity(new StringEntity(input.toString()));
 			JSONObject response = new JSONObject(post(client, post));
@@ -378,7 +377,6 @@ public class GooglePlaces {
 			String uri = String.format("%s%s/json?sensor=%b&key=%s", API_URL, METHOD_DELETE, sensor, apiKey);
 			uri = addExtraParams(uri, extraParams);
 			JSONObject input = new JSONObject().put(STRING_REFERENCE, reference);
-			System.out.println("Input: " + input);
 			HttpPost post = new HttpPost(uri);
 			post.setEntity(new StringEntity(input.toString()));
 			JSONObject response = new JSONObject(post(client, post));
@@ -461,10 +459,8 @@ public class GooglePlaces {
 			extraParams = params.toArray(new Param[params.size()]);
 
 			uri = addExtraParams(uri, extraParams);
-			System.out.println("URL: " + uri);
 			HttpGet get = new HttpGet(uri);
 			InputStream in = client.execute(get).getEntity().getContent();
-			System.out.println(in);
 			return ImageIO.createImageInputStream(in);
 		} catch (Exception e) {
 			throw new GooglePlacesException(e);
@@ -551,7 +547,6 @@ public class GooglePlaces {
 			uri = addExtraParams(uri, extraParams);
 			HttpPost post = new HttpPost(uri);
 			JSONObject input = Event.buildInput(duration, lang, place.getReferenceId(), summary, url);
-			System.out.println("Input: " + input);
 			post.setEntity(new StringEntity(input.toString()));
 			JSONObject response = new JSONObject(post(client, post));
 			String status = response.getString(STRING_STATUS);
@@ -617,7 +612,6 @@ public class GooglePlaces {
 			HttpPost post = new HttpPost(uri);
 			JSONObject input = new JSONObject().put(STRING_REFERENCE, placeReference)
 					.put(STRING_EVENT_ID, eventId);
-			System.out.println("Input: " + input);
 			post.setEntity(new StringEntity(input.toString()));
 			JSONObject response = new JSONObject(post(client, post));
 			checkStatus(response.getString(STRING_STATUS));
