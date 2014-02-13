@@ -1,6 +1,5 @@
 package me.windwaker.places;
 
-import java.awt.*;
 import java.awt.image.BufferedImage;
 
 /**

@@ -2,7 +2,6 @@ package me.windwaker.places;
 
 import org.json.JSONObject;
 
-import java.io.IOException;
 import java.util.Date;
 
 import static me.windwaker.places.GooglePlaces.*;
@@ -25,7 +24,7 @@ public class Event {
 	 * @param id to set
 	 * @return this
 	 */
-	public Event setId(String id) {
+	protected Event setId(String id) {
 		this.id = id;
 		return this;
 	}
@@ -54,7 +53,7 @@ public class Event {
 	 * @param place of event
 	 * @return this
 	 */
-	public Event setPlace(Place place) {
+	protected Event setPlace(Place place) {
 		this.place = place;
 		return this;
 	}
@@ -65,7 +64,7 @@ public class Event {
 	 * @param summary of event
 	 * @return this
 	 */
-	public Event setSummary(String summary) {
+	protected Event setSummary(String summary) {
 		this.summary = summary;
 		return this;
 	}
@@ -85,7 +84,7 @@ public class Event {
 	 * @param url of event
 	 * @return this
 	 */
-	public Event setUrl(String url) {
+	protected Event setUrl(String url) {
 		this.url = url;
 		return this;
 	}
@@ -105,7 +104,7 @@ public class Event {
 	 * @param startTime unix timestamp
 	 * @return this
 	 */
-	public Event setStartTime(long startTime) {
+	protected Event setStartTime(long startTime) {
 		this.startTime = startTime;
 		return this;
 	}
@@ -143,7 +142,7 @@ public class Event {
 	 * @param lang language of event
 	 * @return this
 	 */
-	public Event setLanguage(String lang) {
+	protected Event setLanguage(String lang) {
 		this.lang = lang;
 		return this;
 	}
@@ -163,7 +162,7 @@ public class Event {
 	 * @param duration in seconds
 	 * @return this
 	 */
-	public Event setDuration(long duration) {
+	protected Event setDuration(long duration) {
 		this.duration = duration;
 		return this;
 	}
@@ -183,7 +182,6 @@ public class Event {
 	 * Returns a more detailed version of this event.
 	 *
 	 * @return event details
-	 * @throws IOException
 	 */
 	public Event getDetails() {
 		return place.getClient().getEvent(place, id);
@@ -194,7 +192,7 @@ public class Event {
 	 *
 	 * @return json representation of event
 	 */
-	public static JSONObject buildInput(long duration, String lang, String reference, String summary, String url) {
+	protected static JSONObject buildInput(long duration, String lang, String reference, String summary, String url) {
 		return new JSONObject().put("duration", duration).putOpt("language", lang)
 				.put("reference", reference).put("summary", summary).putOpt("url", url);
 	}

@@ -32,7 +32,7 @@ public class Review {
 	 * @param author of review
 	 * @return this
 	 */
-	public Review setAuthor(String author) {
+	protected Review setAuthor(String author) {
 		this.author = author;
 		return this;
 	}
@@ -52,7 +52,7 @@ public class Review {
 	 * @param authorUrl to set
 	 * @return this
 	 */
-	public Review setAuthorUrl(String authorUrl) {
+	protected Review setAuthorUrl(String authorUrl) {
 		this.authorUrl = authorUrl;
 		return this;
 	}
@@ -72,7 +72,7 @@ public class Review {
 	 * @param lang language of review
 	 * @return this
 	 */
-	public Review setLanguage(String lang) {
+	protected Review setLanguage(String lang) {
 		this.lang = lang;
 		return this;
 	}
@@ -92,7 +92,7 @@ public class Review {
 	 * @param text content of review
 	 * @return this
 	 */
-	public Review setText(String text) {
+	protected Review setText(String text) {
 		this.text = text;
 		return this;
 	}
@@ -112,7 +112,7 @@ public class Review {
 	 * @param rating of review
 	 * @return this
 	 */
-	public Review setRating(int rating) {
+	protected Review setRating(int rating) {
 		this.rating = rating;
 		return this;
 	}
@@ -132,7 +132,7 @@ public class Review {
 	 * @param time unix timestamp
 	 * @return this
 	 */
-	public Review setTime(long time) {
+	protected Review setTime(long time) {
 		this.time = time;
 		return this;
 	}
@@ -143,7 +143,7 @@ public class Review {
 	 * @param aspects to add to review
 	 * @return this
 	 */
-	public Review addAspects(Collection<Aspect> aspects) {
+	protected Review addAspects(Collection<Aspect> aspects) {
 		this.aspects.addAll(aspects);
 		return this;
 	}
@@ -154,7 +154,7 @@ public class Review {
 	 * @param aspect to add
  	 * @return this
 	 */
-	public Review addAspect(Aspect aspect) {
+	protected Review addAspect(Aspect aspect) {
 		aspects.add(aspect);
 		return this;
 	}
@@ -165,7 +165,7 @@ public class Review {
 	 * @param aspect to remove
 	 * @return this
 	 */
-	public Review removeAspect(Aspect aspect) {
+	protected Review removeAspect(Aspect aspect) {
 		aspects.remove(aspect);
 		return this;
 	}
@@ -175,7 +175,7 @@ public class Review {
 	 *
 	 * @return this
 	 */
-	public List<Aspect> getAspects() {
+	protected List<Aspect> getAspects() {
 		return Collections.unmodifiableList(aspects);
 	}
 
@@ -192,7 +192,7 @@ public class Review {
 		 * @param rating of aspect
 		 * @param type of aspect
 		 */
-		public Aspect(int rating, String type) {
+		protected Aspect(int rating, String type) {
 			this.rating = rating;
 			this.type = type;
 		}

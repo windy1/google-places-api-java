@@ -48,7 +48,7 @@ public class Place {
 	 * @param client to set
 	 * @return this
 	 */
-	public Place setClient(GooglePlaces client) {
+	protected Place setClient(GooglePlaces client) {
 		this.client = client;
 		return this;
 	}
@@ -68,7 +68,7 @@ public class Place {
 	 * @param id id
 	 * @return this
 	 */
-	public Place setId(String id) {
+	protected Place setId(String id) {
 		this.id = id;
 		return this;
 	}
@@ -97,7 +97,7 @@ public class Place {
 	 * @param lat latitude
 	 * @return this
 	 */
-	public Place setLatitude(double lat) {
+	protected Place setLatitude(double lat) {
 		this.lat = lat;
 		return this;
 	}
@@ -117,7 +117,7 @@ public class Place {
 	 * @param lon longitude
 	 * @return this
 	 */
-	public Place setLongitude(double lon) {
+	protected Place setLongitude(double lon) {
 		this.lng = lon;
 		return this;
 	}
@@ -137,7 +137,7 @@ public class Place {
 	 * @param utcOffset in seconds
 	 * @return this
 	 */
-	public Place setUtcOffset(int utcOffset) {
+	protected Place setUtcOffset(int utcOffset) {
 		this.utcOffset = utcOffset;
 		return this;
 	}
@@ -157,7 +157,7 @@ public class Place {
 	 * @param hours of operation
 	 * @return this
 	 */
-	public Place setHours(Hours hours) {
+	protected Place setHours(Hours hours) {
 		this.hours = hours;
 		return this;
 	}
@@ -186,7 +186,7 @@ public class Place {
 	 * @param phone number
 	 * @return this
 	 */
-	public Place setPhoneNumber(String phone) {
+	protected Place setPhoneNumber(String phone) {
 		this.phone = phone;
 		return this;
 	}
@@ -206,7 +206,7 @@ public class Place {
 	 * @param internationalPhone phone number
 	 * @return this
 	 */
-	public Place setInternationalPhoneNumber(String internationalPhone) {
+	protected Place setInternationalPhoneNumber(String internationalPhone) {
 		this.internationalPhone = internationalPhone;
 		return this;
 	}
@@ -226,7 +226,7 @@ public class Place {
 	 * @param googleUrl google plus page
 	 * @return this
 	 */
-	public Place setGoogleUrl(String googleUrl) {
+	protected Place setGoogleUrl(String googleUrl) {
 		this.googleUrl = googleUrl;
 		return this;
 	}
@@ -246,7 +246,7 @@ public class Place {
 	 * @param website of place
 	 * @return this
 	 */
-	public Place setWebsite(String website) {
+	protected Place setWebsite(String website) {
 		this.website = website;
 		return this;
 	}
@@ -257,7 +257,7 @@ public class Place {
 	 * @param vicinity of place
 	 * @return this
 	 */
-	public Place setVicinity(String vicinity) {
+	protected Place setVicinity(String vicinity) {
 		this.vicinity = vicinity;
 		return this;
 	}
@@ -277,7 +277,7 @@ public class Place {
 	 * @param iconUrl to represent place.
 	 * @return this
 	 */
-	public Place setIconUrl(String iconUrl) {
+	protected Place setIconUrl(String iconUrl) {
 		this.iconUrl = iconUrl;
 		return this;
 	}
@@ -297,7 +297,7 @@ public class Place {
 	 * @param name of place
 	 * @return this
 	 */
-	public Place setName(String name) {
+	protected Place setName(String name) {
 		this.name = name;
 		return this;
 	}
@@ -326,7 +326,7 @@ public class Place {
 	 * @param addr address
 	 * @return this
 	 */
-	public Place setAddress(String addr) {
+	protected Place setAddress(String addr) {
 		this.addr = addr;
 		return this;
 	}
@@ -337,7 +337,7 @@ public class Place {
 	 * @param c components to add
 	 * @return this
 	 */
-	public Place addAddressComponents(Collection<AddressComponent> c) {
+	protected Place addAddressComponents(Collection<AddressComponent> c) {
 		this.addressComponents.addAll(c);
 		return this;
 	}
@@ -348,7 +348,7 @@ public class Place {
 	 * @param c component to add
 	 * @return this
 	 */
-	public Place addAddressComponent(AddressComponent c) {
+	protected Place addAddressComponent(AddressComponent c) {
 		addressComponents.add(c);
 		return this;
 	}
@@ -359,7 +359,7 @@ public class Place {
 	 * @param c component to remove
 	 * @return this
 	 */
-	public Place removeAddressComponent(AddressComponent c) {
+	protected Place removeAddressComponent(AddressComponent c) {
 		addressComponents.remove(c);
 		return this;
 	}
@@ -369,7 +369,7 @@ public class Place {
 	 *
 	 * @return this
 	 */
-	public Place clearAddressComponent() {
+	protected Place clearAddressComponent() {
 		addressComponents.clear();
 		return this;
 	}
@@ -389,7 +389,7 @@ public class Place {
 	 * @param photos to add
 	 * @return this
 	 */
-	public Place addPhotos(Collection<Photo> photos) {
+	protected Place addPhotos(Collection<Photo> photos) {
 		this.photos.addAll(photos);
 		return this;
 	}
@@ -400,7 +400,7 @@ public class Place {
 	 * @param photo to add
 	 * @return this
 	 */
-	public Place addPhoto(Photo photo) {
+	protected Place addPhoto(Photo photo) {
 		photos.add(photo);
 		return this;
 	}
@@ -411,7 +411,7 @@ public class Place {
 	 * @param photo to remove
 	 * @return this
 	 */
-	public Place removePhoto(Photo photo) {
+	protected Place removePhoto(Photo photo) {
 		photos.remove(photo);
 		return this;
 	}
@@ -421,7 +421,7 @@ public class Place {
 	 *
 	 * @return this
 	 */
-	public Place clearPhotos() {
+	protected Place clearPhotos() {
 		photos.clear();
 		return this;
 	}
@@ -441,7 +441,7 @@ public class Place {
 	 * @param reviews to add
 	 * @return this
 	 */
-	public Place addReviews(Collection<Review> reviews) {
+	protected Place addReviews(Collection<Review> reviews) {
 		this.reviews.addAll(reviews);
 		return this;
 	}
@@ -452,7 +452,7 @@ public class Place {
 	 * @param review to add
 	 * @return this
 	 */
-	public Place addReview(Review review) {
+	protected Place addReview(Review review) {
 		reviews.add(review);
 		return this;
 	}
@@ -463,7 +463,7 @@ public class Place {
 	 * @param review to remove
 	 * @return this
 	 */
-	public Place removeReview(Review review) {
+	protected Place removeReview(Review review) {
 		reviews.remove(review);
 		return this;
 	}
@@ -473,7 +473,7 @@ public class Place {
 	 *
 	 * @return this
 	 */
-	public Place clearReviews() {
+	protected Place clearReviews() {
 		reviews.clear();
 		return this;
 	}
@@ -493,7 +493,7 @@ public class Place {
 	 * @param events to add
 	 * @return this
 	 */
-	public Place addEvents(Collection<Event> events) {
+	protected Place addEvents(Collection<Event> events) {
 		this.events.addAll(events);
 		return this;
 	}
@@ -504,7 +504,7 @@ public class Place {
 	 * @param event to add
 	 * @return this
 	 */
-	public Place addEvent(Event event) {
+	protected Place addEvent(Event event) {
 		events.add(event);
 		return this;
 	}
@@ -524,7 +524,7 @@ public class Place {
 	 * @param event to remove
 	 * @return this
 	 */
-	public Place removeEvent(Event event) {
+	protected Place removeEvent(Event event) {
 		events.remove(event);
 		return this;
 	}
@@ -534,7 +534,7 @@ public class Place {
 	 *
 	 * @return this
 	 */
-	public Place clearEvents() {
+	protected Place clearEvents() {
 		events.clear();
 		return this;
 	}
@@ -545,7 +545,7 @@ public class Place {
 	 * @param types to add
 	 * @return this
 	 */
-	public Place addTypes(Collection<String> types) {
+	protected Place addTypes(Collection<String> types) {
 		this.types.addAll(types);
 		return this;
 	}
@@ -556,7 +556,7 @@ public class Place {
 	 * @param type to add
 	 * @return this
 	 */
-	public Place addType(String type) {
+	protected Place addType(String type) {
 		types.add(type);
 		return this;
 	}
@@ -576,7 +576,7 @@ public class Place {
 	 * @param type to remove
 	 * @return this
 	 */
-	public Place removeType(String type) {
+	protected Place removeType(String type) {
 		types.remove(type);
 		return this;
 	}
@@ -586,7 +586,7 @@ public class Place {
 	 *
 	 * @return this
 	 */
-	public Place clearTypes() {
+	protected Place clearTypes() {
 		types.clear();
 		return this;
 	}
@@ -606,7 +606,7 @@ public class Place {
 	 * @param rating of place
 	 * @return this
 	 */
-	public Place setRating(double rating) {
+	protected Place setRating(double rating) {
 		this.rating = rating;
 		return this;
 	}
@@ -626,7 +626,7 @@ public class Place {
 	 * @param status to set
 	 * @return this
 	 */
-	public Place setStatus(Status status) {
+	protected Place setStatus(Status status) {
 		this.status = status;
 		return this;
 	}
@@ -646,7 +646,7 @@ public class Place {
 	 * @param price to set
 	 * @return this
 	 */
-	public Place setPrice(Price price) {
+	protected Place setPrice(Price price) {
 		this.price = price;
 		return this;
 	}
@@ -666,7 +666,7 @@ public class Place {
 	 * @param referenceId to get details from
 	 * @return this
 	 */
-	public Place setReferenceId(String referenceId) {
+	protected Place setReferenceId(String referenceId) {
 		this.referenceId = referenceId;
 		return this;
 	}
@@ -677,7 +677,7 @@ public class Place {
 	 * @param json representation
 	 * @return this
 	 */
-	public Place setJson(JSONObject json) {
+	protected Place setJson(JSONObject json) {
 		this.json = json;
 		return this;
 	}
@@ -698,7 +698,7 @@ public class Place {
 	 * @param accuracy of location
 	 * @return this
 	 */
-	public Place setAccuracy(int accuracy) {
+	protected Place setAccuracy(int accuracy) {
 		this.accuracy = accuracy;
 		return this;
 	}
@@ -718,7 +718,7 @@ public class Place {
 	 * @param lang place language
 	 * @return this
 	 */
-	public Place setLanguage(String lang) {
+	protected Place setLanguage(String lang) {
 		this.lang = lang;
 		return this;
 	}

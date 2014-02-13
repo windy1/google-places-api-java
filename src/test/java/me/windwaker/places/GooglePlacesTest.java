@@ -81,6 +81,11 @@ public class GooglePlacesTest {
 		}
 	}
 
+	@Test
+	public void testPredictions() {
+		System.out.println("Predictions: " + google.getPredictions("Empire"));
+	}
+
 	// KEEP THE FOLLOWING COMMENTED TO AVOID FILLING THE QUOTA QUICKLY
 
 	//@Test

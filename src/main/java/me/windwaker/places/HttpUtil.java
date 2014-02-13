@@ -30,7 +30,7 @@ public final class HttpUtil {
 	 * @return string response
 	 * @throws IOException
 	 */
-	public static String get(HttpClient client, HttpGet get) throws IOException {
+	protected static String get(HttpClient client, HttpGet get) throws IOException {
 		try {
 			System.out.println("GET: " + get.getURI());
 			String response = readString(client.execute(get));
@@ -49,7 +49,7 @@ public final class HttpUtil {
 	 * @return string response
 	 * @throws IOException
 	 */
-	public static String get(HttpClient client, String uri) throws IOException {
+	protected static String get(HttpClient client, String uri) throws IOException {
 		try {
 			return get(client, new HttpGet(uri));
 		} catch (Exception e) {
@@ -65,7 +65,7 @@ public final class HttpUtil {
 	 * @return string response
 	 * @throws IOException
 	 */
-	public static String post(HttpClient client, HttpPost post) throws IOException {
+	protected static String post(HttpClient client, HttpPost post) throws IOException {
 		try {
 			System.out.println("POST: " + post.getURI());
 			String response = readString(client.execute(post));
@@ -84,7 +84,7 @@ public final class HttpUtil {
 	 * @return string response
 	 * @throws IOException
 	 */
-	public static String post(HttpClient client, String uri) throws IOException {
+	protected static String post(HttpClient client, String uri) throws IOException {
 		try {
 			return post(client, new HttpPost(uri));
 		} catch (Exception e) {
@@ -101,7 +101,7 @@ public final class HttpUtil {
 	 * @return string response
 	 * @throws IOException
 	 */
-	public static String readString(HttpResponse response) throws IOException {
+	protected static String readString(HttpResponse response) throws IOException {
 		String str = IOUtils.toString(response.getEntity().getContent(), CHARACTER_ENCODING);
 		if (str == null || str.trim().length() == 0) {
 			return null;

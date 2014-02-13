@@ -126,7 +126,7 @@ public class GooglePlaces {
 		}
 	}
 
-	public static String addExtraParams(String base, Param... extraParams) {
+	protected static String addExtraParams(String base, Param... extraParams) {
 		for (Param param : extraParams) {
 			base += "&" + param.name + (param.value != null ? "=" + param.value : "");
 		}
@@ -160,6 +160,7 @@ public class GooglePlaces {
 	public static final String METHOD_EVENT_ADD = "event/add";
 	public static final String METHOD_EVENT_DELETE = "event/delete";
 	public static final String METHOD_BUMP = "bump";
+	public static final String METHOD_AUTOCOMPLETE = "autocomplete";
 
 	/**
 	 * Returns the places at the specified latitude and longitude within the specified radius. If the specified limit
@@ -450,9 +451,14 @@ public class GooglePlaces {
 	 */
 	public ImageInputStream getImageInputStream(Photo photo, int maxWidth, int maxHeight, Param... extraParams) {
 		try {
-			String uri = String.format("%sphoto?%s%s&photoreference=%s&sensor=%b&key=%s", API_URL,
-					maxWidth == -1 ? "" : maxWidth, maxHeight == -1 ? "" : maxHeight, photo.getReference(), sensor,
-					apiKey);
+			String uri = String.format("%sphoto?photoreference=%s&sensor=%b&key=%s", API_URL, photo.getReference(),
+					sensor, apiKey);
+
+			List<Param> params = new ArrayList<Param>(Arrays.asList(extraParams));
+			if (maxHeight != -1) params.add(Param.name("maxheight").value(maxHeight));
+			if (maxWidth != -1) params.add(Param.name("maxwidth").value(maxWidth));
+			extraParams = params.toArray(new Param[params.size()]);
+
 			uri = addExtraParams(uri, extraParams);
 			System.out.println("URL: " + uri);
 			HttpGet get = new HttpGet(uri);
@@ -627,6 +633,33 @@ public class GooglePlaces {
 		deleteEvent(event.getPlace().getReferenceId(), event.getId(), extraParams);
 	}
 
+	public List<Prediction> getPredictions(String input, int offset, double lat, double lng, double radius, String lang,
+									String type, String country, Param... extraParams) {
+		try {
+			String uri = String.format("%s%s/json?input=%s&sensor=%b&key=%s", API_URL, METHOD_AUTOCOMPLETE, input, sensor,
+					apiKey);
+
+			List<Param> params = new ArrayList<Param>(Arrays.asList(extraParams));
+			if (offset != -1) params.add(Param.name("offset").value(offset));
+			if (lat != -1 && lng != -1) params.add(Param.name("location").value(lat + "," + lng));
+			if (radius != -1) params.add(Param.name("radius").value(radius));
+			if (lang != null) params.add(Param.name("language").value(lang));
+			if (type != null) params.add(Param.name("types").value(type));
+			if (country != null) params.add(Param.name("components").value("country:" + country));
+			extraParams = params.toArray(new Param[params.size()]);
+
+			uri = addExtraParams(uri, extraParams);
+			String response = get(client, uri);
+			return Prediction.parse(response);
+		} catch (Exception e) {
+			throw new GooglePlacesException(e);
+		}
+	}
+
+	public List<Prediction> getPredictions(String input, Param... extraParams) {
+		return getPredictions(input, -1, -1, -1, -1, null, null, null, extraParams);
+	}
+
 	// ARRAYS
 	public static final String ARRAY_RESULTS = "results"; // Array for results
 	public static final String ARRAY_TYPES = "types"; // Types of place
@@ -636,6 +669,9 @@ public class GooglePlaces {
 	public static final String ARRAY_ADDRESS_COMPONENTS = "address_components"; // An array containing each element in a places full address
 	public static final String ARRAY_REVIEWS = "reviews"; // Array of reviews of a Place
 	public static final String ARRAY_ASPECTS = "aspects"; // Array of aspects of a review
+	public static final String ARRAY_PREDICTIONS = "predictions"; // Array of autocomplete predictions
+	public static final String ARRAY_TERMS = "terms"; // Array of terms describing a autocomplete prediction description
+	public static final String ARRAY_MATCHED_SUBSTRINGS = "matched_substrings"; // Used for matching matched substrings for autocompletion
 
 	// BOOLEANS
 	public static final String BOOLEAN_OPENED = "open_now"; // If the place is opened now
@@ -653,6 +689,8 @@ public class GooglePlaces {
 	public static final String INTEGER_RATING = "rating"; // Reviews use integer ratings
 	public static final String INTEGER_UTC_OFFSET = "utc_offset"; // Minutes that a location is of from UTC
 	public static final String INTEGER_ACCURACY = "accuracy"; // Accuracy of location, in meters
+	public static final String INTEGER_OFFSET = "offset"; // Used for autocomplete predictions
+	public static final String INTEGER_LENGTH = "length"; // Used for autocomplete substring length
 
 	// LONGS
 	public static final String LONG_START_TIME = "start_time"; // The start time for an event
@@ -700,6 +738,8 @@ public class GooglePlaces {
 	public static final String STRING_AUTHOR_URL = "author_url"; // Url of author
 	public static final String STRING_LANGUAGE = "language"; // Language for review localization
 	public static final String STRING_TEXT = "text"; // Review content
+	public static final String STRING_DESCRIPTION = "description"; // Description of autocomplete prediction
+	public static final String STRING_VALUE = "value"; // Used for autocomplete terms
 
 	private List<Place> getPlaces(String uri, String method, boolean sensor, int limit)
 			throws IOException, JSONException {
@@ -733,7 +773,7 @@ public class GooglePlaces {
 		}
 	}
 
-	public static void checkStatus(String statusCode) {
+	protected static void checkStatus(String statusCode) {
 		if (statusCode.equals(STATUS_OVER_QUERY_LIMIT)) {
 			throw new GooglePlacesException(statusCode,
 					"You have fufilled the maximum amount of queries permitted by your API key.");

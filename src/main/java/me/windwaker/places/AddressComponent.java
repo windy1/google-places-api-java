@@ -23,7 +23,7 @@ public class AddressComponent {
 	 * @param longName of component
 	 * @return this
 	 */
-	public AddressComponent setLongName(String longName) {
+	protected AddressComponent setLongName(String longName) {
 		this.longName = longName;
 		return this;
 	}
@@ -43,7 +43,7 @@ public class AddressComponent {
 	 * @param shortName of component
 	 * @return this
 	 */
-	public AddressComponent setShortName(String shortName) {
+	protected AddressComponent setShortName(String shortName) {
 		this.shortName = shortName;
 		return this;
 	}
@@ -63,7 +63,7 @@ public class AddressComponent {
 	 * @param types to add
 	 * @return this
 	 */
-	public AddressComponent addTypes(Collection<String> types) {
+	protected AddressComponent addTypes(Collection<String> types) {
 		this.types.addAll(types);
 		return this;
 	}
@@ -74,7 +74,7 @@ public class AddressComponent {
 	 * @param type to add
 	 * @return this
 	 */
-	public AddressComponent addType(String type) {
+	protected AddressComponent addType(String type) {
 		types.add(type);
 		return this;
 	}
@@ -85,7 +85,7 @@ public class AddressComponent {
 	 * @param type to remove
 	 * @return this
 	 */
-	public AddressComponent removeType(String type) {
+	protected AddressComponent removeType(String type) {
 		types.remove(type);
 		return this;
 	}
@@ -95,7 +95,7 @@ public class AddressComponent {
 	 *
 	 * @return this
 	 */
-	public AddressComponent clearTypes() {
+	protected AddressComponent clearTypes() {
 		types.clear();
 		return this;
 	}
