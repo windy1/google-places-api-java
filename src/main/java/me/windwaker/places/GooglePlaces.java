@@ -12,6 +12,10 @@ import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.UnsupportedEncodingException;
+import java.net.URI;
+import java.net.URISyntaxException;
+import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
@@ -121,11 +125,19 @@ public class GooglePlaces {
 		}
 	}
 
-	protected static String addExtraParams(String base, Param... extraParams) {
+	private static String addExtraParams(String base, Param... extraParams) throws UnsupportedEncodingException {
 		for (Param param : extraParams) {
 			base += "&" + param.name + (param.value != null ? "=" + param.value : "");
 		}
 		return base;
+	}
+
+	private static String buildUrl(String method, String params, Param... extraParams)
+			throws UnsupportedEncodingException, URISyntaxException {
+		String url = String.format("%s%s/json?%s", API_URL, method, params);
+		url = addExtraParams(url, extraParams);
+		url = url.replace(' ', '+');
+		return url;
 	}
 
 	/**
@@ -171,9 +183,8 @@ public class GooglePlaces {
 	 */
 	public List<Place> getNearbyPlaces(double lat, double lng, double radius, int limit, Param... extraParams) {
 		try {
-			String uri = String.format("%s%s/json?key=%s&location=%f,%f&radius=%f&sensor=%b",
-					API_URL, METHOD_NEARBY_SEARCH, apiKey, lat, lng, radius, sensor);
-			uri = addExtraParams(uri, extraParams);
+			String uri = buildUrl(METHOD_NEARBY_SEARCH, String.format("key=%s&location=%f,%f&radius=%f&sensor=%b",
+					apiKey, lat, lng, radius, sensor), extraParams);
 			return getPlaces(uri, METHOD_NEARBY_SEARCH, sensor, limit);
 		} catch (Exception e) {
 			throw new GooglePlacesException(e);
@@ -206,10 +217,8 @@ public class GooglePlaces {
 	 */
 	public List<Place> getPlacesByQuery(String query, int limit, Param... extraParams) {
 		try {
-			// build base uri
-			String uri = String.format("%s%s/json?query=%s&key=%s&sensor=%b",
-					API_URL, METHOD_TEXT_SEARCH, query, apiKey, sensor);
-			uri = addExtraParams(uri, extraParams);
+			String uri = buildUrl(METHOD_TEXT_SEARCH, String.format("query=%s&key=%s&sensor=%b", query, apiKey, sensor),
+					extraParams);
 			return getPlaces(uri, METHOD_TEXT_SEARCH, sensor, limit);
 		} catch (Exception e) {
 			throw new GooglePlacesException(e);
@@ -242,9 +251,8 @@ public class GooglePlaces {
 	 */
 	public List<Place> getPlacesByRadar(double lat, double lng, double radius, int limit, Param... extraParams) {
 		try {
-			String uri = String.format("%s%s/json?key=%s&location=%f,%f&radius=%f&sensor=%b",
-					API_URL, METHOD_RADAR_SEARCH, apiKey, lat, lng, radius, sensor);
-			uri = addExtraParams(uri, extraParams);
+			String uri = buildUrl(METHOD_RADAR_SEARCH, String.format("key=%s&location=%f,%f&radius=%f&sensor=%b",
+					apiKey, lat, lng, radius, sensor), extraParams);
 			return getPlaces(uri, METHOD_RADAR_SEARCH, sensor, limit);
 		} catch (Exception e) {
 			throw new GooglePlacesException(e);
@@ -275,9 +283,8 @@ public class GooglePlaces {
 	 */
 	public Place getPlace(String reference, Param... extraParams) {
 		try {
-			String uri = String.format("%s%s/json?key=%s&reference=%s&sensor=%b", API_URL,
-					METHOD_DETAILS, apiKey, reference, sensor);
-			uri = GooglePlaces.addExtraParams(uri, extraParams);
+			String uri = buildUrl(METHOD_DETAILS, String.format("key=%s&reference=%s&sensor=%b", apiKey, reference,
+					sensor), extraParams);
 			return Place.parseDetails(this, get(client, uri));
 		} catch (Exception e) {
 			throw new GooglePlacesException(e);
@@ -300,8 +307,7 @@ public class GooglePlaces {
 	public Place addPlace(String name, String lang, double lat, double lng, int accuracy, Collection<String> types,
 						  boolean returnPlace, Param... extraParams) {
 		try {
-			String uri = String.format("%s%s/json?sensor=%b&key=%s", API_URL, METHOD_ADD, sensor, apiKey);
-			uri = GooglePlaces.addExtraParams(uri, extraParams);
+			String uri = buildUrl(METHOD_ADD, String.format("sensor=%b&key=%s", sensor, apiKey), extraParams);
 			JSONObject input = Place.buildInput(lat, lng, accuracy, name, types, lang);
 			HttpPost post = new HttpPost(uri);
 			post.setEntity(new StringEntity(input.toString()));
@@ -369,8 +375,7 @@ public class GooglePlaces {
 	 */
 	public void deletePlace(String reference, Param... extraParams) {
 		try {
-			String uri = String.format("%s%s/json?sensor=%b&key=%s", API_URL, METHOD_DELETE, sensor, apiKey);
-			uri = addExtraParams(uri, extraParams);
+			String uri = buildUrl(METHOD_DELETE, String.format("sensor=%b&key=%s", sensor, apiKey), extraParams);
 			JSONObject input = new JSONObject().put(STRING_REFERENCE, reference);
 			HttpPost post = new HttpPost(uri);
 			post.setEntity(new StringEntity(input.toString()));
@@ -400,8 +405,7 @@ public class GooglePlaces {
 	 */
 	public void bumpPlace(Place place, Param... extraParams) {
 		try {
-			String uri = String.format("%s%s/json?sensor=%b&key=%s", API_URL, METHOD_BUMP, sensor, apiKey);
-			uri = addExtraParams(uri, extraParams);
+			String uri = buildUrl(METHOD_BUMP, String.format("sensor=%b&key=%s", sensor, apiKey), extraParams);
 			HttpPost post = new HttpPost(uri);
 			JSONObject input = new JSONObject().put(STRING_REFERENCE, place.getReferenceId());
 			post.setEntity(new StringEntity(input.toString()));
@@ -421,8 +425,7 @@ public class GooglePlaces {
 	 */
 	public void bumpEvent(Event event, Param... extraParams) {
 		try {
-			String uri = String.format("%s%s/json?sensor=%b&key=%s", API_URL, METHOD_BUMP, sensor, apiKey);
-			uri = addExtraParams(uri, extraParams);
+			String uri = buildUrl(METHOD_BUMP, String.format("sensor=%b&key=%s", sensor, apiKey), extraParams);
 			HttpPost post = new HttpPost(uri);
 			JSONObject input = new JSONObject().put(STRING_REFERENCE, event.getPlace().getReferenceId())
 					.put(STRING_EVENT_ID, event.getId());
@@ -471,9 +474,8 @@ public class GooglePlaces {
 	 */
 	public Event getEvent(Place place, String eventId, Param... extraParams) {
 		try {
-			String uri = String.format("%s%s/json?sensor=%b&key=%s&reference=%s&event_id=%s", API_URL, METHOD_EVENT_DETAILS,
-					sensor, apiKey, place.getReferenceId(), eventId);
-			uri = addExtraParams(uri, extraParams);
+			String uri = buildUrl(METHOD_EVENT_DETAILS, String.format("sensor=%b&key=%s&reference=%s&event_id=%s",
+					sensor, apiKey, place.getReferenceId(), eventId), extraParams);
 			String response = get(client, uri);
 			return Event.parseDetails(response).setPlace(place);
 		} catch (Exception e) {
@@ -496,8 +498,7 @@ public class GooglePlaces {
 	public Event addEvent(Place place, String summary, long duration, String lang, String url, boolean returnEvent,
 						  Param... extraParams) {
 		try {
-			String uri = String.format("%s%s/json?sensor=%b&key=%s", API_URL, METHOD_EVENT_ADD, sensor, apiKey);
-			uri = addExtraParams(uri, extraParams);
+			String uri = buildUrl(METHOD_EVENT_ADD, String.format("sensor=%b&key=%s", sensor, apiKey), extraParams);
 			HttpPost post = new HttpPost(uri);
 			JSONObject input = Event.buildInput(duration, lang, place.getReferenceId(), summary, url);
 			post.setEntity(new StringEntity(input.toString()));
@@ -560,8 +561,7 @@ public class GooglePlaces {
 	 */
 	public void deleteEvent(String placeReference, String eventId, Param... extraParams) {
 		try {
-			String uri = String.format("%s%s/json?sensor=%b&key=%s", API_URL, METHOD_EVENT_DELETE, sensor, apiKey);
-			uri = addExtraParams(uri, extraParams);
+			String uri = buildUrl(METHOD_EVENT_DELETE, String.format("sensor=%b&key=%s", sensor, apiKey), extraParams);
 			HttpPost post = new HttpPost(uri);
 			JSONObject input = new JSONObject().put(STRING_REFERENCE, placeReference)
 					.put(STRING_EVENT_ID, eventId);
@@ -583,24 +583,11 @@ public class GooglePlaces {
 		deleteEvent(event.getPlace().getReferenceId(), event.getId(), extraParams);
 	}
 
-	private List<Prediction> getPredictions(String input, int offset, double lat, double lng, double radius,
-											String lang, String type, String country, String method,
-											Param... extraParams) {
+	private List<Prediction> getPredictions(String input, String method, Param... extraParams) {
 		try {
-			String uri = String.format("%s%s/json?input=%s&sensor=%b&key=%s", API_URL, method, input, sensor, apiKey);
-
-			List<Param> params = new ArrayList<Param>(Arrays.asList(extraParams));
-			if (offset != -1) params.add(Param.name("offset").value(offset));
-			if (lat != -1 && lng != -1) params.add(Param.name("location").value(lat + "," + lng));
-			if (radius != -1) params.add(Param.name("radius").value(radius));
-			if (lang != null) params.add(Param.name("language").value(lang));
-			if (type != null) params.add(Param.name("types").value(type));
-			if (country != null) params.add(Param.name("components").value("country:" + country));
-			extraParams = params.toArray(new Param[params.size()]);
-
-			uri = addExtraParams(uri, extraParams);
+			String uri = buildUrl(method, String.format("input=%s&sensor=%b&key=%s", input, sensor, apiKey),
+					extraParams);
 			String response = get(client, uri);
-			System.out.println("response:" + response);
 			return Prediction.parse(this, response);
 		} catch (Exception e) {
 			throw new GooglePlacesException(e);
@@ -611,47 +598,11 @@ public class GooglePlaces {
 	 * Returns a list of auto-complete predictions for searching for a specific place.
 	 *
 	 * @param input user input
-	 * @param offset to start from input
-	 * @param lat latitude coordinate
-	 * @param lng longitude coordinate
-	 * @param radius radius around coordinates
-	 * @param lang language
-	 * @param type type of place
-	 * @param country country code
-	 * @param extraParams to append to request url
-	 * @return list of predictions
-	 */
-	public List<Prediction> getPlacePredictions(String input, int offset, double lat, double lng, double radius,
-												String lang, String type, String country, Param... extraParams) {
-		return getPredictions(input, offset, lat, lng, radius, lang, type, country, METHOD_AUTOCOMPLETE, extraParams);
-	}
-
-	/**
-	 * Returns a list of auto-complete predictions for searching for a specific place.
-	 *
-	 * @param input user input
 	 * @param extraParams to append to request url
 	 * @return list of predictions
 	 */
 	public List<Prediction> getPlacePredictions(String input, Param... extraParams) {
-		return getPlacePredictions(input, -1, -1, -1, -1, null, null, null, extraParams);
-	}
-
-	/**
-	 * Returns a list of auto-complete predictions for searching for a place by a query.
-	 *
-	 * @param input user input
-	 * @param offset where to start on the query string
-	 * @param lat latitude coordinate
-	 * @param lng longitude coordinate
-	 * @param radius radius around coordinates
-	 * @param lang language of place
-	 * @param extraParams to append to request url
-	 * @return list of predictions
-	 */
-	public List<Prediction> getQueryPredictions(String input, int offset, double lat, double lng, double radius,
-												String lang, Param... extraParams) {
-		return getPredictions(input, offset, lat, lng, radius, lang, null, null, METHOD_QUERY_AUTOCOMPLETE, extraParams);
+		return getPredictions(input, METHOD_AUTOCOMPLETE, extraParams);
 	}
 
 	/**
@@ -662,7 +613,7 @@ public class GooglePlaces {
 	 * @return list of predictions
 	 */
 	public List<Prediction> getQueryPredictions(String input, Param... extraParams) {
-		return getQueryPredictions(input, -1, -1, -1, -1, null, extraParams);
+		return getPredictions(input, METHOD_QUERY_AUTOCOMPLETE, extraParams);
 	}
 
 	// ARRAYS

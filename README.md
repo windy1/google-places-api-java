@@ -52,7 +52,7 @@ because of API restrictions. You can omit the 'limit' parameter and it will defa
 You can also search for locations by search query. This is the same backend system that Google Maps uses.
 
 ```java
-List<Place> places = client.getPlacesByQuery("Empire+State+Building", GooglePlaces.MAXIMUM_RESULTS);
+List<Place> places = client.getPlacesByQuery("Empire State Building", GooglePlaces.MAXIMUM_RESULTS);
 ```
 
 ### Radar Search Requests
@@ -68,7 +68,7 @@ List<Place> places = client.getPlacesByRadar(lat, lng, radius, GooglePlaces.MAXI
 If you need to add additional URL parameters to the request URL you can append as many `Param` objects as you want to any request method.
 
 ```java
-List<Place> places = client.getPlacesByQuery("Empire+State+Building", GooglePlaces.MAXIMUM_RESULTS, Param.name("language").value("en"), Param.name("opennow").value(true));
+List<Place> places = client.getPlacesByQuery("Empire State Building", GooglePlaces.MAXIMUM_RESULTS, Param.name("language").value("en"), Param.name("opennow").value(true));
 ```
 
 ## Place Details
@@ -78,7 +78,7 @@ Any of the above getters will only get you limited information about the returne
 Here's one way I can get detailed information about the Empire State Building.
 
 ```java
-List<Place> places = client.getPlacesByQuery("Empire+State+Building", GooglePlaces.MAXIMUM_RESULTS);
+List<Place> places = client.getPlacesByQuery("Empire State Building", GooglePlaces.MAXIMUM_RESULTS);
 Place empireStateBuilding = null;
 for (Place place : places) {
     if (place.getName().equals("Empire State Building")) {
@@ -253,7 +253,7 @@ development)
 You can also receive auto-complete predictions for Places with general queries such as "pizza in New York".
 
 ```java
-List<Prediction> predictions = client.getPlacePredictions("pizza+in+New+York");
+List<Prediction> predictions = client.getPlacePredictions("pizza in New York");
 ```
 
 ## Android integration
