@@ -220,8 +220,8 @@ public class Prediction {
 		for (int i = 0; i < jsonPredictions.length(); i++) {
 			JSONObject jsonPrediction = jsonPredictions.getJSONObject(i);
 			String description = jsonPrediction.getString(STRING_DESCRIPTION);
-			String id = jsonPrediction.getString(STRING_ID);
-			String reference = jsonPrediction.getString(STRING_REFERENCE);
+			String id = jsonPrediction.optString(STRING_ID, null);
+			String reference = jsonPrediction.optString(STRING_REFERENCE, null);
 
 			JSONArray jsonTerms = jsonPrediction.getJSONArray(ARRAY_TERMS);
 			List<DescriptionTerm> terms = new ArrayList<DescriptionTerm>();
@@ -232,10 +232,12 @@ public class Prediction {
 				terms.add(new DescriptionTerm(value, offset));
 			}
 
-			JSONArray jsonTypes = jsonPrediction.getJSONArray(ARRAY_TYPES);
+			JSONArray jsonTypes = jsonPrediction.optJSONArray(ARRAY_TYPES);
 			List<String> types = new ArrayList<String>();
-			for (int b = 0; b < jsonTypes.length(); b++) {
-				types.add(jsonTypes.getString(b));
+			if (jsonTypes != null) {
+				for (int b = 0; b < jsonTypes.length(); b++) {
+					types.add(jsonTypes.getString(b));
+				}
 			}
 
 			JSONArray substrArray = jsonPrediction.getJSONArray(ARRAY_MATCHED_SUBSTRINGS);

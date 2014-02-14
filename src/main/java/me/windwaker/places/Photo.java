@@ -1,6 +1,10 @@
 package me.windwaker.places;
 
+import me.windwaker.places.exception.GooglePlacesException;
+
+import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
+import java.io.InputStream;
 
 /**
  * Represents a referenced photo.
@@ -9,6 +13,7 @@ public class Photo {
 	private final Place place;
 	private final String reference;
 	private final int width, height;
+	private InputStream image;
 
 	protected Photo(Place place, String reference, int width, int height) {
 		this.place = place;
@@ -18,25 +23,49 @@ public class Photo {
 	}
 
 	/**
-	 * Returns an Image from the specified photo reference.
+	 * Downloads the photo and caches it within the photo.
 	 *
-	 * @param maxWidth of image
-	 * @param maxHeight of image
+	 * @param maxWidth of photo
+	 * @param maxHeight of photo
 	 * @param extraParams to append to request url
-	 * @return image
+	 * @return this
 	 */
-	public BufferedImage getImage(int maxWidth, int maxHeight, GooglePlaces.Param... extraParams) {
-		return place.getClient().getImage(this, maxWidth, maxHeight, extraParams);
+	public Photo download(int maxWidth, int maxHeight, GooglePlaces.Param... extraParams) {
+		image = place.getClient().downloadPhoto(this, maxWidth, maxHeight, extraParams);
+		return this;
 	}
 
 	/**
-	 * Returns an Image from the specified photo reference in it's original form.
+	 * Downloads the photo and caches it within the photo.
 	 *
 	 * @param extraParams to append to request url
+	 * @return this
+	 */
+	public Photo download(GooglePlaces.Param... extraParams) {
+		return download(GooglePlaces.MAX_PHOTO_SIZE, GooglePlaces.MAX_PHOTO_SIZE, extraParams);
+	}
+
+	/**
+	 * Returns the input stream of the image. {@link #download(int, int, me.windwaker.places.GooglePlaces.Param...)}
+	 * must be called prior to calling this.
+	 *
+	 * @return input stream
+	 */
+	public InputStream getInputStream() {
+		return image;
+	}
+
+	/**
+	 * Returns an Image from the specified photo reference.
+	 *
 	 * @return image
 	 */
-	public BufferedImage getImage(GooglePlaces.Param... extraParams) {
-		return getImage(GooglePlaces.MAX_PHOTO_SIZE, GooglePlaces.MAX_PHOTO_SIZE, extraParams);
+	public BufferedImage getImage() {
+		try {
+			return ImageIO.read(image);
+		} catch (Exception e) {
+			throw new GooglePlacesException(e);
+		}
 	}
 
 	/**

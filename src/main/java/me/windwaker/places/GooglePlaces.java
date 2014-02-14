@@ -2,7 +2,6 @@ package me.windwaker.places;
 
 import me.windwaker.places.exception.GooglePlacesException;
 import org.apache.http.client.HttpClient;
-import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.entity.StringEntity;
 import org.json.JSONArray;
@@ -10,8 +9,6 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import javax.imageio.ImageIO;
-import javax.imageio.stream.ImageInputStream;
-import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.io.InputStream;
@@ -20,9 +17,7 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
 
-import static me.windwaker.places.HttpUtil.DEFAULT_CLIENT;
-import static me.windwaker.places.HttpUtil.get;
-import static me.windwaker.places.HttpUtil.post;
+import static me.windwaker.places.HttpUtil.*;
 
 /**
  * A Java binding for the Google Places API:
@@ -439,16 +434,17 @@ public class GooglePlaces {
 		}
 	}
 
-	/**
-	 * Returns an ImageInputStream from the specified photo reference.
-	 *
-	 * @param photo to get image of
-	 * @param maxWidth of image, -1 for none
-	 * @param maxHeight of image, -1 for none
-	 * @param extraParams to append to request url
-	 * @return image input stream
-	 */
-	public ImageInputStream getImageInputStream(Photo photo, int maxWidth, int maxHeight, Param... extraParams) {
+	protected InputStream download(String uri) {
+		try {
+			return getInputStream(client, uri);
+		} catch (Exception e) {
+			throw new GooglePlacesException(e);
+		}
+	}
+
+	public static final int MAX_PHOTO_SIZE = 1600;
+
+	protected InputStream downloadPhoto(Photo photo, int maxWidth, int maxHeight, Param... extraParams) {
 		try {
 			String uri = String.format("%sphoto?photoreference=%s&sensor=%b&key=%s", API_URL, photo.getReference(),
 					sensor, apiKey);
@@ -457,55 +453,12 @@ public class GooglePlaces {
 			if (maxHeight != -1) params.add(Param.name("maxheight").value(maxHeight));
 			if (maxWidth != -1) params.add(Param.name("maxwidth").value(maxWidth));
 			extraParams = params.toArray(new Param[params.size()]);
-
 			uri = addExtraParams(uri, extraParams);
-			HttpGet get = new HttpGet(uri);
-			InputStream in = client.execute(get).getEntity().getContent();
-			return ImageIO.createImageInputStream(in);
+
+			return download(uri);
 		} catch (Exception e) {
 			throw new GooglePlacesException(e);
 		}
-	}
-
-	/**
-	 * Returns the image in it's original form.
-	 *
-	 * @param photo to return
-	 * @param extraParams to append to request url
-	 * @return input stream
-	 */
-	public ImageInputStream getImageInputStream(Photo photo, Param... extraParams) {
-		return getImageInputStream(photo, -1, -1, extraParams);
-	}
-
-	/**
-	 * Returns an Image from the specified photo reference.
-	 *
-	 * @param photo to get image of
-	 * @param maxWidth of image
-	 * @param maxHeight of image
-	 * @param extraParams to append to request url
-	 * @return image
-	 */
-	public BufferedImage getImage(Photo photo, int maxWidth, int maxHeight, Param... extraParams) {
-		try {
-			return ImageIO.read(getImageInputStream(photo, maxWidth, maxHeight, extraParams));
-		} catch (Exception e) {
-			throw new GooglePlacesException(e);
-		}
-	}
-
-	public static final int MAX_PHOTO_SIZE = 1600;
-
-	/**
-	 * Returns an image in it's original form.
-	 *
-	 * @param photo to get
-	 * @param extraParams to append to request url
-	 * @return image
-	 */
-	public Image getImage(Photo photo, Param... extraParams) {
-		return getImage(photo, MAX_PHOTO_SIZE, MAX_PHOTO_SIZE, extraParams);
 	}
 
 	/**
@@ -647,6 +600,7 @@ public class GooglePlaces {
 
 			uri = addExtraParams(uri, extraParams);
 			String response = get(client, uri);
+			System.out.println("response:" + response);
 			return Prediction.parse(this, response);
 		} catch (Exception e) {
 			throw new GooglePlacesException(e);
@@ -796,7 +750,7 @@ public class GooglePlaces {
 			throws IOException, JSONException {
 
 		limit = Math.min(limit, MAXIMUM_RESULTS); // max of 60 results possible
-		int pages = limit / MAXIMUM_PAGE_RESULTS;
+		int pages = (int) Math.ceil(limit / (double) MAXIMUM_PAGE_RESULTS);
 
 		List<Place> places = new ArrayList<Place>();
 		// new request for each page

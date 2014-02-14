@@ -8,6 +8,14 @@
     <groupId>me.windwaker.places</groupId>
     <artifactId>google-places-api-java</artifactId>
     <version>1.0.0</version>
+    <packaging>jar</packaging>
+
+    <licenses>
+        <license>
+            <name>The MIT License</name>
+            <url>http://opensource.org/licenses/MIT</url>
+        </license>
+    </licenses>
 
     <dependencies>
         <dependency>

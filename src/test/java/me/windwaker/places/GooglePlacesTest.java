@@ -65,7 +65,7 @@ public class GooglePlacesTest {
 			Place place = getPlace().getDetails();
 			List<Photo> photos = place.getPhotos();
 			Photo photo = photos.get(new Random().nextInt(photos.size()));
-			BufferedImage image = photo.getImage();
+			BufferedImage image = photo.download().getImage();
 
 			File file = new File("target/test.jpg");
 			file.delete();

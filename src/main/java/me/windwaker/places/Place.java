@@ -1,9 +1,12 @@
 package me.windwaker.places;
 
+import me.windwaker.places.exception.GooglePlacesException;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
-import java.io.IOException;
+import javax.imageio.ImageIO;
+import java.awt.image.BufferedImage;
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
@@ -20,6 +23,7 @@ public class Place {
 	private double lat = -1, lng = -1;
 	private JSONObject json;
 	private String iconUrl;
+	private InputStream icon;
 	private String name;
 	private String addr;
 	private String vicinity;
@@ -289,6 +293,38 @@ public class Place {
 	 */
 	public String getIconUrl() {
 		return iconUrl;
+	}
+
+	/**
+	 * Downloads the icon to this place.
+	 *
+	 * @return this
+	 */
+	public Place downloadIcon() {
+		icon = client.download(iconUrl);
+		return this;
+	}
+
+	/**
+	 * Returns the input stream of this place. {@link #downloadIcon()} must be called previous to call this.
+	 *
+	 * @return input stream
+	 */
+	public InputStream getIconInputStream() {
+		return icon;
+	}
+
+	/**
+	 * Returns the icon image. {@link #downloadIcon()} must be called previous to this.
+	 *
+	 * @return image
+	 */
+	public BufferedImage getIconImage() {
+		try {
+			return ImageIO.read(icon);
+		} catch (Exception e) {
+			throw new GooglePlacesException(e);
+		}
 	}
 
 	/**

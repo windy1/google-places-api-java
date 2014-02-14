@@ -11,6 +11,7 @@
     * [Radar Search](#radar-search-requests)
     * [Adding extra URL parameters](#additional-url-parameters)
 * [Place Details](#place-details)
+    * [Icons](#icons)
 * [Modifying a Place](#place-actions)
     * [Add place](#add-place)
     * [Delete place](#delete-place)
@@ -130,6 +131,21 @@ FRIDAY 08:00 -- SATURDAY 02:00
 SATURDAY 08:00 -- SUNDAY 02:00
 ```
 
+### Icons
+
+Once you have a detailed `Place` object, you can download it's "Icon" with the following.
+
+```java
+BufferedImage image = place.downloadIcon().getIconImage();
+```
+
+If you are working on Android, javax.imageio is not implemented. You can create a Bitmap from the icon with:
+
+```java
+InputStream stream = place.downloadIcon().getIconInputStream();
+Bitmap bitmap = BitmapFactory.decodeStream(stream);
+```
+
 ## Place Actions
 
 ### Add Place
@@ -193,7 +209,7 @@ and save it to disk.
 ```java
 List<Photo> photos = place.getPhotos();
 Photo photo = photos.get(new Random().nextInt(photos.size()));
-BufferedImage image = photo.getImage();
+BufferedImage image = photo.download().getImage();
 
 File file = new File("test.jpg");
 file.createNewFile();
@@ -203,17 +219,20 @@ ImageIO.write(image, "jpg", file);
 You can also specify a max width and max height for the image. The aspect ratio of the image will always be maintained.
 
 ```java
-BufferedImage image = photo.getImage(100, 100);
+BufferedImage image = photo.download(100, 100).getImage();
 ```
 
 To specify one and not the other, just set one of them to -1. If you do not specify them, the max size (1600) will be
 passed. **NOTE:** You must pass at least one of the size parameters.
 
-You can also directly access the Image's `ImageInputStream`.
+If you are working on Android, javax.imageio is not implemented, so you can create a bitmap from a photo with.
 
 ```java
-ImageInputStream in = client.getImageInputStream(100, 100);
+InputStream stream = photo.download().getInputStream();
+Bitmap bitmap = BitmapFactory.decodeStream(stream);
 ```
+
+Remember not to execute this code on the main thread.
 
 ## Autocomplete
 

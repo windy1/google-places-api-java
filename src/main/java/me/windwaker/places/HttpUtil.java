@@ -7,7 +7,11 @@ import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.impl.client.DefaultHttpClient;
 
+import javax.imageio.ImageIO;
+import javax.imageio.stream.ImageInputStream;
+import java.awt.image.BufferedImage;
 import java.io.IOException;
+import java.io.InputStream;
 
 /**
  * HTTP utility class.
@@ -81,6 +85,16 @@ public final class HttpUtil {
 	protected static String post(HttpClient client, String uri) throws IOException {
 		try {
 			return post(client, new HttpPost(uri));
+		} catch (Exception e) {
+			throw new IOException(e);
+		}
+	}
+
+	protected static InputStream getInputStream(HttpClient client, String uri) throws IOException {
+		try {
+			HttpGet get = new HttpGet(uri);
+			InputStream in = client.execute(get).getEntity().getContent();
+			return in;
 		} catch (Exception e) {
 			throw new IOException(e);
 		}
