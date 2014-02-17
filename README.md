@@ -273,8 +273,9 @@ new Thread(new Runnable() {
 
 ## Binaries
 
-* [JAR without dependencies](/bin/google-places-api-java.jar?raw=true)
-* [JAR with dependencies](/bin/google-places-api-java-depends.jar?raw=true)
+[![Build Status](https://drone.io/github.com/windy1/google-places-api-java/status.png)](https://drone.io/github.com/windy1/google-places-api-java/latest)
+
+[Download on drone.io](https://drone.io/github.com/windy1/google-places-api-java/files). original-<artifact> signifies a JAR without dependencies.
 
 
 
