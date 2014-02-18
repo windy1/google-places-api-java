@@ -9,7 +9,7 @@ import java.util.List;
  * Represents a user submitted review.
  */
 public class Review {
-	private final List<Aspect> aspects = new ArrayList<Aspect>();
+	private final List<Aspect> aspects = new ArrayList<>();
 	private String author, authorUrl, lang, text;
 	private int rating;
 	private long time;
@@ -152,7 +152,7 @@ public class Review {
 	 * Adds an {@link me.windwaker.places.Review.Aspect} to the review.
 	 *
 	 * @param aspect to add
- 	 * @return this
+	 * @return this
 	 */
 	protected Review addAspect(Aspect aspect) {
 		aspects.add(aspect);
@@ -190,7 +190,7 @@ public class Review {
 		 * Creates a new Aspect with the specified rating an aspect type.
 		 *
 		 * @param rating of aspect
-		 * @param type of aspect
+		 * @param type   of aspect
 		 */
 		protected Aspect(int rating, String type) {
 			this.rating = rating;

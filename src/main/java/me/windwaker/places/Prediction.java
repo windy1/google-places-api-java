@@ -18,8 +18,8 @@ public class Prediction {
 	private String placeId, placeReference;
 	private String description;
 	private int substrOffset, substrLength;
-	private final List<DescriptionTerm> terms = new ArrayList<DescriptionTerm>();
-	private final List<String> types = new ArrayList<String>();
+	private final List<DescriptionTerm> terms = new ArrayList<>();
+	private final List<String> types = new ArrayList<>();
 
 	protected Prediction() {
 	}
@@ -207,7 +207,7 @@ public class Prediction {
 	/**
 	 * Returns a list of predictions from JSON.
 	 *
-	 * @param client of request
+	 * @param client  of request
 	 * @param rawJson to parse
 	 * @return list of predictions
 	 */
@@ -215,7 +215,7 @@ public class Prediction {
 		JSONObject json = new JSONObject(rawJson);
 		checkStatus(json.getString(STRING_STATUS));
 
-		List<Prediction> predictions = new ArrayList<Prediction>();
+		List<Prediction> predictions = new ArrayList<>();
 		JSONArray jsonPredictions = json.getJSONArray(ARRAY_PREDICTIONS);
 		for (int i = 0; i < jsonPredictions.length(); i++) {
 			JSONObject jsonPrediction = jsonPredictions.getJSONObject(i);
@@ -224,7 +224,7 @@ public class Prediction {
 			String reference = jsonPrediction.optString(STRING_REFERENCE, null);
 
 			JSONArray jsonTerms = jsonPrediction.getJSONArray(ARRAY_TERMS);
-			List<DescriptionTerm> terms = new ArrayList<DescriptionTerm>();
+			List<DescriptionTerm> terms = new ArrayList<>();
 			for (int a = 0; a < jsonTerms.length(); a++) {
 				JSONObject jsonTerm = jsonTerms.getJSONObject(a);
 				String value = jsonTerm.getString(STRING_VALUE);
@@ -233,7 +233,7 @@ public class Prediction {
 			}
 
 			JSONArray jsonTypes = jsonPrediction.optJSONArray(ARRAY_TYPES);
-			List<String> types = new ArrayList<String>();
+			List<String> types = new ArrayList<>();
 			if (jsonTypes != null) {
 				for (int b = 0; b < jsonTypes.length(); b++) {
 					types.add(jsonTypes.getString(b));

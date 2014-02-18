@@ -5,17 +5,10 @@ import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.entity.StringEntity;
 import org.json.JSONArray;
-import org.json.JSONException;
 import org.json.JSONObject;
 
-import javax.imageio.ImageIO;
-import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.UnsupportedEncodingException;
-import java.net.URI;
-import java.net.URISyntaxException;
-import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
@@ -125,15 +118,14 @@ public class GooglePlaces {
 		}
 	}
 
-	private static String addExtraParams(String base, Param... extraParams) throws UnsupportedEncodingException {
+	private static String addExtraParams(String base, Param... extraParams) {
 		for (Param param : extraParams) {
 			base += "&" + param.name + (param.value != null ? "=" + param.value : "");
 		}
 		return base;
 	}
 
-	private static String buildUrl(String method, String params, Param... extraParams)
-			throws UnsupportedEncodingException, URISyntaxException {
+	private static String buildUrl(String method, String params, Param... extraParams) {
 		String url = String.format("%s%s/json?%s", API_URL, method, params);
 		url = addExtraParams(url, extraParams);
 		url = url.replace(' ', '+');
@@ -277,7 +269,7 @@ public class GooglePlaces {
 	/**
 	 * Returns the place using the specified reference ID.
 	 *
-	 * @param reference id
+	 * @param reference   id
 	 * @param extraParams to append to request url
 	 * @return place
 	 */
@@ -294,12 +286,12 @@ public class GooglePlaces {
 	/**
 	 * Adds a new place to Places API and gets the newly created place if returnPlace is set to true.
 	 *
-	 * @param name of place
-	 * @param lang language of place
-	 * @param lat latitude coordinate
-	 * @param lng longitude coordinate
-	 * @param accuracy of coordinates in meters
-	 * @param types collection of types
+	 * @param name        of place
+	 * @param lang        language of place
+	 * @param lat         latitude coordinate
+	 * @param lng         longitude coordinate
+	 * @param accuracy    of coordinates in meters
+	 * @param types       collection of types
 	 * @param returnPlace true if the newly created place should be returned
 	 * @param extraParams to append to request url
 	 * @return newly created place
@@ -323,14 +315,15 @@ public class GooglePlaces {
 	/**
 	 * Adds a new place to Places API and returns the newly created Place.
 	 *
-	 * @param name of place
-	 * @param lang language of place
-	 * @param lat latitude coordinate
-	 * @param lng longitude coordinate
+	 * @param name     of place
+	 * @param lang     language of place
+	 * @param lat      latitude coordinate
+	 * @param lng      longitude coordinate
 	 * @param accuracy of coordinates in meters
-	 * @param types collection of types
+	 * @param types    collection of types
 	 * @return newly created place
-\	 */
+	 * \
+	 */
 	public Place addPlace(String name, String lang, double lat, double lng, int accuracy, Collection<String> types,
 						  Param... extraParams) {
 		return addPlace(name, lang, lat, lng, accuracy, types, true, extraParams);
@@ -339,12 +332,12 @@ public class GooglePlaces {
 	/**
 	 * Adds a new place to Places API and returns the newly created Place.
 	 *
-	 * @param name of place
-	 * @param lang language of place
-	 * @param lat latitude coordinate
-	 * @param lng longitude coordinate
+	 * @param name     of place
+	 * @param lang     language of place
+	 * @param lat      latitude coordinate
+	 * @param lng      longitude coordinate
 	 * @param accuracy of coordinates in meters
-	 * @param type type of place
+	 * @param type     type of place
 	 * @return newly created place
 	 */
 	public Place addPlace(String name, String lang, double lat, double lng, int accuracy, String type,
@@ -355,12 +348,12 @@ public class GooglePlaces {
 	/**
 	 * Adds a new place to Places API and returns the newly created Place.
 	 *
-	 * @param name of place
-	 * @param lang language of place
-	 * @param lat latitude coordinate
-	 * @param lng longitude coordinate
+	 * @param name     of place
+	 * @param lang     language of place
+	 * @param lat      latitude coordinate
+	 * @param lng      longitude coordinate
 	 * @param accuracy of coordinates in meters
-	 * @param type type of place
+	 * @param type     type of place
 	 * @return newly created place
 	 */
 	public Place addPlace(String name, String lang, double lat, double lng, int accuracy, String type,
@@ -400,7 +393,7 @@ public class GooglePlaces {
 	 * Bumps a place within the application. Bumps are reflected in your place searches for your application only.
 	 * Bumping a place makes it appear higher in the result set.
 	 *
-	 * @param place to bump
+	 * @param place       to bump
 	 * @param extraParams to append to request url
 	 */
 	public void bumpPlace(Place place, Param... extraParams) {
@@ -420,7 +413,7 @@ public class GooglePlaces {
 	 * Bumps an event within the application. Bumps are reflected in your place searches for your application only.
 	 * Bumping an event makes it appear higher in the result set.
 	 *
-	 * @param event to bump
+	 * @param event       to bump
 	 * @param extraParams to append to request url
 	 */
 	public void bumpEvent(Event event, Param... extraParams) {
@@ -452,7 +445,7 @@ public class GooglePlaces {
 			String uri = String.format("%sphoto?photoreference=%s&sensor=%b&key=%s", API_URL, photo.getReference(),
 					sensor, apiKey);
 
-			List<Param> params = new ArrayList<Param>(Arrays.asList(extraParams));
+			List<Param> params = new ArrayList<>(Arrays.asList(extraParams));
 			if (maxHeight != -1) params.add(Param.name("maxheight").value(maxHeight));
 			if (maxWidth != -1) params.add(Param.name("maxwidth").value(maxWidth));
 			extraParams = params.toArray(new Param[params.size()]);
@@ -467,8 +460,8 @@ public class GooglePlaces {
 	/**
 	 * Returns the event at the specified place with the specified event id.
 	 *
-	 * @param place reference to place the event is at
-	 * @param eventId id of event
+	 * @param place       reference to place the event is at
+	 * @param eventId     id of event
 	 * @param extraParams to append to request url
 	 * @return event
 	 */
@@ -486,11 +479,11 @@ public class GooglePlaces {
 	/**
 	 * Adds a new Event to Google Places API.
 	 *
-	 * @param place to add to
-	 * @param summary of event
-	 * @param lang language of event
-	 * @param url url of event
-	 * @param duration length of event in seconds
+	 * @param place       to add to
+	 * @param summary     of event
+	 * @param lang        language of event
+	 * @param url         url of event
+	 * @param duration    length of event in seconds
 	 * @param returnEvent if GET request should be made to retrieve the newly created event
 	 * @param extraParams to append to request url
 	 * @return newly created event
@@ -514,11 +507,11 @@ public class GooglePlaces {
 	/**
 	 * Adds a new Event to Google Places API.
 	 *
-	 * @param place to add to
-	 * @param summary of event
-	 * @param lang language of event
-	 * @param url url of event
-	 * @param duration length of event in seconds
+	 * @param place       to add to
+	 * @param summary     of event
+	 * @param lang        language of event
+	 * @param url         url of event
+	 * @param duration    length of event in seconds
 	 * @param extraParams to append to request url
 	 * @return newly created event
 	 */
@@ -529,9 +522,9 @@ public class GooglePlaces {
 	/**
 	 * Adds a new Event to Google Places API.
 	 *
-	 * @param place to add to
-	 * @param summary of event
-	 * @param duration length of event in seconds
+	 * @param place       to add to
+	 * @param summary     of event
+	 * @param duration    length of event in seconds
 	 * @param extraParams to append to request url
 	 * @return newly created event
 	 */
@@ -542,9 +535,9 @@ public class GooglePlaces {
 	/**
 	 * Adds a new Event to Google Places API.
 	 *
-	 * @param place to add to
-	 * @param summary of event
-	 * @param duration length of event in seconds
+	 * @param place       to add to
+	 * @param summary     of event
+	 * @param duration    length of event in seconds
 	 * @param extraParams to append to request url
 	 * @return newly created event
 	 */
@@ -556,8 +549,8 @@ public class GooglePlaces {
 	 * Deletes the specified event from Places API.
 	 *
 	 * @param placeReference that contains event
-	 * @param eventId unique event id
-	 * @param extraParams to append to request url
+	 * @param eventId        unique event id
+	 * @param extraParams    to append to request url
 	 */
 	public void deleteEvent(String placeReference, String eventId, Param... extraParams) {
 		try {
@@ -576,7 +569,7 @@ public class GooglePlaces {
 	/**
 	 * Deletes the specified event from Places API.
 	 *
-	 * @param event to delete
+	 * @param event       to delete
 	 * @param extraParams to append to request url
 	 */
 	public void deleteEvent(Event event, Param... extraParams) {
@@ -597,7 +590,7 @@ public class GooglePlaces {
 	/**
 	 * Returns a list of auto-complete predictions for searching for a specific place.
 	 *
-	 * @param input user input
+	 * @param input       user input
 	 * @param extraParams to append to request url
 	 * @return list of predictions
 	 */
@@ -608,7 +601,7 @@ public class GooglePlaces {
 	/**
 	 * Returns a list of auto-complete predictions for searching for a place by a query.
 	 *
-	 * @param input user input
+	 * @param input       user input
 	 * @param extraParams to append to request url
 	 * @return list of predictions
 	 */
@@ -697,13 +690,12 @@ public class GooglePlaces {
 	public static final String STRING_DESCRIPTION = "description"; // Description of autocomplete prediction
 	public static final String STRING_VALUE = "value"; // Used for autocomplete terms
 
-	private List<Place> getPlaces(String uri, String method, boolean sensor, int limit)
-			throws IOException, JSONException {
+	private List<Place> getPlaces(String uri, String method, boolean sensor, int limit) throws IOException {
 
 		limit = Math.min(limit, MAXIMUM_RESULTS); // max of 60 results possible
 		int pages = (int) Math.ceil(limit / (double) MAXIMUM_PAGE_RESULTS);
 
-		List<Place> places = new ArrayList<Place>();
+		List<Place> places = new ArrayList<>();
 		// new request for each page
 		for (int i = 0; i < pages; i++) {
 			String raw = get(client, uri);
@@ -730,20 +722,21 @@ public class GooglePlaces {
 	}
 
 	protected static void checkStatus(String statusCode) {
-		if (statusCode.equals(STATUS_OVER_QUERY_LIMIT)) {
-			throw new GooglePlacesException(statusCode,
-					"You have fufilled the maximum amount of queries permitted by your API key.");
-		} else if (statusCode.equals(STATUS_REQUEST_DENIED)) {
-			throw new GooglePlacesException(statusCode,
-					"The request to the server was denied. (are you missing the sensor parameter?)");
-		} else if (statusCode.equals(STATUS_INVALID_REQUEST)) {
-			throw new GooglePlacesException(statusCode,
-					"The request sent to the server was invalid. (are you missing a required parameter?)");
-		} else if (statusCode.equals(STATUS_UNKNOWN_ERROR)) {
-			throw new GooglePlacesException(statusCode,
-					"An internal server-side error occurred. Trying again may be successful.");
-		} else if (statusCode.equals(STATUS_NOT_FOUND)) {
-			throw new GooglePlacesException(statusCode, "The requested resource was not found.");
+		switch (statusCode) {
+			case STATUS_OVER_QUERY_LIMIT:
+				throw new GooglePlacesException(statusCode,
+						"You have fufilled the maximum amount of queries permitted by your API key.");
+			case STATUS_REQUEST_DENIED:
+				throw new GooglePlacesException(statusCode,
+						"The request to the server was denied. (are you missing the sensor parameter?)");
+			case STATUS_INVALID_REQUEST:
+				throw new GooglePlacesException(statusCode,
+						"The request sent to the server was invalid. (are you missing a required parameter?)");
+			case STATUS_UNKNOWN_ERROR:
+				throw new GooglePlacesException(statusCode,
+						"An internal server-side error occurred. Trying again may be successful.");
+			case STATUS_NOT_FOUND:
+				throw new GooglePlacesException(statusCode, "The requested resource was not found.");
 		}
 	}
 
@@ -814,7 +807,7 @@ public class GooglePlaces {
 			}
 
 			// the place "types"
-			List<String> types = new ArrayList<String>();
+			List<String> types = new ArrayList<>();
 			JSONArray jsonTypes = result.optJSONArray(ARRAY_TYPES);
 			if (jsonTypes != null) {
 				for (int a = 0; a < jsonTypes.length(); a++) {
@@ -825,7 +818,7 @@ public class GooglePlaces {
 			Place place = new Place();
 
 			// get the events going on at the place
-			List<Event> events = new ArrayList<Event>();
+			List<Event> events = new ArrayList<>();
 			JSONArray jsonEvents = result.optJSONArray(ARRAY_EVENTS);
 			if (jsonEvents != null) {
 				for (int b = 0; b < jsonEvents.length(); b++) {

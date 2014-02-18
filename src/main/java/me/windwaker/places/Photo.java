@@ -25,8 +25,8 @@ public class Photo {
 	/**
 	 * Downloads the photo and caches it within the photo.
 	 *
-	 * @param maxWidth of photo
-	 * @param maxHeight of photo
+	 * @param maxWidth    of photo
+	 * @param maxHeight   of photo
 	 * @param extraParams to append to request url
 	 * @return this
 	 */

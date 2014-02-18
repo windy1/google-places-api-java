@@ -7,9 +7,6 @@ import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.impl.client.DefaultHttpClient;
 
-import javax.imageio.ImageIO;
-import javax.imageio.stream.ImageInputStream;
-import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.io.InputStream;
 
@@ -62,7 +59,7 @@ public final class HttpUtil {
 	 * Returns the raw POST response from the specified uri.
 	 *
 	 * @param client to use
-	 * @param post to send
+	 * @param post   to send
 	 * @return string response
 	 * @throws IOException
 	 */
@@ -78,7 +75,7 @@ public final class HttpUtil {
 	 * Returns the raw POST response from the specified uri.
 	 *
 	 * @param client to use
-	 * @param uri to send
+	 * @param uri    to send
 	 * @return string response
 	 * @throws IOException
 	 */
@@ -93,8 +90,7 @@ public final class HttpUtil {
 	protected static InputStream getInputStream(HttpClient client, String uri) throws IOException {
 		try {
 			HttpGet get = new HttpGet(uri);
-			InputStream in = client.execute(get).getEntity().getContent();
-			return in;
+			return client.execute(get).getEntity().getContent();
 		} catch (Exception e) {
 			throw new IOException(e);
 		}
@@ -109,7 +105,7 @@ public final class HttpUtil {
 	 * @return string response
 	 * @throws IOException
 	 */
-	protected static String readString(HttpResponse response) throws IOException {
+	private static String readString(HttpResponse response) throws IOException {
 		String str = IOUtils.toString(response.getEntity().getContent(), CHARACTER_ENCODING);
 		if (str == null || str.trim().length() == 0) {
 			return null;

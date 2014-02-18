@@ -10,7 +10,7 @@ import java.io.File;
 import java.util.List;
 import java.util.Random;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.fail;
 
 public class GooglePlacesTest {
 	private static final double EMPIRE_STATE_BUILDING_LATITUDE = 40.748444;

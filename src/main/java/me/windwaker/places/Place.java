@@ -27,11 +27,11 @@ public class Place {
 	private String name;
 	private String addr;
 	private String vicinity;
-	private final List<String> types = new ArrayList<String>();
-	private final List<Event> events = new ArrayList<Event>();
-	private final List<Photo> photos = new ArrayList<Photo>();
-	private final List<Review> reviews = new ArrayList<Review>();
-	private final List<AddressComponent> addressComponents = new ArrayList<AddressComponent>();
+	private final List<String> types = new ArrayList<>();
+	private final List<Event> events = new ArrayList<>();
+	private final List<Photo> photos = new ArrayList<>();
+	private final List<Review> reviews = new ArrayList<>();
+	private final List<AddressComponent> addressComponents = new ArrayList<>();
 	private double rating = -1;
 	private Status status = Status.NONE;
 	private Price price = Price.NONE;
@@ -804,7 +804,7 @@ public class Place {
 	/**
 	 * Parses a detailed Place object.
 	 *
-	 * @param client api client
+	 * @param client  api client
 	 * @param rawJson json to parse
 	 * @return a detailed place
 	 */
@@ -879,7 +879,7 @@ public class Place {
 
 		// photos
 		JSONArray jsonPhotos = result.optJSONArray(ARRAY_PHOTOS);
-		List<Photo> photos = new ArrayList<Photo>();
+		List<Photo> photos = new ArrayList<>();
 		if (jsonPhotos != null) {
 			for (int i = 0; i < jsonPhotos.length(); i++) {
 				JSONObject jsonPhoto = jsonPhotos.getJSONObject(i);
@@ -892,7 +892,7 @@ public class Place {
 
 		// address components
 		JSONArray addrComponents = result.optJSONArray(ARRAY_ADDRESS_COMPONENTS);
-		List<AddressComponent> addressComponents = new ArrayList<AddressComponent>();
+		List<AddressComponent> addressComponents = new ArrayList<>();
 		if (addrComponents != null) {
 			for (int i = 0; i < addrComponents.length(); i++) {
 				JSONObject ac = addrComponents.getJSONObject(i);
@@ -918,7 +918,7 @@ public class Place {
 
 		// events
 		JSONArray events = result.optJSONArray(ARRAY_EVENTS);
-		List<Event> eventList = new ArrayList<Event>();
+		List<Event> eventList = new ArrayList<>();
 		if (events != null) {
 			for (int i = 0; i < events.length(); i++) {
 				JSONObject event = events.getJSONObject(i);
@@ -927,14 +927,14 @@ public class Place {
 				String summary = event.optString(STRING_SUMMARY, null);
 				String eventUrl = event.optString(STRING_URL, null);
 
-				eventList.add(new Event().setId(id).setSummary(summary).setUrl(eventUrl).setStartTime(startTime)
+				eventList.add(new Event().setId(eventId).setSummary(summary).setUrl(eventUrl).setStartTime(startTime)
 						.setPlace(place));
 			}
 		}
 
 		// types
 		JSONArray jsonTypes = result.optJSONArray(ARRAY_TYPES);
-		List<String> types = new ArrayList<String>();
+		List<String> types = new ArrayList<>();
 		if (jsonTypes != null) {
 			for (int i = 0; i < jsonTypes.length(); i++) {
 				types.add(jsonTypes.getString(i));
@@ -943,7 +943,7 @@ public class Place {
 
 		// reviews
 		JSONArray jsonReviews = result.optJSONArray(ARRAY_REVIEWS);
-		List<Review> reviews = new ArrayList<Review>();
+		List<Review> reviews = new ArrayList<>();
 		if (jsonReviews != null) {
 			for (int i = 0; i < jsonReviews.length(); i++) {
 				JSONObject jsonReview = jsonReviews.getJSONObject(i);
@@ -957,7 +957,7 @@ public class Place {
 
 				// aspects of the review
 				JSONArray jsonAspects = jsonReview.optJSONArray(ARRAY_ASPECTS);
-				List<Review.Aspect> aspects = new ArrayList<Review.Aspect>();
+				List<Review.Aspect> aspects = new ArrayList<>();
 				if (jsonAspects != null) {
 					for (int a = 0; a < jsonAspects.length(); a++) {
 						JSONObject jsonAspect = jsonAspects.getJSONObject(a);
