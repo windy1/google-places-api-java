@@ -1,6 +1,6 @@
-package me.windwaker.places;
+package se.walkercrou.places;
 
-import me.windwaker.places.exception.GooglePlacesException;
+import se.walkercrou.places.exception.GooglePlacesException;
 
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
@@ -46,7 +46,7 @@ public class Photo {
 	}
 
 	/**
-	 * Returns the input stream of the image. {@link #download(int, int, me.windwaker.places.GooglePlaces.Param...)}
+	 * Returns the input stream of the image. {@link #download(int, int, se.walkercrou.places.GooglePlaces.Param...)}
 	 * must be called prior to calling this.
 	 *
 	 * @return input stream

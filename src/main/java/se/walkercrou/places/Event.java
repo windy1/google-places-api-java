@@ -1,13 +1,13 @@
-package me.windwaker.places;
+package se.walkercrou.places;
 
 import org.json.JSONObject;
 
 import java.util.Date;
 
-import static me.windwaker.places.GooglePlaces.*;
+import static se.walkercrou.places.GooglePlaces.*;
 
 /**
- * Represents an Event at a {@link me.windwaker.places.Place}.
+ * Represents an Event at a {@link se.walkercrou.places.Place}.
  */
 public class Event {
 	private Place place;

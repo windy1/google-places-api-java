@@ -1,4 +1,4 @@
-package me.windwaker.places;
+package se.walkercrou.places;
 
 import org.apache.commons.io.IOUtils;
 import org.apache.http.HttpResponse;

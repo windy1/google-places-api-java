@@ -1,4 +1,4 @@
-package me.windwaker.places;
+package se.walkercrou.places;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -149,7 +149,7 @@ public class Review {
 	}
 
 	/**
-	 * Adds an {@link me.windwaker.places.Review.Aspect} to the review.
+	 * Adds an {@link se.walkercrou.places.Review.Aspect} to the review.
 	 *
 	 * @param aspect to add
 	 * @return this

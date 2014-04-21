@@ -1,4 +1,4 @@
-package me.windwaker.places;
+package se.walkercrou.places;
 
 /**
  * Represents a day in the week.

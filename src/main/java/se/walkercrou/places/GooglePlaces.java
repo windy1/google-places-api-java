@@ -1,6 +1,6 @@
-package me.windwaker.places;
+package se.walkercrou.places;
 
-import me.windwaker.places.exception.GooglePlacesException;
+import se.walkercrou.places.exception.GooglePlacesException;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.entity.StringEntity;
@@ -14,7 +14,7 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
 
-import static me.windwaker.places.HttpUtil.*;
+import static se.walkercrou.places.HttpUtil.*;
 
 /**
  * A Java binding for the Google Places API:

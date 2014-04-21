@@ -5,7 +5,7 @@
     <modelVersion>4.0.0</modelVersion>
 
     <name>google-places-api-java</name>
-    <groupId>me.windwaker.places</groupId>
+    <groupId>se.walkercrou.places</groupId>
     <artifactId>google-places-api-java</artifactId>
     <version>1.0.3</version>
     <packaging>jar</packaging>

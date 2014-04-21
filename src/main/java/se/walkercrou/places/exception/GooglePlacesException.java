@@ -1,4 +1,4 @@
-package me.windwaker.places.exception;
+package se.walkercrou.places.exception;
 
 public class GooglePlacesException extends RuntimeException {
 	private final String statusCode;

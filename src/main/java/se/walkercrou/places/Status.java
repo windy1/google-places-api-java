@@ -1,4 +1,4 @@
-package me.windwaker.places;
+package se.walkercrou.places;
 
 /**
  * Represents the current status of the place in time.

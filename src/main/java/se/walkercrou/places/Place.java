@@ -1,6 +1,6 @@
-package me.windwaker.places;
+package se.walkercrou.places;
 
-import me.windwaker.places.exception.GooglePlacesException;
+import se.walkercrou.places.exception.GooglePlacesException;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
@@ -12,7 +12,7 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 
-import static me.windwaker.places.GooglePlaces.*;
+import static se.walkercrou.places.GooglePlaces.*;
 
 /**
  * Represents a place returned by Google Places API_
@@ -47,7 +47,7 @@ public class Place {
 	}
 
 	/**
-	 * Sets the {@link me.windwaker.places.GooglePlaces} client associated with this Place object.
+	 * Sets the {@link se.walkercrou.places.GooglePlaces} client associated with this Place object.
 	 *
 	 * @param client to set
 	 * @return this
@@ -147,7 +147,7 @@ public class Place {
 	}
 
 	/**
-	 * Returns the {@link me.windwaker.places.Hours} for this place.
+	 * Returns the {@link se.walkercrou.places.Hours} for this place.
 	 *
 	 * @return hours of operation
 	 */
@@ -156,7 +156,7 @@ public class Place {
 	}
 
 	/**
-	 * Sets the {@link me.windwaker.places.Hours} of this place.
+	 * Sets the {@link se.walkercrou.places.Hours} of this place.
 	 *
 	 * @param hours of operation
 	 * @return this
@@ -648,7 +648,7 @@ public class Place {
 	}
 
 	/**
-	 * Returns the {@link me.windwaker.places.Status} of this place.
+	 * Returns the {@link se.walkercrou.places.Status} of this place.
 	 *
 	 * @return status
 	 */
@@ -657,7 +657,7 @@ public class Place {
 	}
 
 	/**
-	 * Sets the {@link me.windwaker.places.Status} of this place.
+	 * Sets the {@link se.walkercrou.places.Status} of this place.
 	 *
 	 * @param status to set
 	 * @return this
@@ -668,7 +668,7 @@ public class Place {
 	}
 
 	/**
-	 * Returns the {@link me.windwaker.places.Price} of this place.
+	 * Returns the {@link se.walkercrou.places.Price} of this place.
 	 *
 	 * @return price
 	 */
@@ -677,7 +677,7 @@ public class Place {
 	}
 
 	/**
-	 * Sets the {@link me.windwaker.places.Price} of this place.
+	 * Sets the {@link se.walkercrou.places.Price} of this place.
 	 *
 	 * @param price to set
 	 * @return this

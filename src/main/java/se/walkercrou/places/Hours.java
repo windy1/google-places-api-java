@@ -1,4 +1,4 @@
-package me.windwaker.places;
+package se.walkercrou.places;
 
 import java.util.ArrayList;
 import java.util.Collection;
