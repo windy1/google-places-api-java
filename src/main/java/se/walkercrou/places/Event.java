@@ -4,6 +4,8 @@ import org.json.JSONObject;
 
 import java.util.Date;
 
+import java.io.Serializable;
+
 import static se.walkercrou.places.GooglePlaces.*;
 
 /**
