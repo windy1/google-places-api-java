@@ -11,13 +11,13 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
-
+import java.io.Serializable;
 import static se.walkercrou.places.GooglePlaces.*;
 
 /**
  * Represents a place returned by Google Places API_
  */
-public class Place {
+public class Place implements Serializable {
 	private GooglePlaces client;
 	private String id;
 	private double lat = -1, lng = -1;

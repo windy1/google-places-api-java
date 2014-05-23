@@ -4,12 +4,14 @@ import org.json.JSONObject;
 
 import java.util.Date;
 
+import java.io.Serializable;
+
 import static se.walkercrou.places.GooglePlaces.*;
 
 /**
  * Represents an Event at a {@link se.walkercrou.places.Place}.
  */
-public class Event {
+public class Event implements Serializable{
 	private Place place;
 	private String id;
 	private String summary, url, lang;
