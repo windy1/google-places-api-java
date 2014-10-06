@@ -253,7 +253,7 @@ development)
 You can also receive auto-complete predictions for Places with general queries such as "pizza in New York".
 
 ```java
-List<Prediction> predictions = client.getPlacePredictions("pizza in New York");
+List<Prediction> predictions = client.getQueryPredictions("pizza in New York");
 ```
 
 ## Android integration
