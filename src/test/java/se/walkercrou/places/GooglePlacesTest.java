@@ -7,28 +7,28 @@ import org.junit.Test;
 import java.io.InputStream;
 import java.util.List;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.fail;
 
 public class GooglePlacesTest {
-	private static final double EMPIRE_STATE_BUILDING_LATITUDE = 40.748444;
-	private static final double EMPIRE_STATE_BUILDING_LONGITUDE = -73.985658;
+    private static final double EMPIRE_STATE_BUILDING_LATITUDE = 40.748444;
+    private static final double EMPIRE_STATE_BUILDING_LONGITUDE = -73.985658;
     private static final String API_KEY_FILE_NAME = "places_api.key";
     private static final String TEST_PLACE_NAME = "University of Vermont";
     private static final double TEST_PLACE_LAT = 44.478025, TEST_PLACE_LNG = -73.196475;
-	private GooglePlaces google;
+    private GooglePlaces google;
 
-	@Before
-	public void setUp() {
-		try {
+    @Before
+    public void setUp() {
+        try {
             InputStream in = GooglePlacesTest.class.getResourceAsStream("/" + API_KEY_FILE_NAME);
             if (in == null)
                 throw new RuntimeException("API key not found.");
-			google = new GooglePlaces(IOUtils.toString(in));
+            google = new GooglePlaces(IOUtils.toString(in));
             google.setDebugModeEnabled(true);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-	}
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
 
     @Test
     public void testGetNearbyPlaces() {
