@@ -1,11 +1,10 @@
 package se.walkercrou.places;
 
-import se.walkercrou.places.exception.GooglePlacesException;
-import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.entity.StringEntity;
 import org.json.JSONArray;
 import org.json.JSONObject;
+import se.walkercrou.places.exception.GooglePlacesException;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -13,8 +12,6 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
-
-import static se.walkercrou.places.HttpUtil.*;
 
 /**
  * A Java binding for the Google Places API:
@@ -25,49 +22,86 @@ public class GooglePlaces {
 	 * The URL of which Google Places API is located.
 	 */
 	public static final String API_URL = "https://maps.googleapis.com/maps/api/place/";
-	private final String apiKey;
-	private final HttpClient client;
-	private boolean sensor;
+    private String apiKey;
+    private RequestHandler requestHandler;
+    private boolean debugModeEnabled;
 
 	/**
-	 * Creates a new GooglePlaces object using the specified API key and the specified HttpClient.
+	 * Creates a new GooglePlaces object using the specified API key and the specified {@link RequestHandler}.
 	 *
 	 * @param apiKey that has been registered on the Google Developer Console
-	 * @param client to handle HTTP traffic
+	 * @param requestHandler to handle HTTP traffic
 	 */
-	public GooglePlaces(String apiKey, HttpClient client) {
+	public GooglePlaces(String apiKey, RequestHandler requestHandler) {
 		this.apiKey = apiKey;
-		this.client = client;
+		this.requestHandler = requestHandler;
 	}
 
-	/**
-	 * Creates a new GooglePlaces object using the specified API key and the default HttpClient.
-	 *
-	 * @param apiKey that has been registered on the Google Developer Console
-	 */
-	public GooglePlaces(String apiKey) {
-		this(apiKey, DEFAULT_CLIENT);
-	}
+    /**
+     * Creates a new GooglePlaces object using the specified API key.
+     *
+     * @param apiKey that has been registered on the Google Developer Console
+     */
+    public GooglePlaces(String apiKey) {
+        this(apiKey, new DefaultRequestHandler());
+    }
+
+    /**
+     * Creates a new GooglePlaces object using the specified API key and character encoding. Using a character encoding
+     * other than UTF-8 is not advised.
+     *
+     * @param apiKey that has been registered on the Google Developer Console
+     * @param characterEncoding to parse data with
+     */
+    public GooglePlaces(String apiKey, String characterEncoding) {
+        this(apiKey, new DefaultRequestHandler(characterEncoding));
+    }
 
 	/**
 	 * Set this to true if the device you are using has a location detector such as GPS.
 	 *
 	 * @param sensor if sensor is enabled
+     * @deprecated the sensor parameter is no longer required
 	 */
+    @Deprecated
 	public void setSensorEnabled(boolean sensor) {
-		this.sensor = sensor;
 	}
 
 	/**
 	 * Returns true if the device has a location sensor.
 	 *
-	 * @return true if has location sensor
+	 * @return false
+     * @deprecated the sensor parameter is no longer required
 	 */
+    @Deprecated
 	public boolean isSensorEnabled() {
-		return sensor;
+        return false;
 	}
 
-	/**
+    /**
+     * Returns true if the client is running in debug mode.
+     *
+     * @return true if debug mode
+     */
+    public boolean isDebugModeEnabled() {
+        return debugModeEnabled;
+    }
+
+    /**
+     * Sets if the client should run in debug mode.
+     *
+     * @param debugModeEnabled true if in debug mode
+     */
+    public void setDebugModeEnabled(boolean debugModeEnabled) {
+        this.debugModeEnabled = debugModeEnabled;
+    }
+
+    private void debug(String msg) {
+        if (debugModeEnabled)
+            System.out.println(msg);
+    }
+
+    /**
 	 * Returns the API key associated with this GooglePlaces object.
 	 *
 	 * @return api key
@@ -76,14 +110,32 @@ public class GooglePlaces {
 		return apiKey;
 	}
 
-	/**
-	 * Returns the http client that is handling http traffic.
-	 *
-	 * @return http client
-	 */
-	public HttpClient getHttpClient() {
-		return client;
-	}
+    /**
+     * Sets the API key associated with this GooglePlaces object.
+     *
+     * @param apiKey to set
+     */
+    public void setApiKey(String apiKey) {
+        this.apiKey = apiKey;
+    }
+
+    /**
+     * Returns the interface that handles HTTP requests to Google's server.
+     *
+     * @return request handler for HTTP traffic
+     */
+    public RequestHandler getRequestHandler() {
+        return requestHandler;
+    }
+
+    /**
+     * Sets the request handler to delegate HTTP traffic.
+     *
+     * @param requestHandler to handle HTTP traffic
+     */
+    public void setRequestHandler(RequestHandler requestHandler) {
+        this.requestHandler = requestHandler;
+    }
 
 	/**
 	 * Represents an extra, optional parameter that can be specified.
@@ -175,9 +227,9 @@ public class GooglePlaces {
 	 */
 	public List<Place> getNearbyPlaces(double lat, double lng, double radius, int limit, Param... extraParams) {
 		try {
-			String uri = buildUrl(METHOD_NEARBY_SEARCH, String.format("key=%s&location=%f,%f&radius=%f&sensor=%b",
-					apiKey, lat, lng, radius, sensor), extraParams);
-			return getPlaces(uri, METHOD_NEARBY_SEARCH, sensor, limit);
+			String uri = buildUrl(METHOD_NEARBY_SEARCH, String.format("key=%s&location=%f,%f&radius=%f",
+					apiKey, lat, lng, radius), extraParams);
+            return getPlaces(uri, METHOD_NEARBY_SEARCH, limit);
 		} catch (Exception e) {
 			throw new GooglePlacesException(e);
 		}
@@ -209,9 +261,9 @@ public class GooglePlaces {
 	 */
 	public List<Place> getPlacesByQuery(String query, int limit, Param... extraParams) {
 		try {
-			String uri = buildUrl(METHOD_TEXT_SEARCH, String.format("query=%s&key=%s&sensor=%b", query, apiKey, sensor),
+			String uri = buildUrl(METHOD_TEXT_SEARCH, String.format("query=%s&key=%s", query, apiKey),
 					extraParams);
-			return getPlaces(uri, METHOD_TEXT_SEARCH, sensor, limit);
+            return getPlaces(uri, METHOD_TEXT_SEARCH, limit);
 		} catch (Exception e) {
 			throw new GooglePlacesException(e);
 		}
@@ -243,9 +295,9 @@ public class GooglePlaces {
 	 */
 	public List<Place> getPlacesByRadar(double lat, double lng, double radius, int limit, Param... extraParams) {
 		try {
-			String uri = buildUrl(METHOD_RADAR_SEARCH, String.format("key=%s&location=%f,%f&radius=%f&sensor=%b",
-					apiKey, lat, lng, radius, sensor), extraParams);
-			return getPlaces(uri, METHOD_RADAR_SEARCH, sensor, limit);
+			String uri = buildUrl(METHOD_RADAR_SEARCH, String.format("key=%s&location=%f,%f&radius=%f",
+					apiKey, lat, lng, radius), extraParams);
+            return getPlaces(uri, METHOD_RADAR_SEARCH, limit);
 		} catch (Exception e) {
 			throw new GooglePlacesException(e);
 		}
@@ -275,9 +327,9 @@ public class GooglePlaces {
 	 */
 	public Place getPlace(String reference, Param... extraParams) {
 		try {
-			String uri = buildUrl(METHOD_DETAILS, String.format("key=%s&reference=%s&sensor=%b", apiKey, reference,
-					sensor), extraParams);
-			return Place.parseDetails(this, get(client, uri));
+			String uri = buildUrl(METHOD_DETAILS, String.format("key=%s&reference=%s", apiKey, reference),
+                    extraParams);
+            return Place.parseDetails(this, requestHandler.get(uri));
 		} catch (Exception e) {
 			throw new GooglePlacesException(e);
 		}
@@ -299,14 +351,14 @@ public class GooglePlaces {
 	public Place addPlace(String name, String lang, double lat, double lng, int accuracy, Collection<String> types,
 						  boolean returnPlace, Param... extraParams) {
 		try {
-			String uri = buildUrl(METHOD_ADD, String.format("sensor=%b&key=%s", sensor, apiKey), extraParams);
+			String uri = buildUrl(METHOD_ADD, String.format("key=%s", apiKey), extraParams);
 			JSONObject input = Place.buildInput(lat, lng, accuracy, name, types, lang);
 			HttpPost post = new HttpPost(uri);
 			post.setEntity(new StringEntity(input.toString()));
-			JSONObject response = new JSONObject(post(client, post));
+			JSONObject response = new JSONObject(requestHandler.post(post));
 			String status = response.getString(STRING_STATUS);
 			checkStatus(status);
-			return returnPlace ? getPlace(response.getString(STRING_REFERENCE)) : null;
+            return returnPlace ? getPlace(response.getString(STRING_REFERENCE)) : null;
 		} catch (Exception e) {
 			throw new GooglePlacesException(e);
 		}
@@ -368,11 +420,11 @@ public class GooglePlaces {
 	 */
 	public void deletePlace(String reference, Param... extraParams) {
 		try {
-			String uri = buildUrl(METHOD_DELETE, String.format("sensor=%b&key=%s", sensor, apiKey), extraParams);
+			String uri = buildUrl(METHOD_DELETE, String.format("key=%s", apiKey), extraParams);
 			JSONObject input = new JSONObject().put(STRING_REFERENCE, reference);
 			HttpPost post = new HttpPost(uri);
 			post.setEntity(new StringEntity(input.toString()));
-			JSONObject response = new JSONObject(post(client, post));
+			JSONObject response = new JSONObject(requestHandler.post(post));
 			String status = response.getString(STRING_STATUS);
 			checkStatus(status);
 		} catch (Exception e) {
@@ -398,11 +450,11 @@ public class GooglePlaces {
 	 */
 	public void bumpPlace(Place place, Param... extraParams) {
 		try {
-			String uri = buildUrl(METHOD_BUMP, String.format("sensor=%b&key=%s", sensor, apiKey), extraParams);
+			String uri = buildUrl(METHOD_BUMP, String.format("key=%s", apiKey), extraParams);
 			HttpPost post = new HttpPost(uri);
 			JSONObject input = new JSONObject().put(STRING_REFERENCE, place.getReferenceId());
 			post.setEntity(new StringEntity(input.toString()));
-			JSONObject response = new JSONObject(post(client, post));
+			JSONObject response = new JSONObject(requestHandler.post(post));
 			checkStatus(response.getString(STRING_STATUS));
 		} catch (Exception e) {
 			throw new GooglePlacesException(e);
@@ -418,12 +470,12 @@ public class GooglePlaces {
 	 */
 	public void bumpEvent(Event event, Param... extraParams) {
 		try {
-			String uri = buildUrl(METHOD_BUMP, String.format("sensor=%b&key=%s", sensor, apiKey), extraParams);
+			String uri = buildUrl(METHOD_BUMP, String.format("key=%s", apiKey), extraParams);
 			HttpPost post = new HttpPost(uri);
 			JSONObject input = new JSONObject().put(STRING_REFERENCE, event.getPlace().getReferenceId())
 					.put(STRING_EVENT_ID, event.getId());
 			post.setEntity(new StringEntity(input.toString()));
-			JSONObject response = new JSONObject(post(client, post));
+			JSONObject response = new JSONObject(requestHandler.post(post));
 			checkStatus(response.getString(STRING_STATUS));
 		} catch (Exception e) {
 			throw new GooglePlacesException(e);
@@ -432,7 +484,11 @@ public class GooglePlaces {
 
 	protected InputStream download(String uri) {
 		try {
-			return getInputStream(client, uri);
+			InputStream in = requestHandler.getInputStream(uri);
+            if (in == null)
+                throw new GooglePlacesException("Could not attain input stream at " + uri);
+            debug("Successfully attained InputStream at " + uri);
+            return in;
 		} catch (Exception e) {
 			throw new GooglePlacesException(e);
 		}
@@ -442,8 +498,8 @@ public class GooglePlaces {
 
 	protected InputStream downloadPhoto(Photo photo, int maxWidth, int maxHeight, Param... extraParams) {
 		try {
-			String uri = String.format("%sphoto?photoreference=%s&sensor=%b&key=%s", API_URL, photo.getReference(),
-					sensor, apiKey);
+			String uri = String.format("%sphoto?photoreference=%s&key=%s", API_URL, photo.getReference(),
+                    apiKey);
 
 			List<Param> params = new ArrayList<>(Arrays.asList(extraParams));
 			if (maxHeight != -1) params.add(Param.name("maxheight").value(maxHeight));
@@ -467,10 +523,10 @@ public class GooglePlaces {
 	 */
 	public Event getEvent(Place place, String eventId, Param... extraParams) {
 		try {
-			String uri = buildUrl(METHOD_EVENT_DETAILS, String.format("sensor=%b&key=%s&reference=%s&event_id=%s",
-					sensor, apiKey, place.getReferenceId(), eventId), extraParams);
-			String response = get(client, uri);
-			return Event.parseDetails(response).setPlace(place);
+			String uri = buildUrl(METHOD_EVENT_DETAILS, String.format("key=%s&reference=%s&event_id=%s",
+                    apiKey, place.getReferenceId(), eventId), extraParams);
+			String response = requestHandler.get(uri);
+            return Event.parseDetails(response).setPlace(place);
 		} catch (Exception e) {
 			throw new GooglePlacesException(e);
 		}
@@ -491,14 +547,14 @@ public class GooglePlaces {
 	public Event addEvent(Place place, String summary, long duration, String lang, String url, boolean returnEvent,
 						  Param... extraParams) {
 		try {
-			String uri = buildUrl(METHOD_EVENT_ADD, String.format("sensor=%b&key=%s", sensor, apiKey), extraParams);
+			String uri = buildUrl(METHOD_EVENT_ADD, String.format("key=%s", apiKey), extraParams);
 			HttpPost post = new HttpPost(uri);
 			JSONObject input = Event.buildInput(duration, lang, place.getReferenceId(), summary, url);
 			post.setEntity(new StringEntity(input.toString()));
-			JSONObject response = new JSONObject(post(client, post));
+			JSONObject response = new JSONObject(requestHandler.post(post));
 			String status = response.getString(STRING_STATUS);
 			checkStatus(status);
-			return returnEvent ? getEvent(place, response.getString(STRING_EVENT_ID)) : null;
+            return returnEvent ? getEvent(place, response.getString(STRING_EVENT_ID)) : null;
 		} catch (Exception e) {
 			throw new GooglePlacesException(e);
 		}
@@ -554,12 +610,12 @@ public class GooglePlaces {
 	 */
 	public void deleteEvent(String placeReference, String eventId, Param... extraParams) {
 		try {
-			String uri = buildUrl(METHOD_EVENT_DELETE, String.format("sensor=%b&key=%s", sensor, apiKey), extraParams);
+			String uri = buildUrl(METHOD_EVENT_DELETE, String.format("key=%s", apiKey), extraParams);
 			HttpPost post = new HttpPost(uri);
 			JSONObject input = new JSONObject().put(STRING_REFERENCE, placeReference)
 					.put(STRING_EVENT_ID, eventId);
 			post.setEntity(new StringEntity(input.toString()));
-			JSONObject response = new JSONObject(post(client, post));
+			JSONObject response = new JSONObject(requestHandler.post(post));
 			checkStatus(response.getString(STRING_STATUS));
 		} catch (Exception e) {
 			throw new GooglePlacesException(e);
@@ -578,10 +634,10 @@ public class GooglePlaces {
 
 	private List<Prediction> getPredictions(String input, String method, Param... extraParams) {
 		try {
-			String uri = buildUrl(method, String.format("input=%s&sensor=%b&key=%s", input, sensor, apiKey),
+			String uri = buildUrl(method, String.format("input=%s&key=%s", input, apiKey),
 					extraParams);
-			String response = get(client, uri);
-			return Prediction.parse(this, response);
+			String response = requestHandler.get(uri);
+            return Prediction.parse(this, response);
 		} catch (Exception e) {
 			throw new GooglePlacesException(e);
 		}
@@ -690,20 +746,25 @@ public class GooglePlaces {
 	public static final String STRING_DESCRIPTION = "description"; // Description of autocomplete prediction
 	public static final String STRING_VALUE = "value"; // Used for autocomplete terms
 
-	private List<Place> getPlaces(String uri, String method, boolean sensor, int limit) throws IOException {
+	private List<Place> getPlaces(String uri, String method, int limit) throws IOException {
 
 		limit = Math.min(limit, MAXIMUM_RESULTS); // max of 60 results possible
 		int pages = (int) Math.ceil(limit / (double) MAXIMUM_PAGE_RESULTS);
 
+        debug("Downloading and parsing place data from " + uri + "...");
+        debug("Limit: " + limit);
+        debug("Maximum pages: " + pages);
+
 		List<Place> places = new ArrayList<>();
 		// new request for each page
 		for (int i = 0; i < pages; i++) {
-			String raw = get(client, uri);
+            debug("Page: " + (i+1));
+			String raw = requestHandler.get(uri);
 			String nextPage = parse(this, places, raw, limit);
 			if (nextPage != null) {
 				limit -= MAXIMUM_PAGE_RESULTS;
-				uri = String.format("%s%s/json?pagetoken=%s&sensor=%b&key=%s",
-						API_URL, method, nextPage, sensor, apiKey);
+				uri = String.format("%s%s/json?pagetoken=%s&key=%s",
+						API_URL, method, nextPage, apiKey);
 				sleep(3000); // Page tokens have a delay before they are available
 			} else {
 				break;
@@ -784,7 +845,7 @@ public class GooglePlaces {
 
 			String id = result.getString(STRING_ID);
 			String iconUrl = result.optString(STRING_ICON, null);
-			String name = result.getString(STRING_NAME);
+			String name = result.optString(STRING_NAME);
 			String addr = result.optString(STRING_ADDRESS, null);
 			double rating = result.optDouble(DOUBLE_RATING, -1);
 			String reference = result.optString(STRING_REFERENCE, null);
