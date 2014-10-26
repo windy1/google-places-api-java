@@ -270,14 +270,3 @@ new Thread(new Runnable() {
 ```
 
 ...or run it in an [AsyncTask](http://developer.android.com/reference/android/os/AsyncTask.html).
-
-## Binaries
-
-[![Build Status](https://drone.io/github.com/windy1/google-places-api-java/status.png)](https://drone.io/github.com/windy1/google-places-api-java/latest)
-
-[Download on drone.io](https://drone.io/github.com/windy1/google-places-api-java/files). original-<artifact> signifies a JAR without dependencies.
-
-
-
-
-

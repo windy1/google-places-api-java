@@ -38,6 +38,8 @@ public class GooglePlaces {
      * The maximum search radius for places.
      */
     public static final double MAXIMUM_RADIUS = 50000;
+
+    // METHODS
     public static final String METHOD_NEARBY_SEARCH = "nearbysearch";
     public static final String METHOD_TEXT_SEARCH = "textsearch";
     public static final String METHOD_RADAR_SEARCH = "radarsearch";
@@ -51,6 +53,7 @@ public class GooglePlaces {
     public static final String METHOD_AUTOCOMPLETE = "autocomplete";
     public static final String METHOD_QUERY_AUTOCOMPLETE = "queryautocomplete";
     public static final int MAX_PHOTO_SIZE = 1600;
+
     // ARRAYS
     public static final String ARRAY_RESULTS = "results"; // Array for results
     public static final String ARRAY_TYPES = "types"; // Types of place
@@ -63,12 +66,15 @@ public class GooglePlaces {
     public static final String ARRAY_PREDICTIONS = "predictions"; // Array of autocomplete predictions
     public static final String ARRAY_TERMS = "terms"; // Array of terms describing a autocomplete prediction description
     public static final String ARRAY_MATCHED_SUBSTRINGS = "matched_substrings"; // Used for matching matched substrings for autocompletion
+
     // BOOLEANS
     public static final String BOOLEAN_OPENED = "open_now"; // If the place is opened now
+
     // DOUBLES
     public static final String DOUBLE_LATITUDE = "lat"; // Latitude of place
     public static final String DOUBLE_LONGITUDE = "lng"; // Longitude of place
     public static final String DOUBLE_RATING = "rating"; // The "rating" of the place
+
     // INTEGERS
     public static final String INTEGER_PRICE_LEVEL = "price_level"; // How expensive the place is
     public static final String INTEGER_DAY = "day"; // Day represented by an int 0-6, starting with Sunday
@@ -79,10 +85,12 @@ public class GooglePlaces {
     public static final String INTEGER_ACCURACY = "accuracy"; // Accuracy of location, in meters
     public static final String INTEGER_OFFSET = "offset"; // Used for autocomplete predictions
     public static final String INTEGER_LENGTH = "length"; // Used for autocomplete substring length
+
     // LONGS
     public static final String LONG_START_TIME = "start_time"; // The start time for an event
     public static final String LONG_TIME = "time"; // Used for the date of a review
     public static final String LONG_DURATION = "duration"; // Returns the duration of an event
+
     // OBJECTS
     public static final String OBJECT_RESULT = "result"; // Used for responses with single results
     public static final String OBJECT_GEOMETRY = "geometry"; // Geographic information
@@ -90,6 +98,7 @@ public class GooglePlaces {
     public static final String OBJECT_HOURS = "opening_hours"; // Contains open_now
     public static final String OBJECT_OPEN = "open"; // The beginning of a period
     public static final String OBJECT_CLOSE = "close"; // The end of a period
+
     // STATUS CODES
     public static final String STATUS_OK = "OK"; // Indicates the request was successful.
     public static final String STATUS_ZERO_RESULTS = "ZERO_RESULTS"; // Indicates that nothing went wrong during the request, but no places were found
@@ -98,6 +107,7 @@ public class GooglePlaces {
     public static final String STATUS_INVALID_REQUEST = "INVALID_REQUEST"; // Indicates the request was invalid, generally indicating a missing parameter
     public static final String STATUS_UNKNOWN_ERROR = "UNKNOWN_ERROR"; // Indicates an internal server-side error
     public static final String STATUS_NOT_FOUND = "NOT_FOUND"; // Indicates that a resource was could not be resolved
+
     // STRINGS
     public static final String STRING_ID = "id"; // The unique, stable, identifier for this place
     public static final String STRING_ICON = "icon"; // Url to the icon to represent this place
@@ -124,9 +134,11 @@ public class GooglePlaces {
     public static final String STRING_TEXT = "text"; // Review content
     public static final String STRING_DESCRIPTION = "description"; // Description of autocomplete prediction
     public static final String STRING_VALUE = "value"; // Used for autocomplete terms
+
     private String apiKey;
     private RequestHandler requestHandler;
     private boolean debugModeEnabled;
+
     /**
      * Creates a new GooglePlaces object using the specified API key and the specified {@link RequestHandler}.
      *
