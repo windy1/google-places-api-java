@@ -1,1 +1,12 @@
 language: java
+deploy:
+  provider: releases
+  api_key:
+    secure: NA64y1Jxz/QBygjr/5Gi0KtpRmHcWBQdZnGieNM5ApSuPRMJo9M/KDyffi5CYFscB8EV+vdsnJwyGCkNoJt4H33f/0G56FlEe2Q9GiKWm/9fDzTallkQiAiHmXvN95FVfCkNQWhT4SDEHpNgmmF+ElCcQWQbMLBL3XNuOnszp1s=
+  file:
+    - google-places-api-java.jar
+    - original-google-places-api-java.jar
+  skip_cleanup: true
+  on:
+    tags: true
+    all_branches: true
