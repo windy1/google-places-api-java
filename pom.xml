@@ -4,7 +4,7 @@
     <name>Google Places API</name>
     <groupId>se.walkercrou.places</groupId>
     <artifactId>google-places-api-java</artifactId>
-    <version>1.1.0</version>
+    <version>1.2.0</version>
 
     <properties>
         <compiler.version>1.7</compiler.version>
