@@ -5,6 +5,14 @@
     <groupId>se.walkercrou</groupId>
     <artifactId>google-places-api-java</artifactId>
     <version>1.2.4</version>
+    <url>https://github.com/windy1/google-places-api-java</url>
+    <inceptionYear>2014</inceptionYear>
+    <packaging>jar</packaging>
+
+    <issueManagement>
+        <system>GitHub</system>
+        <url>https://github.com/windy1/google-places-api-java/issues</url>
+    </issueManagement>
 
     <properties>
         <compiler.version>1.7</compiler.version>
@@ -12,6 +20,7 @@
         <httpclient.version>4.3.5</httpclient.version>
         <commons-io.version>1.3.2</commons-io.version>
         <junit.version>4.11</junit.version>
+        <mavenPlugins.groupId>org.apache.maven.plugins</mavenPlugins.groupId>
     </properties>
 
     <licenses>
@@ -70,7 +79,7 @@
         <finalName>google-places-api-java</finalName>
         <plugins>
             <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
+                <groupId>${mavenPlugins.groupId}</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
                 <version>3.2</version>
                 <configuration>
@@ -79,7 +88,7 @@
                 </configuration>
             </plugin>
             <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
+                <groupId>${mavenPlugins.groupId}</groupId>
                 <artifactId>maven-shade-plugin</artifactId>
                 <version>2.3</version>
                 <configuration>
@@ -110,7 +119,7 @@
                 </configuration>
             </plugin>
             <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
+                <groupId>${mavenPlugins.groupId}</groupId>
                 <artifactId>maven-source-plugin</artifactId>
                 <version>2.2.1</version>
                 <executions>
@@ -123,7 +132,7 @@
                 </executions>
             </plugin>
             <plugin>
-                <groupId>org.apache.maven.plugin</groupId>
+                <groupId>${mavenPlugins.groupId}</groupId>
                 <artifactId>maven-javadoc-plugin</artifactId>
                 <version>2.10.1</version>
                 <executions>
