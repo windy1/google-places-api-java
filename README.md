@@ -20,7 +20,7 @@
     * [Place prediction](#place-prediction)
     * [Query prediction](#query-prediction)
 * [Android integration](#android-integration)
-* [Binaries](#binaries)
+* [Download](#download)
 
 ## Creating the client
 
@@ -28,10 +28,10 @@
 GooglePlaces client = new GooglePlaces("yourApiKey");
 ```
 
-You may optionally provide your own HttpClient to delegate HTTP traffic.
+You may optionally provide your own RequestHandler to delegate HTTP traffic
 
 ```java
-GooglePlace client = new GooglePlaces("yourApiKey", new DefaultHttpClient());
+GooglePlace client = new GooglePlaces("yourApiKey", new MyRequestHandler());
 ```
 
 ## Place Searches
@@ -270,3 +270,7 @@ new Thread(new Runnable() {
 ```
 
 ...or run it in an [AsyncTask](http://developer.android.com/reference/android/os/AsyncTask.html).
+
+## Download
+
+Releases can be downloaded at https://github.com/windy1/google-places-api-java/releases
