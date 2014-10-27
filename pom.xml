@@ -2,9 +2,9 @@
     <modelVersion>4.0.0</modelVersion>
 
     <name>Google Places API</name>
-    <groupId>se.walkercrou.places</groupId>
+    <groupId>se.walkercrou</groupId>
     <artifactId>google-places-api-java</artifactId>
-    <version>1.2.3</version>
+    <version>1.2.4</version>
 
     <properties>
         <compiler.version>1.7</compiler.version>
