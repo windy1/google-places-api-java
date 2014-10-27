@@ -1,5 +1,4 @@
 language: java
-before_deploy: "ls -a"
 deploy:
   provider: releases
   api_key:
