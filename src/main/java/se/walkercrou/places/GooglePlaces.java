@@ -128,6 +128,7 @@ public class GooglePlaces {
     public static final String STRING_LONG_NAME = "long_name"; // Represents an address component's long name
     public static final String STRING_SHORT_NAME = "short_name"; // Represents an address component's short name
     public static final String STRING_TYPE = "type"; // Used for singular types in review aspects
+    public static final String STRING_TYPES = "types"; // Restricts the results to places matching at least one of the specified types.
     public static final String STRING_AUTHOR_NAME = "author_name"; // Name of a review author
     public static final String STRING_AUTHOR_URL = "author_url"; // Url of author
     public static final String STRING_LANGUAGE = "language"; // Language for review localization
@@ -967,7 +968,7 @@ public class GooglePlaces {
      */
     public static class Param {
         private final String name;
-        private String value;
+        protected String value;
 
         private Param(String name) {
             this.name = name;
@@ -993,5 +994,45 @@ public class GooglePlaces {
             this.value = value.toString();
             return this;
         }
+    }
+
+    /**
+     * Represents an extra, optional type parameter that restricts the results to places matching at least one of the specified types.
+     */
+    public static class TypeParam extends Param{
+
+        private TypeParam(String name) {
+            super(name);
+        }
+
+        /**
+         * Returns a new type param with the specified name.
+         *
+         * @param name to create TypeParam from
+         * @return new param
+         */
+        public static TypeParam name(String name) {
+            return new TypeParam(name);
+        }
+
+        /**
+         * Sets the values of the Param.
+         *
+         * @param values of params
+         * @return this params
+         */
+        public Param value(List<String> values) {
+            StringBuilder valuesSb = new StringBuilder();
+            for(int i=0; i< values.size(); i++){
+                valuesSb.append(values.get(i));
+                if(i != (values.size() -1)){
+                    valuesSb.append("%7C"); // it represents a pipeline character |
+                }
+            }
+            this.value = valuesSb.toString();
+            return this;
+        }
+
+
     }
 }
