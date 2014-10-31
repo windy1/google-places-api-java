@@ -8,6 +8,7 @@ import java.io.InputStream;
 import java.util.Arrays;
 import java.util.List;
 
+import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
 public class GooglePlacesTest {
@@ -38,8 +39,7 @@ public class GooglePlacesTest {
                 GooglePlaces.MAXIMUM_RESULTS), TEST_PLACE_NAME))
             fail("Test place could not be found at coordinates.");
 
-        if (!findPlace(google.getNearbyPlaces(TEST_PLACE_LAT, TEST_PLACE_LNG, GooglePlaces.MAXIMUM_RADIUS,
-                GooglePlaces.TypeParam.name(GooglePlaces.STRING_TYPES).value(Arrays.asList(GooglePlaces.TYPE_BAR,GooglePlaces.TYPE_RESTAURANT))), TEST_PLACE_NAME))
+        if(!hasAtLeastAPlace(google.getNearbyPlaces(TEST_PLACE_LAT, TEST_PLACE_LNG, GooglePlaces.MAXIMUM_RADIUS,GooglePlaces.TypeParam.name(GooglePlaces.STRING_TYPES).value(Arrays.asList(GooglePlaces.TYPE_BAR,GooglePlaces.TYPE_RESTAURANT)))))
             fail("Test place could not be found at coordinates.");
 
         // contain within one method to prevent threading problems
@@ -74,5 +74,9 @@ public class GooglePlacesTest {
                 found = true;
         }
         return found;
+    }
+
+    private boolean hasAtLeastAPlace(List<Place> places){
+        return (places != null) && places.size() > 0;
     }
 }
