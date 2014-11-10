@@ -10,4 +10,3 @@ deploy:
   on:
     tags: true
     all_branches: true
-after_deploy: "mvn clean deploy -DskipTests -Dgpg.passphrase=$GPG_PWD --settings settings.xml"
