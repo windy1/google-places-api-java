@@ -31,7 +31,7 @@ GooglePlaces client = new GooglePlaces("yourApiKey");
 You may optionally provide your own RequestHandler to delegate HTTP traffic
 
 ```java
-GooglePlace client = new GooglePlaces("yourApiKey", new MyRequestHandler());
+GooglePlaces client = new GooglePlaces("yourApiKey", new MyRequestHandler());
 ```
 
 ## Place Searches
