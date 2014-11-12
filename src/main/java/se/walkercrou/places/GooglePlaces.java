@@ -128,12 +128,111 @@ public class GooglePlaces {
     public static final String STRING_LONG_NAME = "long_name"; // Represents an address component's long name
     public static final String STRING_SHORT_NAME = "short_name"; // Represents an address component's short name
     public static final String STRING_TYPE = "type"; // Used for singular types in review aspects
+    public static final String STRING_TYPES = "types"; // Restricts the results to places matching at least one of the specified types.
     public static final String STRING_AUTHOR_NAME = "author_name"; // Name of a review author
     public static final String STRING_AUTHOR_URL = "author_url"; // Url of author
     public static final String STRING_LANGUAGE = "language"; // Language for review localization
     public static final String STRING_TEXT = "text"; // Review content
     public static final String STRING_DESCRIPTION = "description"; // Description of autocomplete prediction
     public static final String STRING_VALUE = "value"; // Used for autocomplete terms
+
+    //TYPES
+    public static final String TYPE_ACCOUNTING = "accounting";
+    public static final String TYPE_AIRPORT = "airport";
+    public static final String TYPE_AMUSEMENT_PARK = "amusement_park";
+    public static final String TYPE_AQUARIUM = "aquarium";
+    public static final String TYPE_ART_GALLERY = "art_gallery";
+    public static final String TYPE_ATM = "atm";
+    public static final String TYPE_BAKERY = "bakery";
+    public static final String TYPE_BANK = "bank";
+    public static final String TYPE_BAR = "bar";
+    public static final String TYPE_BEAUTY_SALON = "beauty_salon";
+    public static final String TYPE_BICYCLE_STORE = "bicycle_store";
+    public static final String TYPE_BOOK_STORE = "book_store";
+    public static final String TYPE_BOWLING_ALLEY = "bowling_alley";
+    public static final String TYPE_BUS_STATION = "bus_station";
+    public static final String TYPE_CAFE = "cafe";
+    public static final String TYPE_CAMPGROUND = "campground";
+    public static final String TYPE_CAR_DEALER = "car_dealer";
+    public static final String TYPE_CAR_RENTAL = "car_rental";
+    public static final String TYPE_CAR_REPAIR = "car_repair";
+    public static final String TYPE_CAR_WASH = "car_wash";
+    public static final String TYPE_CASINO = "casino";
+    public static final String TYPE_CEMETERY = "cemetery";
+    public static final String TYPE_CHURCH = "church";
+    public static final String TYPE_CITY_HALL = "city_hall";
+    public static final String TYPE_CLOTHING_STORE = "clothing_store";
+    public static final String TYPE_CONVENIENCE_STORE = "convenience_store";
+    public static final String TYPE_COURTHOUSE = "courthouse";
+    public static final String TYPE_DENTIST = "dentist";
+    public static final String TYPE_DEPARTMENT_STORE = "department_store";
+    public static final String TYPE_DOCTOR = "doctor";
+    public static final String TYPE_ELECTRICIAN = "electrician";
+    public static final String TYPE_ELECTRONICS_STORE = "electronics_store";
+    public static final String TYPE_EMBASSY = "embassy";
+    public static final String TYPE_ESTABLISHMENT = "establishment";
+    public static final String TYPE_FINANCE = "finance";
+    public static final String TYPE_FIRE_STATION = "fire_station";
+    public static final String TYPE_FLORIST = "florist";
+    public static final String TYPE_FOOD = "food";
+    public static final String TYPE_FUNERAL_HOME = "funeral_home";
+    public static final String TYPE_FURNITURE_STORE = "furniture_store";
+    public static final String TYPE_GAS_STATION = "gas_station";
+    public static final String TYPE_GENERAL_CONTRACTOR = "general_contractor";
+    public static final String TYPE_GROCERY_OR_SUPERMARKET = "grocery_or_supermarket";
+    public static final String TYPE_GYM = "gym";
+    public static final String TYPE_HAIR_CARE = "hair_care";
+    public static final String TYPE_HARDWARE_STORE = "hardware_store";
+    public static final String TYPE_HEALTH = "health";
+    public static final String TYPE_HINDU_TEMPLE = "hindu_temple";
+    public static final String TYPE_HOME_GOODS_STORE = "home_goods_store";
+    public static final String TYPE_HOSPITAL = "hospital";
+    public static final String TYPE_INSURANCE_AGENCY = "insurance_agency";
+    public static final String TYPE_JEWELRY_STORE = "jewelry_store";
+    public static final String TYPE_LAUNDRY = "laundry";
+    public static final String TYPE_LAWYER = "lawyer";
+    public static final String TYPE_LIBRARY = "library";
+    public static final String TYPE_LIQUOR_STORE = "liquor_store";
+    public static final String TYPE_LOCAL_GOVERNMENT_OFFICE = "local_government_office";
+    public static final String TYPE_LOCKSMITH = "locksmith";
+    public static final String TYPE_LODGING = "lodging";
+    public static final String TYPE_MEAL_DELIVERY = "meal_delivery";
+    public static final String TYPE_MEAL_TAKEAWAY = "meal_takeaway";
+    public static final String TYPE_MOSQUE = "mosque";
+    public static final String TYPE_MOVIE_RENTAL = "movie_rental";
+    public static final String TYPE_MOVIE_THEATER = "movie_theater";
+    public static final String TYPE_MOVING_COMPANY = "moving_company";
+    public static final String TYPE_MUSEUM = "museum";
+    public static final String TYPE_NIGHT_CLUB = "night_club";
+    public static final String TYPE_PAINTER = "painter";
+    public static final String TYPE_PARK = "park";
+    public static final String TYPE_PARKING = "parking";
+    public static final String TYPE_PET_STORE = "pet_store";
+    public static final String TYPE_PHARMACY = "pharmacy";
+    public static final String TYPE_PHYSIOTHERAPIST = "physiotherapist";
+    public static final String TYPE_PLACE_OF_WORSHIP = "place_of_worship";
+    public static final String TYPE_PLUMBER = "plumber";
+    public static final String TYPE_POLICE = "police";
+    public static final String TYPE_POST_OFFICE = "post_office";
+    public static final String TYPE_REAL_ESTATE_AGENCY = "real_estate_agency";
+    public static final String TYPE_RESTAURANT = "restaurant";
+    public static final String TYPE_ROOFING_CONTRACTOR = "roofing_contractor";
+    public static final String TYPE_RV_PARK = "rv_park";
+    public static final String TYPE_SCHOOL = "school";
+    public static final String TYPE_SHOE_STORE = "shoe_store";
+    public static final String TYPE_SHOPPING_MALL = "shopping_mall";
+    public static final String TYPE_SPA = "spa";
+    public static final String TYPE_STADIUM = "stadium";
+    public static final String TYPE_STORAGE = "storage";
+    public static final String TYPE_STORE = "store";
+    public static final String TYPE_SUBWAY_STATION = "subway_station";
+    public static final String TYPE_SYNAGOGUE = "synagogue";
+    public static final String TYPE_TAXI_STAND = "taxi_stand";
+    public static final String TYPE_TRAIN_STATION = "train_station";
+    public static final String TYPE_TRAVEL_AGENCY = "travel_agency";
+    public static final String TYPE_UNIVERSITY = "university";
+    public static final String TYPE_VETERINARY_CARE = "veterinary_care";
+    public static final String TYPE_ZOO = "zoo";
 
     private String apiKey;
     private RequestHandler requestHandler;
@@ -869,7 +968,7 @@ public class GooglePlaces {
      */
     public static class Param {
         private final String name;
-        private String value;
+        protected String value;
 
         private Param(String name) {
             this.name = name;
@@ -895,5 +994,45 @@ public class GooglePlaces {
             this.value = value.toString();
             return this;
         }
+    }
+
+    /**
+     * Represents an extra, optional type parameter that restricts the results to places matching at least one of the specified types.
+     */
+    public static class TypeParam extends Param{
+
+        private TypeParam(String name) {
+            super(name);
+        }
+
+        /**
+         * Returns a new type param with the specified name.
+         *
+         * @param name to create TypeParam from
+         * @return new param
+         */
+        public static TypeParam name(String name) {
+            return new TypeParam(name);
+        }
+
+        /**
+         * Sets the values of the Param.
+         *
+         * @param values of params
+         * @return this params
+         */
+        public Param value(List<String> values) {
+            StringBuilder valuesSb = new StringBuilder();
+            for(int i=0; i< values.size(); i++){
+                valuesSb.append(values.get(i));
+                if(i != (values.size() -1)){
+                    valuesSb.append("%7C"); // it represents a pipeline character |
+                }
+            }
+            this.value = valuesSb.toString();
+            return this;
+        }
+
+
     }
 }
