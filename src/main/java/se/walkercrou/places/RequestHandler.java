@@ -1,7 +1,5 @@
 package se.walkercrou.places;
 
-import org.apache.http.client.methods.HttpPost;
-
 import java.io.IOException;
 import java.io.InputStream;
 
@@ -30,9 +28,10 @@ public interface RequestHandler {
     /**
      * Posts new data to the server and returns the response as a string.
      *
-     * @param data to post
+     * @param data to post in the body of the post request
+     * @param uri to post to
      * @return string returned
      * @throws IOException
      */
-    public String post(HttpPost data) throws IOException;
+    public String post(String data, String uri) throws IOException;
 }

@@ -1,7 +1,5 @@
 package se.walkercrou.places;
 
-import org.apache.http.client.methods.HttpPost;
-import org.apache.http.entity.StringEntity;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import se.walkercrou.places.exception.GooglePlacesException;
@@ -255,7 +253,7 @@ public class GooglePlaces {
      * @param apiKey that has been registered on the Google Developer Console
      */
     public GooglePlaces(String apiKey) {
-        this(apiKey, new DefaultRequestHandler());
+        this(apiKey, new GAERequestHandler());
     }
     /**
      * Creates a new GooglePlaces object using the specified API key and character encoding. Using a character encoding
@@ -615,11 +613,11 @@ public class GooglePlaces {
     public Place addPlace(String name, String lang, double lat, double lng, int accuracy, Collection<String> types,
                           boolean returnPlace, Param... extraParams) {
         try {
-            String uri = buildUrl(METHOD_ADD, String.format("key=%s", apiKey), extraParams);
-            JSONObject input = Place.buildInput(lat, lng, accuracy, name, types, lang);
-            HttpPost post = new HttpPost(uri);
-            post.setEntity(new StringEntity(input.toString()));
-            JSONObject response = new JSONObject(requestHandler.post(post));
+            String uri = buildUrl(METHOD_ADD, String.format("key=%s", apiKey));
+            JSONObject input = Place.buildInput(lat, lng, accuracy, name, types, lang, extraParams);
+
+            JSONObject response = new JSONObject(requestHandler.post(input.toString(),uri));
+
             String status = response.getString(STRING_STATUS);
             checkStatus(status);
             return returnPlace ? getPlace(response.getString(STRING_REFERENCE)) : null;
@@ -686,9 +684,9 @@ public class GooglePlaces {
         try {
             String uri = buildUrl(METHOD_DELETE, String.format("key=%s", apiKey), extraParams);
             JSONObject input = new JSONObject().put(STRING_REFERENCE, reference);
-            HttpPost post = new HttpPost(uri);
-            post.setEntity(new StringEntity(input.toString()));
-            JSONObject response = new JSONObject(requestHandler.post(post));
+
+            JSONObject response = new JSONObject(requestHandler.post(input.toString(),uri));
+
             String status = response.getString(STRING_STATUS);
             checkStatus(status);
         } catch (Exception e) {
@@ -715,10 +713,9 @@ public class GooglePlaces {
     public void bumpPlace(Place place, Param... extraParams) {
         try {
             String uri = buildUrl(METHOD_BUMP, String.format("key=%s", apiKey), extraParams);
-            HttpPost post = new HttpPost(uri);
+
             JSONObject input = new JSONObject().put(STRING_REFERENCE, place.getReferenceId());
-            post.setEntity(new StringEntity(input.toString()));
-            JSONObject response = new JSONObject(requestHandler.post(post));
+            JSONObject response = new JSONObject(requestHandler.post(input.toString(),uri));
             checkStatus(response.getString(STRING_STATUS));
         } catch (Exception e) {
             throw new GooglePlacesException(e);
@@ -735,11 +732,10 @@ public class GooglePlaces {
     public void bumpEvent(Event event, Param... extraParams) {
         try {
             String uri = buildUrl(METHOD_BUMP, String.format("key=%s", apiKey), extraParams);
-            HttpPost post = new HttpPost(uri);
+
             JSONObject input = new JSONObject().put(STRING_REFERENCE, event.getPlace().getReferenceId())
                     .put(STRING_EVENT_ID, event.getId());
-            post.setEntity(new StringEntity(input.toString()));
-            JSONObject response = new JSONObject(requestHandler.post(post));
+            JSONObject response = new JSONObject(requestHandler.post(input.toString(),uri));
             checkStatus(response.getString(STRING_STATUS));
         } catch (Exception e) {
             throw new GooglePlacesException(e);
@@ -810,10 +806,10 @@ public class GooglePlaces {
                           Param... extraParams) {
         try {
             String uri = buildUrl(METHOD_EVENT_ADD, String.format("key=%s", apiKey), extraParams);
-            HttpPost post = new HttpPost(uri);
+
             JSONObject input = Event.buildInput(duration, lang, place.getReferenceId(), summary, url);
-            post.setEntity(new StringEntity(input.toString()));
-            JSONObject response = new JSONObject(requestHandler.post(post));
+
+            JSONObject response = new JSONObject(requestHandler.post(input.toString(),uri));
             String status = response.getString(STRING_STATUS);
             checkStatus(status);
             return returnEvent ? getEvent(place, response.getString(STRING_EVENT_ID)) : null;
@@ -873,11 +869,11 @@ public class GooglePlaces {
     public void deleteEvent(String placeReference, String eventId, Param... extraParams) {
         try {
             String uri = buildUrl(METHOD_EVENT_DELETE, String.format("key=%s", apiKey), extraParams);
-            HttpPost post = new HttpPost(uri);
+
             JSONObject input = new JSONObject().put(STRING_REFERENCE, placeReference)
                     .put(STRING_EVENT_ID, eventId);
-            post.setEntity(new StringEntity(input.toString()));
-            JSONObject response = new JSONObject(requestHandler.post(post));
+
+            JSONObject response = new JSONObject(requestHandler.post(input.toString(),uri));
             checkStatus(response.getString(STRING_STATUS));
         } catch (Exception e) {
             throw new GooglePlacesException(e);
@@ -967,7 +963,7 @@ public class GooglePlaces {
      * Represents an extra, optional parameter that can be specified.
      */
     public static class Param {
-        private final String name;
+        protected final String name;
         protected String value;
 
         private Param(String name) {

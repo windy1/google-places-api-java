@@ -2,8 +2,11 @@ package se.walkercrou.places;
 
 import se.walkercrou.places.exception.GooglePlacesException;
 
-import javax.imageio.ImageIO;
-import java.awt.image.BufferedImage;
+import com.google.appengine.api.images.Image;
+import com.google.appengine.api.images.ImagesServiceFactory;
+
+import org.apache.commons.io.IOUtils;
+
 import java.io.InputStream;
 
 /**
@@ -60,14 +63,14 @@ public class Photo {
      *
      * @return image
      */
-    public BufferedImage getImage() {
+    public Image getImage() {
         try {
-            return ImageIO.read(image);
+            Image img = ImagesServiceFactory.makeImage(IOUtils.toByteArray(image));
+            return img;
         } catch (Exception e) {
             throw new GooglePlacesException(e);
         }
     }
-
     /**
      * Returns the reference token to the photo.
      *
