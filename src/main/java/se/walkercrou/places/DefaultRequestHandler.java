@@ -80,12 +80,16 @@ public class DefaultRequestHandler implements RequestHandler {
         }
     }
 
-    @Override
+
     public String post(HttpPost data) throws IOException {
         try {
             return readString(client.execute(data));
         } catch (Exception e) {
             throw new IOException(e);
         }
+    }
+
+    public String post(String data, String uri) throws IOException {
+        return null;
     }
 }

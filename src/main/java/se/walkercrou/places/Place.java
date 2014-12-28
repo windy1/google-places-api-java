@@ -1,11 +1,12 @@
 package se.walkercrou.places;
 
+import org.apache.commons.io.IOUtils;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import se.walkercrou.places.exception.GooglePlacesException;
 
-import javax.imageio.ImageIO;
-import java.awt.image.BufferedImage;
+import com.google.appengine.api.images.Image;
+import com.google.appengine.api.images.ImagesServiceFactory;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -52,10 +53,16 @@ public class Place {
      * @return JSON object to represent place
      */
     public static JSONObject buildInput(double lat, double lng, int accuracy, String name, Collection<String> types,
-                                        String lang) {
-        return new JSONObject().put(OBJECT_LOCATION, new JSONObject().put("lat", lat).put("lng", lng))
+                                        String lang, Param ... extraParams) {
+        JSONObject jsonInput = new JSONObject().put(OBJECT_LOCATION, new JSONObject().put("lat", lat).put("lng", lng))
                 .put(INTEGER_ACCURACY, accuracy).put(STRING_NAME, name).put(ARRAY_TYPES, new JSONArray(types))
                 .put(STRING_LANGUAGE, lang);
+        if (extraParams != null) {
+            for (Param param : extraParams) {
+                jsonInput.put(param.name, param.value);
+            }
+        }
+        return jsonInput;
     }
 
     /**
@@ -510,13 +517,15 @@ public class Place {
      *
      * @return image
      */
-    public BufferedImage getIconImage() {
+    public Image getIconImage() { //This returns an image instead of a BufferImage as in the original code
         try {
-            return ImageIO.read(icon);
+            Image img = ImagesServiceFactory.makeImage(IOUtils.toByteArray(icon));
+            return img;
         } catch (Exception e) {
             throw new GooglePlacesException(e);
         }
     }
+
 
     /**
      * Returns the name of this place.
