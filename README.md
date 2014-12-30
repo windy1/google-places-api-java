@@ -1,6 +1,6 @@
 # google-places-api-java
 
-**Notice:** Before using this library, you must [register an API key for Google Places API](https://developers.google.com/places/documentation/#Authentication).
+**Notice:** Before using this library, you must [register an API key for Google Places API](https://developers.google.com/places/documentation/#Authentication). You should generate a key for "browser applications", no matter where you're using this app (ie, Android apps still need a browser app key)
 
 ## Contents
 
