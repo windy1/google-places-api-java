@@ -615,8 +615,10 @@ public class GooglePlaces {
     public Place addPlace(String name, String lang, double lat, double lng, int accuracy, Collection<String> types,
                           boolean returnPlace, Param... extraParams) {
         try {
-            String uri = buildUrl(METHOD_ADD, String.format("key=%s", apiKey), extraParams);
-            JSONObject input = Place.buildInput(lat, lng, accuracy, name, types, lang);
+            String uri = buildUrl(METHOD_ADD, String.format("key=%s", apiKey));
+            //The extraParams should go into the Place.buildInput method as according to this website, we cannot add extraParams to the url for add Places:
+            //https://developers.google.com/places/documentation/actions#PlaceReports
+            JSONObject input = Place.buildInput(lat, lng, accuracy, name, types, lang, extraParams);
             HttpPost post = new HttpPost(uri);
             post.setEntity(new StringEntity(input.toString()));
             JSONObject response = new JSONObject(requestHandler.post(post));
@@ -967,7 +969,8 @@ public class GooglePlaces {
      * Represents an extra, optional parameter that can be specified.
      */
     public static class Param {
-        private final String name;
+        //Please note the change from private to protected for the variable "name"
+        protected final String name;
         protected String value;
 
         private Param(String name) {

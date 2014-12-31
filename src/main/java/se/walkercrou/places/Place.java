@@ -52,10 +52,17 @@ public class Place {
      * @return JSON object to represent place
      */
     public static JSONObject buildInput(double lat, double lng, int accuracy, String name, Collection<String> types,
-                                        String lang) {
-        return new JSONObject().put(OBJECT_LOCATION, new JSONObject().put("lat", lat).put("lng", lng))
+                                        String lang, Param... extraParams) {
+        JSONObject jsonInput = new JSONObject().put(OBJECT_LOCATION, new JSONObject().put("lat", lat).put("lng", lng))
                 .put(INTEGER_ACCURACY, accuracy).put(STRING_NAME, name).put(ARRAY_TYPES, new JSONArray(types))
                 .put(STRING_LANGUAGE, lang);
+        //all extraParams will be part of the POST body
+        if (extraParams != null) {
+            for (Param param : extraParams) {
+                jsonInput.put(param.name, param.value);
+            }
+        }
+        return jsonInput;
     }
 
     /**
