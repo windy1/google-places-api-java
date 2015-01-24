@@ -37,7 +37,7 @@ public class GooglePlacesTest {
                 GooglePlaces.MAXIMUM_RESULTS), TEST_PLACE_NAME))
             fail("Test place could not be found at coordinates.");
 
-        if(!hasAtLeastAPlace(google.getNearbyPlaces(TEST_PLACE_LAT, TEST_PLACE_LNG, GooglePlaces.MAXIMUM_RADIUS,GooglePlaces.TypeParam.name(GooglePlaces.STRING_TYPES).value(Arrays.asList(GooglePlaces.TYPE_BAR,GooglePlaces.TYPE_RESTAURANT)))))
+        if(!hasAtLeastAPlace(google.getNearbyPlaces(TEST_PLACE_LAT, TEST_PLACE_LNG, GooglePlaces.MAXIMUM_RADIUS, TypeParam.name(GooglePlaces.STRING_TYPES).value(Arrays.asList(Types.TYPE_BAR, Types.TYPE_RESTAURANT)))))
             fail("Test place could not be found at coordinates.");
 
         // contain within one method to prevent threading problems
@@ -55,7 +55,7 @@ public class GooglePlacesTest {
     public void testGetPlacesByRadar() {
         System.out.println("******************** getPlacesByRadar ********************");
         List<Place> places = google.getPlacesByRadar(TEST_PLACE_LAT, TEST_PLACE_LNG, GooglePlaces.MAXIMUM_RADIUS,
-                GooglePlaces.MAXIMUM_RESULTS, GooglePlaces.Param.name("name").value(TEST_PLACE_NAME));
+                GooglePlaces.MAXIMUM_RESULTS, Param.name("name").value(TEST_PLACE_NAME));
         boolean found = false;
         for (Place place : places) {
             if (place.getDetails().getName().equals(TEST_PLACE_NAME))

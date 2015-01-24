@@ -36,15 +36,15 @@ public class Event {
      */
     public static Event parseDetails(String rawJson) {
         JSONObject json = new JSONObject(rawJson);
-        checkStatus(json.getString(STRING_STATUS));
+        checkStatus(json.getString(GooglePlaces.STRING_STATUS));
 
-        JSONObject result = json.getJSONObject(OBJECT_RESULT);
+        JSONObject result = json.getJSONObject(GooglePlaces.OBJECT_RESULT);
 
-        long duration = result.getLong(LONG_DURATION);
-        String eventId = result.getString(STRING_EVENT_ID);
-        long startTime = result.getLong(LONG_START_TIME);
-        String summary = result.getString(STRING_SUMMARY);
-        String url = result.getString(STRING_URL);
+        long duration = result.getLong(GooglePlaces.LONG_DURATION);
+        String eventId = result.getString(GooglePlaces.STRING_EVENT_ID);
+        long startTime = result.getLong(GooglePlaces.LONG_START_TIME);
+        String summary = result.getString(GooglePlaces.STRING_SUMMARY);
+        String url = result.getString(GooglePlaces.STRING_URL);
 
         return new Event().setId(eventId).setDuration(duration).setStartTime(startTime).setSummary(summary).setUrl(url);
     }
