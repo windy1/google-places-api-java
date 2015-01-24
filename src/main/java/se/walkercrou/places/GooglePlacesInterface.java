@@ -12,338 +12,338 @@ public interface GooglePlacesInterface extends Types, Statuses {
     /**
      * The URL of which Google Places API is located.
      */
-    String API_URL = "https://maps.googleapis.com/maps/api/place/";
+    static final String API_URL = "https://maps.googleapis.com/maps/api/place/";
 
     /**
      * The maximum amount of results that can be on one single page.
      */
-    int MAXIMUM_PAGE_RESULTS = 20;
+    static final int MAXIMUM_PAGE_RESULTS = 20;
 
     /**
      * The default amount of results that will be returned in a single request.
      */
-    int DEFAULT_RESULTS = MAXIMUM_PAGE_RESULTS;
+    static final int DEFAULT_RESULTS = MAXIMUM_PAGE_RESULTS;
 
     /**
      * The maximum results that can be returned.
      */
-    int MAXIMUM_RESULTS = 60;
+    static final int MAXIMUM_RESULTS = 60;
 
     /**
      * The maximum search radius for places.
      */
-    double MAXIMUM_RADIUS = 50000;
+    static final double MAXIMUM_RADIUS = 50000;
 
     // METHODS
-    String METHOD_NEARBY_SEARCH = "nearbysearch";
-    String METHOD_TEXT_SEARCH = "textsearch";
-    String METHOD_RADAR_SEARCH = "radarsearch";
-    String METHOD_DETAILS = "details";
-    String METHOD_ADD = "add";
-    String METHOD_DELETE = "delete";
-    String METHOD_EVENT_DETAILS = "event/details";
-    String METHOD_EVENT_ADD = "event/add";
-    String METHOD_EVENT_DELETE = "event/delete";
-    String METHOD_BUMP = "bump";
-    String METHOD_AUTOCOMPLETE = "autocomplete";
-    String METHOD_QUERY_AUTOCOMPLETE = "queryautocomplete";
+    static final String METHOD_NEARBY_SEARCH = "nearbysearch";
+    static final String METHOD_TEXT_SEARCH = "textsearch";
+    static final String METHOD_RADAR_SEARCH = "radarsearch";
+    static final String METHOD_DETAILS = "details";
+    static final String METHOD_ADD = "add";
+    static final String METHOD_DELETE = "delete";
+    static final String METHOD_EVENT_DETAILS = "event/details";
+    static final String METHOD_EVENT_ADD = "event/add";
+    static final String METHOD_EVENT_DELETE = "event/delete";
+    static final String METHOD_BUMP = "bump";
+    static final String METHOD_AUTOCOMPLETE = "autocomplete";
+    static final String METHOD_QUERY_AUTOCOMPLETE = "queryautocomplete";
 
-    int MAX_PHOTO_SIZE = 1600;
+    static final int MAX_PHOTO_SIZE = 1600;
 
     /**
      * Types of place
      */
-    String ARRAY_TYPES = "types";
+    static final String ARRAY_TYPES = "types";
 
     /**
      * Array for results
      */
-    String ARRAY_RESULTS = "results";
+    static final String ARRAY_RESULTS = "results";
 
     /**
      * The events occurring at the place
      */
-    String ARRAY_EVENTS = "events";
+    static final String ARRAY_EVENTS = "events";
 
     /**
      * Signifies the hours of operation of a place
      */
-    String ARRAY_PERIODS = "periods";
+    static final String ARRAY_PERIODS = "periods";
 
     /**
      * Array containing photo information
      */
-    String ARRAY_PHOTOS = "photos";
+    static final String ARRAY_PHOTOS = "photos";
 
     /**
      * An array containing each element in a places full address
      */
-    String ARRAY_ADDRESS_COMPONENTS = "address_components";
+    static final String ARRAY_ADDRESS_COMPONENTS = "address_components";
 
     /**
      * Array of reviews of a Place
      */
-    String ARRAY_REVIEWS = "reviews";
+    static final String ARRAY_REVIEWS = "reviews";
 
     /**
      * Array of aspects of a review
      */
-    String ARRAY_ASPECTS = "aspects";
+    static final String ARRAY_ASPECTS = "aspects";
 
     /**
      * Array of autocomplete predictions
      */
-    String ARRAY_PREDICTIONS = "predictions";
+    static final String ARRAY_PREDICTIONS = "predictions";
 
     /**
      * Array of terms describing a autocomplete prediction description
      */
-    String ARRAY_TERMS = "terms";
+    static final String ARRAY_TERMS = "terms";
 
     /**
      * Used for matching matched substrings for autocompletion
      */
-    String ARRAY_MATCHED_SUBSTRINGS = "matched_substrings";
+    static final String ARRAY_MATCHED_SUBSTRINGS = "matched_substrings";
 
     /**
      * If the place is opened now
      */
-    String BOOLEAN_OPENED = "open_now";
+    static final String BOOLEAN_OPENED = "open_now";
 
     /**
      * Latitude of place
      */
-    String DOUBLE_LATITUDE = "lat";
+    static final String DOUBLE_LATITUDE = "lat";
 
     /**
      * Longitude of place
      */
-    String DOUBLE_LONGITUDE = "lng";
+    static final String DOUBLE_LONGITUDE = "lng";
 
     /**
      * The "rating" of the place
      */
-    String DOUBLE_RATING = "rating";
+    static final String DOUBLE_RATING = "rating";
 
     /**
      * How expensive the place is
      */
-    String INTEGER_PRICE_LEVEL = "price_level";
+    static final String INTEGER_PRICE_LEVEL = "price_level";
 
     /**
      * Day represented by an int 0-6, starting with Sunday
      */
-    String INTEGER_DAY = "day";
+    static final String INTEGER_DAY = "day";
 
     /**
      * Used for describing a photo's width
      */
-    String INTEGER_WIDTH = "width";
+    static final String INTEGER_WIDTH = "width";
 
     /**
      * Used for describing a photo's height
      */
-    String INTEGER_HEIGHT = "height";
+    static final String INTEGER_HEIGHT = "height";
 
     /**
      * Reviews use integer ratings
      */
-    String INTEGER_RATING = "rating";
+    static final String INTEGER_RATING = "rating";
 
     /**
      * Minutes that a location is of from UTC
      */
-    String INTEGER_UTC_OFFSET = "utc_offset";
+    static final String INTEGER_UTC_OFFSET = "utc_offset";
 
     /**
      * Accuracy of location, in meters
      */
-    String INTEGER_ACCURACY = "accuracy";
+    static final String INTEGER_ACCURACY = "accuracy";
 
     /**
      * Used for autocomplete predictions
      */
-    String INTEGER_OFFSET = "offset";
+    static final String INTEGER_OFFSET = "offset";
 
     /**
      * Used for autocomplete substring length
      */
-    String INTEGER_LENGTH = "length";
+    static final String INTEGER_LENGTH = "length";
 
     /**
      * The start time for an event
      */
-    String LONG_START_TIME = "start_time";
+    static final String LONG_START_TIME = "start_time";
 
     /**
      * Used for the date of a review
      */
-    String LONG_TIME = "time";
+    static final String LONG_TIME = "time";
 
     /**
      * Returns the duration of an event
      */
-    String LONG_DURATION = "duration";
+    static final String LONG_DURATION = "duration";
 
     /**
      * Used for responses with single results
      */
-    String OBJECT_RESULT = "result";
+    static final String OBJECT_RESULT = "result";
 
     /**
      * Geographic information
      */
-    String OBJECT_GEOMETRY = "geometry";
+    static final String OBJECT_GEOMETRY = "geometry";
 
     /**
      * Contains latitude and longitude coordinates
      */
-    String OBJECT_LOCATION = "location";
+    static final String OBJECT_LOCATION = "location";
 
     /**
      * Contains open_now
      */
-    String OBJECT_HOURS = "opening_hours";
+    static final String OBJECT_HOURS = "opening_hours";
 
     /**
      * The beginning of a period
      */
-    String OBJECT_OPEN = "open";
+    static final String OBJECT_OPEN = "open";
 
     /**
      * The end of a period
      */
-    String OBJECT_CLOSE = "close";
+    static final String OBJECT_CLOSE = "close";
 
     /**
      * The unique, stable, identifier for this place
      */
-    String STRING_ID = "id";
+    static final String STRING_ID = "id";
 
     /**
      * Url to the icon to represent this place
      */
-    String STRING_ICON = "icon";
+    static final String STRING_ICON = "icon";
 
     /**
      * The name of the place
      */
-    String STRING_NAME = "name";
+    static final String STRING_NAME = "name";
 
     /**
      * The address of the place
      */
-    String STRING_ADDRESS = "formatted_address";
+    static final String STRING_ADDRESS = "formatted_address";
 
     /**
      * The reference to use to get more details about the place
      */
-    String STRING_REFERENCE = "reference";
+    static final String STRING_REFERENCE = "reference";
 
     /**
      * The vicinity of which the place can be found (sometimes replaces formatted_address)
      */
-    String STRING_VICINITY = "vicinity";
+    static final String STRING_VICINITY = "vicinity";
 
     /**
      * The unique identifier for an event at a place
      */
-    String STRING_EVENT_ID = "event_id";
+    static final String STRING_EVENT_ID = "event_id";
 
     /**
      * The summary of an event
      */
-    String STRING_SUMMARY = "summary";
+    static final String STRING_SUMMARY = "summary";
 
     /**
      * The url for an event at a place
      */
-    String STRING_URL = "url";
+    static final String STRING_URL = "url";
 
     /**
      * A root element to indicate the status of the query.
      */
-    String STRING_STATUS = "status";
+    static final String STRING_STATUS = "status";
 
     /**
      * A token used for getting the next page of results
      */
-    String STRING_NEXT_PAGE_TOKEN = "next_page_token";
+    static final String STRING_NEXT_PAGE_TOKEN = "next_page_token";
 
     /**
      * The phone number of the place
      */
-    String STRING_PHONE_NUMBER = "formatted_phone_number";
+    static final String STRING_PHONE_NUMBER = "formatted_phone_number";
 
     /**
      * The phone number of the place with an international country code
      */
-    String STRING_INTERNATIONAL_PHONE_NUMBER = "international_phone_number";
+    static final String STRING_INTERNATIONAL_PHONE_NUMBER = "international_phone_number";
 
     /**
      * The website associated with a place
      */
-    String STRING_WEBSITE = "website";
+    static final String STRING_WEBSITE = "website";
 
     /**
      * A time represented by an hhmm format
      */
-    String STRING_TIME = "time";
+    static final String STRING_TIME = "time";
 
     /**
      * A reference to an actual photo
      */
-    String STRING_PHOTO_REFERENCE = "photo_reference";
+    static final String STRING_PHOTO_REFERENCE = "photo_reference";
 
     /**
      * Represents an address component's long name
      */
-    String STRING_LONG_NAME = "long_name";
+    static final String STRING_LONG_NAME = "long_name";
 
     /**
      * Represents an address component's short name
      */
-    String STRING_SHORT_NAME = "short_name";
+    static final String STRING_SHORT_NAME = "short_name";
 
     /**
      * Name of a review author
      */
-    String STRING_AUTHOR_NAME = "author_name";
+    static final String STRING_AUTHOR_NAME = "author_name";
 
     /**
      * Url of author
      */
-    String STRING_AUTHOR_URL = "author_url";
+    static final String STRING_AUTHOR_URL = "author_url";
 
     /**
      * Language for review localization
      */
-    String STRING_LANGUAGE = "language";
+    static final String STRING_LANGUAGE = "language";
 
     /**
      * Review content
      */
-    String STRING_TEXT = "text";
+    static final String STRING_TEXT = "text";
 
     /**
      * Description of autocomplete prediction
      */
-    String STRING_DESCRIPTION = "description";
+    static final String STRING_DESCRIPTION = "description";
 
     /**
      * Used for autocomplete terms
      */
-    String STRING_VALUE = "value";
+    static final String STRING_VALUE = "value";
 
     /**
      * Used for singular types in review aspects
      */
-    String STRING_TYPE = "type";
+    static final String STRING_TYPE = "type";
 
     /**
      * Restricts the results to places matching at least one of the specified types.
      */
-    String STRING_TYPES = "types";
+    static final String STRING_TYPES = "types";
 
     /**
      * Returns true if the device has a location sensor.
