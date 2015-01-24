@@ -113,227 +113,227 @@ public interface GooglePlacesInterface extends Types, Statuses {
     /**
      * Latitude of place
      */
-    public static final String DOUBLE_LATITUDE = "lat";
+    String DOUBLE_LATITUDE = "lat";
 
     /**
      * Longitude of place
      */
-    public static final String DOUBLE_LONGITUDE = "lng";
+    String DOUBLE_LONGITUDE = "lng";
 
     /**
      * The "rating" of the place
      */
-    public static final String DOUBLE_RATING = "rating";
+    String DOUBLE_RATING = "rating";
 
     /**
      * How expensive the place is
      */
-    public static final String INTEGER_PRICE_LEVEL = "price_level";
+    String INTEGER_PRICE_LEVEL = "price_level";
 
     /**
      * Day represented by an int 0-6, starting with Sunday
      */
-    public static final String INTEGER_DAY = "day";
+    String INTEGER_DAY = "day";
 
     /**
      * Used for describing a photo's width
      */
-    public static final String INTEGER_WIDTH = "width";
+    String INTEGER_WIDTH = "width";
 
     /**
      * Used for describing a photo's height
      */
-    public static final String INTEGER_HEIGHT = "height";
+    String INTEGER_HEIGHT = "height";
 
     /**
      * Reviews use integer ratings
      */
-    public static final String INTEGER_RATING = "rating";
+    String INTEGER_RATING = "rating";
 
     /**
      * Minutes that a location is of from UTC
      */
-    public static final String INTEGER_UTC_OFFSET = "utc_offset";
+    String INTEGER_UTC_OFFSET = "utc_offset";
 
     /**
      * Accuracy of location, in meters
      */
-    public static final String INTEGER_ACCURACY = "accuracy";
+    String INTEGER_ACCURACY = "accuracy";
 
     /**
      * Used for autocomplete predictions
      */
-    public static final String INTEGER_OFFSET = "offset";
+    String INTEGER_OFFSET = "offset";
 
     /**
      * Used for autocomplete substring length
      */
-    public static final String INTEGER_LENGTH = "length";
+    String INTEGER_LENGTH = "length";
 
     /**
      * The start time for an event
      */
-    public static final String LONG_START_TIME = "start_time";
+    String LONG_START_TIME = "start_time";
 
     /**
      * Used for the date of a review
      */
-    public static final String LONG_TIME = "time";
+    String LONG_TIME = "time";
 
     /**
      * Returns the duration of an event
      */
-    public static final String LONG_DURATION = "duration";
+    String LONG_DURATION = "duration";
 
     /**
      * Used for responses with single results
      */
-    public static final String OBJECT_RESULT = "result";
+    String OBJECT_RESULT = "result";
 
     /**
      * Geographic information
      */
-    public static final String OBJECT_GEOMETRY = "geometry";
+    String OBJECT_GEOMETRY = "geometry";
 
     /**
      * Contains latitude and longitude coordinates
      */
-    public static final String OBJECT_LOCATION = "location";
+    String OBJECT_LOCATION = "location";
 
     /**
      * Contains open_now
      */
-    public static final String OBJECT_HOURS = "opening_hours";
+    String OBJECT_HOURS = "opening_hours";
 
     /**
      * The beginning of a period
      */
-    public static final String OBJECT_OPEN = "open";
+    String OBJECT_OPEN = "open";
 
     /**
      * The end of a period
      */
-    public static final String OBJECT_CLOSE = "close";
+    String OBJECT_CLOSE = "close";
 
     /**
      * The unique, stable, identifier for this place
      */
-    public static final String STRING_ID = "id";
+    String STRING_ID = "id";
 
     /**
      * Url to the icon to represent this place
      */
-    public static final String STRING_ICON = "icon";
+    String STRING_ICON = "icon";
 
     /**
      * The name of the place
      */
-    public static final String STRING_NAME = "name";
+    String STRING_NAME = "name";
 
     /**
      * The address of the place
      */
-    public static final String STRING_ADDRESS = "formatted_address";
+    String STRING_ADDRESS = "formatted_address";
 
     /**
      * The reference to use to get more details about the place
      */
-    public static final String STRING_REFERENCE = "reference";
+    String STRING_REFERENCE = "reference";
 
     /**
      * The vicinity of which the place can be found (sometimes replaces formatted_address)
      */
-    public static final String STRING_VICINITY = "vicinity";
+    String STRING_VICINITY = "vicinity";
 
     /**
      * The unique identifier for an event at a place
      */
-    public static final String STRING_EVENT_ID = "event_id";
+    String STRING_EVENT_ID = "event_id";
 
     /**
      * The summary of an event
      */
-    public static final String STRING_SUMMARY = "summary";
+    String STRING_SUMMARY = "summary";
 
     /**
      * The url for an event at a place
      */
-    public static final String STRING_URL = "url";
+    String STRING_URL = "url";
 
     /**
      * A root element to indicate the status of the query.
      */
-    public static final String STRING_STATUS = "status";
+    String STRING_STATUS = "status";
 
     /**
      * A token used for getting the next page of results
      */
-    public static final String STRING_NEXT_PAGE_TOKEN = "next_page_token";
+    String STRING_NEXT_PAGE_TOKEN = "next_page_token";
 
     /**
      * The phone number of the place
      */
-    public static final String STRING_PHONE_NUMBER = "formatted_phone_number";
+    String STRING_PHONE_NUMBER = "formatted_phone_number";
 
     /**
      * The phone number of the place with an international country code
      */
-    public static final String STRING_INTERNATIONAL_PHONE_NUMBER = "international_phone_number";
+    String STRING_INTERNATIONAL_PHONE_NUMBER = "international_phone_number";
 
     /**
      * The website associated with a place
      */
-    public static final String STRING_WEBSITE = "website";
+    String STRING_WEBSITE = "website";
 
     /**
      * A time represented by an hhmm format
      */
-    public static final String STRING_TIME = "time";
+    String STRING_TIME = "time";
 
     /**
      * A reference to an actual photo
      */
-    public static final String STRING_PHOTO_REFERENCE = "photo_reference";
+    String STRING_PHOTO_REFERENCE = "photo_reference";
 
     /**
      * Represents an address component's long name
      */
-    public static final String STRING_LONG_NAME = "long_name";
+    String STRING_LONG_NAME = "long_name";
 
     /**
      * Represents an address component's short name
      */
-    public static final String STRING_SHORT_NAME = "short_name";
+    String STRING_SHORT_NAME = "short_name";
 
     /**
      * Name of a review author
      */
-    public static final String STRING_AUTHOR_NAME = "author_name";
+    String STRING_AUTHOR_NAME = "author_name";
 
     /**
      * Url of author
      */
-    public static final String STRING_AUTHOR_URL = "author_url";
+    String STRING_AUTHOR_URL = "author_url";
 
     /**
      * Language for review localization
      */
-    public static final String STRING_LANGUAGE = "language";
+    String STRING_LANGUAGE = "language";
 
     /**
      * Review content
      */
-    public static final String STRING_TEXT = "text";
+    String STRING_TEXT = "text";
 
     /**
      * Description of autocomplete prediction
      */
-    public static final String STRING_DESCRIPTION = "description";
+    String STRING_DESCRIPTION = "description";
 
     /**
      * Used for autocomplete terms
      */
-    public static final String STRING_VALUE = "value";
+    String STRING_VALUE = "value";
 
     /**
      * Used for singular types in review aspects
