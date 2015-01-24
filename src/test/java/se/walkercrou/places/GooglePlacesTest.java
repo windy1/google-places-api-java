@@ -12,8 +12,6 @@ import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
 public class GooglePlacesTest {
-    private static final double EMPIRE_STATE_BUILDING_LATITUDE = 40.748444;
-    private static final double EMPIRE_STATE_BUILDING_LONGITUDE = -73.985658;
     private static final String API_KEY_FILE_NAME = "places_api.key";
     private static final String TEST_PLACE_NAME = "University of Vermont";
     private static final double TEST_PLACE_LAT = 44.478025, TEST_PLACE_LNG = -73.196475;
