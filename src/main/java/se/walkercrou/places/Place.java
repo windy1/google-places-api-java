@@ -51,9 +51,9 @@ public class Place {
      */
     public static JSONObject buildInput(double lat, double lng, int accuracy, String name, Collection<String> types,
                                         String lang, Param... extraParams) {
-        JSONObject jsonInput = new JSONObject().put(GooglePlacesInterface.OBJECT_LOCATION, new JSONObject().put("lat", lat).put("lng", lng))
-                .put(GooglePlacesInterface.INTEGER_ACCURACY, accuracy).put(GooglePlacesInterface.STRING_NAME, name).put(GooglePlaces.ARRAY_TYPES, new JSONArray(types))
-                .put(GooglePlacesInterface.STRING_LANGUAGE, lang);
+        JSONObject jsonInput = new JSONObject().put(GooglePlaces.OBJECT_LOCATION, new JSONObject().put("lat", lat).put("lng", lng))
+                .put(GooglePlaces.INTEGER_ACCURACY, accuracy).put(GooglePlaces.STRING_NAME, name).put(GooglePlaces.ARRAY_TYPES, new JSONArray(types))
+                .put(GooglePlaces.STRING_LANGUAGE, lang);
         //all extraParams will be part of the POST body
         if (extraParams != null) {
             for (Param param : extraParams) {
@@ -73,34 +73,34 @@ public class Place {
     public static Place parseDetails(GooglePlaces client, String rawJson) {
         JSONObject json = new JSONObject(rawJson);
 
-        JSONObject result = json.getJSONObject(GooglePlacesInterface.OBJECT_RESULT);
+        JSONObject result = json.getJSONObject(GooglePlaces.OBJECT_RESULT);
 
         // easy stuff
-        String id = result.getString(GooglePlacesInterface.STRING_ID);
-        String name = result.getString(GooglePlacesInterface.STRING_NAME);
-        String address = result.optString(GooglePlacesInterface.STRING_ADDRESS, null);
-        String phone = result.optString(GooglePlacesInterface.STRING_PHONE_NUMBER, null);
-        String iconUrl = result.optString(GooglePlacesInterface.STRING_ICON, null);
-        String internationalPhone = result.optString(GooglePlacesInterface.STRING_INTERNATIONAL_PHONE_NUMBER, null);
-        double rating = result.optDouble(GooglePlacesInterface.DOUBLE_RATING, -1);
-        String reference = result.optString(GooglePlacesInterface.STRING_REFERENCE, null);
-        String url = result.optString(GooglePlacesInterface.STRING_URL, null);
-        String vicinity = result.optString(GooglePlacesInterface.STRING_VICINITY, null);
-        String website = result.optString(GooglePlacesInterface.STRING_WEBSITE, null);
-        int utcOffset = result.optInt(GooglePlacesInterface.INTEGER_UTC_OFFSET, -1);
+        String id = result.getString(GooglePlaces.STRING_ID);
+        String name = result.getString(GooglePlaces.STRING_NAME);
+        String address = result.optString(GooglePlaces.STRING_ADDRESS, null);
+        String phone = result.optString(GooglePlaces.STRING_PHONE_NUMBER, null);
+        String iconUrl = result.optString(GooglePlaces.STRING_ICON, null);
+        String internationalPhone = result.optString(GooglePlaces.STRING_INTERNATIONAL_PHONE_NUMBER, null);
+        double rating = result.optDouble(GooglePlaces.DOUBLE_RATING, -1);
+        String reference = result.optString(GooglePlaces.STRING_REFERENCE, null);
+        String url = result.optString(GooglePlaces.STRING_URL, null);
+        String vicinity = result.optString(GooglePlaces.STRING_VICINITY, null);
+        String website = result.optString(GooglePlaces.STRING_WEBSITE, null);
+        int utcOffset = result.optInt(GooglePlaces.INTEGER_UTC_OFFSET, -1);
 
         // grab the price rank
         Price price = Price.NONE;
-        if (result.has(GooglePlacesInterface.INTEGER_PRICE_LEVEL)) {
-            price = Price.values()[result.getInt(GooglePlacesInterface.INTEGER_PRICE_LEVEL)];
+        if (result.has(GooglePlaces.INTEGER_PRICE_LEVEL)) {
+            price = Price.values()[result.getInt(GooglePlaces.INTEGER_PRICE_LEVEL)];
         }
 
         // location
-        JSONObject location = result.getJSONObject(GooglePlacesInterface.OBJECT_GEOMETRY).getJSONObject(GooglePlacesInterface.OBJECT_LOCATION);
-        double lat = location.getDouble(GooglePlacesInterface.DOUBLE_LATITUDE), lng = location.getDouble(GooglePlacesInterface.DOUBLE_LONGITUDE);
+        JSONObject location = result.getJSONObject(GooglePlaces.OBJECT_GEOMETRY).getJSONObject(GooglePlaces.OBJECT_LOCATION);
+        double lat = location.getDouble(GooglePlaces.DOUBLE_LATITUDE), lng = location.getDouble(GooglePlaces.DOUBLE_LONGITUDE);
 
         // hours of operation
-        JSONObject hours = result.optJSONObject(GooglePlacesInterface.OBJECT_HOURS);
+        JSONObject hours = result.optJSONObject(GooglePlaces.OBJECT_HOURS);
         Status status = Status.NONE;
         Hours schedule = new Hours();
         if (hours != null) {
@@ -114,21 +114,21 @@ public class Place {
                     JSONObject jsonPeriod = jsonPeriods.getJSONObject(i);
 
                     // opening information (from)
-                    JSONObject opens = jsonPeriod.getJSONObject(GooglePlacesInterface.OBJECT_OPEN);
-                    Day openingDay = Day.values()[opens.getInt(GooglePlacesInterface.INTEGER_DAY)];
-                    String openingTime = opens.getString(GooglePlacesInterface.STRING_TIME);
+                    JSONObject opens = jsonPeriod.getJSONObject(GooglePlaces.OBJECT_OPEN);
+                    Day openingDay = Day.values()[opens.getInt(GooglePlaces.INTEGER_DAY)];
+                    String openingTime = opens.getString(GooglePlaces.STRING_TIME);
 
                     // if this place is always open, break.
-                    boolean alwaysOpened = openingDay == Day.SUNDAY && openingTime.equals("0000") && !jsonPeriod.has(GooglePlacesInterface.OBJECT_CLOSE);
+                    boolean alwaysOpened = openingDay == Day.SUNDAY && openingTime.equals("0000") && !jsonPeriod.has(GooglePlaces.OBJECT_CLOSE);
                     if (alwaysOpened) {
                         schedule.setAlwaysOpened(true);
                         break;
                     }
 
                     // closing information (to)
-                    JSONObject closes = jsonPeriod.getJSONObject(GooglePlacesInterface.OBJECT_CLOSE);
-                    Day closingDay = Day.values()[closes.getInt(GooglePlacesInterface.INTEGER_DAY)]; // to
-                    String closingTime = closes.getString(GooglePlacesInterface.STRING_TIME);
+                    JSONObject closes = jsonPeriod.getJSONObject(GooglePlaces.OBJECT_CLOSE);
+                    Day closingDay = Day.values()[closes.getInt(GooglePlaces.INTEGER_DAY)]; // to
+                    String closingTime = closes.getString(GooglePlaces.STRING_TIME);
 
                     // add the period to the hours
                     schedule.addPeriod(new Hours.Period().setOpeningDay(openingDay).setOpeningTime(openingTime)
@@ -145,8 +145,8 @@ public class Place {
         if (jsonPhotos != null) {
             for (int i = 0; i < jsonPhotos.length(); i++) {
                 JSONObject jsonPhoto = jsonPhotos.getJSONObject(i);
-                String photoReference = jsonPhoto.getString(GooglePlacesInterface.STRING_PHOTO_REFERENCE);
-                int width = jsonPhoto.getInt(GooglePlacesInterface.INTEGER_WIDTH), height = jsonPhoto.getInt(GooglePlacesInterface.INTEGER_HEIGHT);
+                String photoReference = jsonPhoto.getString(GooglePlaces.STRING_PHOTO_REFERENCE);
+                int width = jsonPhoto.getInt(GooglePlaces.INTEGER_WIDTH), height = jsonPhoto.getInt(GooglePlaces.INTEGER_HEIGHT);
                 photos.add(new Photo(place, photoReference, width, height));
             }
         }
@@ -160,8 +160,8 @@ public class Place {
                 JSONObject ac = addrComponents.getJSONObject(i);
                 AddressComponent addr = new AddressComponent();
 
-                String longName = ac.optString(GooglePlacesInterface.STRING_LONG_NAME, null);
-                String shortName = ac.optString(GooglePlacesInterface.STRING_SHORT_NAME, null);
+                String longName = ac.optString(GooglePlaces.STRING_LONG_NAME, null);
+                String shortName = ac.optString(GooglePlaces.STRING_SHORT_NAME, null);
 
                 addr.setLongName(longName);
                 addr.setShortName(shortName);
@@ -184,10 +184,10 @@ public class Place {
         if (events != null) {
             for (int i = 0; i < events.length(); i++) {
                 JSONObject event = events.getJSONObject(i);
-                String eventId = event.optString(GooglePlacesInterface.STRING_EVENT_ID, null);
-                long startTime = event.optLong(GooglePlacesInterface.LONG_START_TIME, -1);
-                String summary = event.optString(GooglePlacesInterface.STRING_SUMMARY, null);
-                String eventUrl = event.optString(GooglePlacesInterface.STRING_URL, null);
+                String eventId = event.optString(GooglePlaces.STRING_EVENT_ID, null);
+                long startTime = event.optLong(GooglePlaces.LONG_START_TIME, -1);
+                String summary = event.optString(GooglePlaces.STRING_SUMMARY, null);
+                String eventUrl = event.optString(GooglePlaces.STRING_URL, null);
 
                 eventList.add(new Event().setId(eventId).setSummary(summary).setUrl(eventUrl).setStartTime(startTime)
                         .setPlace(place));
@@ -210,12 +210,12 @@ public class Place {
             for (int i = 0; i < jsonReviews.length(); i++) {
                 JSONObject jsonReview = jsonReviews.getJSONObject(i);
 
-                String author = jsonReview.optString(GooglePlacesInterface.STRING_AUTHOR_NAME, null);
-                String authorUrl = jsonReview.optString(GooglePlacesInterface.STRING_AUTHOR_URL, null);
-                String lang = jsonReview.optString(GooglePlacesInterface.STRING_LANGUAGE, null);
-                int reviewRating = jsonReview.optInt(GooglePlacesInterface.INTEGER_RATING, -1);
-                String text = jsonReview.optString(GooglePlacesInterface.STRING_TEXT, null);
-                long time = jsonReview.optLong(GooglePlacesInterface.LONG_TIME, -1);
+                String author = jsonReview.optString(GooglePlaces.STRING_AUTHOR_NAME, null);
+                String authorUrl = jsonReview.optString(GooglePlaces.STRING_AUTHOR_URL, null);
+                String lang = jsonReview.optString(GooglePlaces.STRING_LANGUAGE, null);
+                int reviewRating = jsonReview.optInt(GooglePlaces.INTEGER_RATING, -1);
+                String text = jsonReview.optString(GooglePlaces.STRING_TEXT, null);
+                long time = jsonReview.optLong(GooglePlaces.LONG_TIME, -1);
 
                 // aspects of the review
                 JSONArray jsonAspects = jsonReview.optJSONArray(GooglePlaces.ARRAY_ASPECTS);
@@ -224,7 +224,7 @@ public class Place {
                     for (int a = 0; a < jsonAspects.length(); a++) {
                         JSONObject jsonAspect = jsonAspects.getJSONObject(a);
                         String aspectType = jsonAspect.getString(GooglePlaces.STRING_TYPE);
-                        int aspectRating = jsonAspect.getInt(GooglePlacesInterface.INTEGER_RATING);
+                        int aspectRating = jsonAspect.getInt(GooglePlaces.INTEGER_RATING);
                         aspects.add(new Review.Aspect(aspectRating, aspectType));
                     }
                 }

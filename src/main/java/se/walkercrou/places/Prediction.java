@@ -33,22 +33,22 @@ public class Prediction {
      */
     public static List<Prediction> parse(GooglePlaces client, String rawJson) {
         JSONObject json = new JSONObject(rawJson);
-        checkStatus(json.getString(GooglePlacesInterface.STRING_STATUS));
+        checkStatus(json.getString(GooglePlaces.STRING_STATUS));
 
         List<Prediction> predictions = new ArrayList<>();
         JSONArray jsonPredictions = json.getJSONArray(GooglePlaces.ARRAY_PREDICTIONS);
         for (int i = 0; i < jsonPredictions.length(); i++) {
             JSONObject jsonPrediction = jsonPredictions.getJSONObject(i);
-            String description = jsonPrediction.getString(GooglePlacesInterface.STRING_DESCRIPTION);
-            String id = jsonPrediction.optString(GooglePlacesInterface.STRING_ID, null);
-            String reference = jsonPrediction.optString(GooglePlacesInterface.STRING_REFERENCE, null);
+            String description = jsonPrediction.getString(GooglePlaces.STRING_DESCRIPTION);
+            String id = jsonPrediction.optString(GooglePlaces.STRING_ID, null);
+            String reference = jsonPrediction.optString(GooglePlaces.STRING_REFERENCE, null);
 
             JSONArray jsonTerms = jsonPrediction.getJSONArray(GooglePlaces.ARRAY_TERMS);
             List<DescriptionTerm> terms = new ArrayList<>();
             for (int a = 0; a < jsonTerms.length(); a++) {
                 JSONObject jsonTerm = jsonTerms.getJSONObject(a);
-                String value = jsonTerm.getString(GooglePlacesInterface.STRING_VALUE);
-                int offset = jsonTerm.getInt(GooglePlacesInterface.INTEGER_OFFSET);
+                String value = jsonTerm.getString(GooglePlaces.STRING_VALUE);
+                int offset = jsonTerm.getInt(GooglePlaces.INTEGER_OFFSET);
                 terms.add(new DescriptionTerm(value, offset));
             }
 
@@ -62,8 +62,8 @@ public class Prediction {
 
             JSONArray substrArray = jsonPrediction.getJSONArray(GooglePlaces.ARRAY_MATCHED_SUBSTRINGS);
             JSONObject substr = substrArray.getJSONObject(0);
-            int substrOffset = substr.getInt(GooglePlacesInterface.INTEGER_OFFSET);
-            int substrLength = substr.getInt(GooglePlacesInterface.INTEGER_LENGTH);
+            int substrOffset = substr.getInt(GooglePlaces.INTEGER_OFFSET);
+            int substrLength = substr.getInt(GooglePlaces.INTEGER_LENGTH);
 
             predictions.add(new Prediction().setDescription(description).setPlaceId(id)
                     .setPlaceReference(reference).addTerms(terms).addTypes(types).setSubstringLength(substrLength)
