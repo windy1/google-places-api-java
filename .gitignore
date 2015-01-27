@@ -4,3 +4,4 @@
 /out/
 .DS_Store
 dependency-reduced-pom.xml
+places_api.key
