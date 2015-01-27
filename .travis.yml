@@ -1,4 +1,5 @@
 language: java
+script: mvn install -DskipTests
 deploy:
   provider: releases
   api_key:
