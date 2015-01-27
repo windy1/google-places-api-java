@@ -8,10 +8,7 @@ import se.walkercrou.places.exception.GooglePlacesException;
 
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.List;
+import java.util.*;
 
 /**
  * A Java binding for the Google Places API:
@@ -276,7 +273,7 @@ public class GooglePlaces {
     }
 
     private static String buildUrl(String method, String params, Param... extraParams) {
-        String url = String.format("%s%s/json?%s", API_URL, method, params);
+        String url = String.format(Locale.ENGLISH, "%s%s/json?%s", API_URL, method, params);
         url = addExtraParams(url, extraParams);
         url = url.replace(' ', '+');
         return url;
