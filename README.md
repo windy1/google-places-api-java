@@ -21,6 +21,7 @@
     * [Query prediction](#query-prediction)
 * [Android integration](#android-integration)
 * [Download](#download)
+* [Build](#build)
 
 ## Creating the client
 
@@ -274,3 +275,8 @@ new Thread(new Runnable() {
 ## Download
 
 Releases can be downloaded at https://github.com/windy1/google-places-api-java/releases
+
+## Build
+
+This project uses [Apache Maven](http://maven.apache.org/). Create a file called `places_api.key` with your Google
+Places API key before running tests and building with `mvn`.
