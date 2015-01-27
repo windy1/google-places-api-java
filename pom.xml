@@ -5,7 +5,7 @@
     <description>Comprehensive and FULL Java client for the Google Places API</description>
     <groupId>se.walkercrou</groupId>
     <artifactId>google-places-api-java</artifactId>
-    <version>1.2.6</version>
+    <version>1.2.7</version>
     <url>https://github.com/windy1/google-places-api-java</url>
     <inceptionYear>2014</inceptionYear>
     <packaging>jar</packaging>
