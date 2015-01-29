@@ -12,338 +12,338 @@ public interface GooglePlacesInterface extends Types, Statuses {
     /**
      * The URL of which Google Places API is located.
      */
-    static final String API_URL = "https://maps.googleapis.com/maps/api/place/";
+    public static final String API_URL = "https://maps.googleapis.com/maps/api/place/";
 
     /**
      * The maximum amount of results that can be on one single page.
      */
-    static final int MAXIMUM_PAGE_RESULTS = 20;
+    public static final int MAXIMUM_PAGE_RESULTS = 20;
 
     /**
      * The default amount of results that will be returned in a single request.
      */
-    static final int DEFAULT_RESULTS = MAXIMUM_PAGE_RESULTS;
+    public static final int DEFAULT_RESULTS = MAXIMUM_PAGE_RESULTS;
 
     /**
      * The maximum results that can be returned.
      */
-    static final int MAXIMUM_RESULTS = 60;
+    public static final int MAXIMUM_RESULTS = 60;
 
     /**
      * The maximum search radius for places.
      */
-    static final double MAXIMUM_RADIUS = 50000;
+    public static final double MAXIMUM_RADIUS = 50000;
 
     // METHODS
-    static final String METHOD_NEARBY_SEARCH = "nearbysearch";
-    static final String METHOD_TEXT_SEARCH = "textsearch";
-    static final String METHOD_RADAR_SEARCH = "radarsearch";
-    static final String METHOD_DETAILS = "details";
-    static final String METHOD_ADD = "add";
-    static final String METHOD_DELETE = "delete";
-    static final String METHOD_EVENT_DETAILS = "event/details";
-    static final String METHOD_EVENT_ADD = "event/add";
-    static final String METHOD_EVENT_DELETE = "event/delete";
-    static final String METHOD_BUMP = "bump";
-    static final String METHOD_AUTOCOMPLETE = "autocomplete";
-    static final String METHOD_QUERY_AUTOCOMPLETE = "queryautocomplete";
+    public static final String METHOD_NEARBY_SEARCH = "nearbysearch";
+    public static final String METHOD_TEXT_SEARCH = "textsearch";
+    public static final String METHOD_RADAR_SEARCH = "radarsearch";
+    public static final String METHOD_DETAILS = "details";
+    public static final String METHOD_ADD = "add";
+    public static final String METHOD_DELETE = "delete";
+    public static final String METHOD_EVENT_DETAILS = "event/details";
+    public static final String METHOD_EVENT_ADD = "event/add";
+    public static final String METHOD_EVENT_DELETE = "event/delete";
+    public static final String METHOD_BUMP = "bump";
+    public static final String METHOD_AUTOCOMPLETE = "autocomplete";
+    public static final String METHOD_QUERY_AUTOCOMPLETE = "queryautocomplete";
 
-    static final int MAX_PHOTO_SIZE = 1600;
+    public static final int MAX_PHOTO_SIZE = 1600;
 
     /**
      * Types of place
      */
-    static final String ARRAY_TYPES = "types";
+    public static final String ARRAY_TYPES = "types";
 
     /**
      * Array for results
      */
-    static final String ARRAY_RESULTS = "results";
+    public static final String ARRAY_RESULTS = "results";
 
     /**
      * The events occurring at the place
      */
-    static final String ARRAY_EVENTS = "events";
+    public static final String ARRAY_EVENTS = "events";
 
     /**
      * Signifies the hours of operation of a place
      */
-    static final String ARRAY_PERIODS = "periods";
+    public static final String ARRAY_PERIODS = "periods";
 
     /**
      * Array containing photo information
      */
-    static final String ARRAY_PHOTOS = "photos";
+    public static final String ARRAY_PHOTOS = "photos";
 
     /**
      * An array containing each element in a places full address
      */
-    static final String ARRAY_ADDRESS_COMPONENTS = "address_components";
+    public static final String ARRAY_ADDRESS_COMPONENTS = "address_components";
 
     /**
      * Array of reviews of a Place
      */
-    static final String ARRAY_REVIEWS = "reviews";
+    public static final String ARRAY_REVIEWS = "reviews";
 
     /**
      * Array of aspects of a review
      */
-    static final String ARRAY_ASPECTS = "aspects";
+    public static final String ARRAY_ASPECTS = "aspects";
 
     /**
      * Array of autocomplete predictions
      */
-    static final String ARRAY_PREDICTIONS = "predictions";
+    public static final String ARRAY_PREDICTIONS = "predictions";
 
     /**
      * Array of terms describing a autocomplete prediction description
      */
-    static final String ARRAY_TERMS = "terms";
+    public static final String ARRAY_TERMS = "terms";
 
     /**
      * Used for matching matched substrings for autocompletion
      */
-    static final String ARRAY_MATCHED_SUBSTRINGS = "matched_substrings";
+    public static final String ARRAY_MATCHED_SUBSTRINGS = "matched_substrings";
 
     /**
      * If the place is opened now
      */
-    static final String BOOLEAN_OPENED = "open_now";
+    public static final String BOOLEAN_OPENED = "open_now";
 
     /**
      * Latitude of place
      */
-    static final String DOUBLE_LATITUDE = "lat";
+    public static final String DOUBLE_LATITUDE = "lat";
 
     /**
      * Longitude of place
      */
-    static final String DOUBLE_LONGITUDE = "lng";
+    public static final String DOUBLE_LONGITUDE = "lng";
 
     /**
      * The "rating" of the place
      */
-    static final String DOUBLE_RATING = "rating";
+    public static final String DOUBLE_RATING = "rating";
 
     /**
      * How expensive the place is
      */
-    static final String INTEGER_PRICE_LEVEL = "price_level";
+    public static final String INTEGER_PRICE_LEVEL = "price_level";
 
     /**
      * Day represented by an int 0-6, starting with Sunday
      */
-    static final String INTEGER_DAY = "day";
+    public static final String INTEGER_DAY = "day";
 
     /**
      * Used for describing a photo's width
      */
-    static final String INTEGER_WIDTH = "width";
+    public static final String INTEGER_WIDTH = "width";
 
     /**
      * Used for describing a photo's height
      */
-    static final String INTEGER_HEIGHT = "height";
+    public static final String INTEGER_HEIGHT = "height";
 
     /**
      * Reviews use integer ratings
      */
-    static final String INTEGER_RATING = "rating";
+    public static final String INTEGER_RATING = "rating";
 
     /**
      * Minutes that a location is of from UTC
      */
-    static final String INTEGER_UTC_OFFSET = "utc_offset";
+    public static final String INTEGER_UTC_OFFSET = "utc_offset";
 
     /**
      * Accuracy of location, in meters
      */
-    static final String INTEGER_ACCURACY = "accuracy";
+    public static final String INTEGER_ACCURACY = "accuracy";
 
     /**
      * Used for autocomplete predictions
      */
-    static final String INTEGER_OFFSET = "offset";
+    public static final String INTEGER_OFFSET = "offset";
 
     /**
      * Used for autocomplete substring length
      */
-    static final String INTEGER_LENGTH = "length";
+    public static final String INTEGER_LENGTH = "length";
 
     /**
      * The start time for an event
      */
-    static final String LONG_START_TIME = "start_time";
+    public static final String LONG_START_TIME = "start_time";
 
     /**
      * Used for the date of a review
      */
-    static final String LONG_TIME = "time";
+    public static final String LONG_TIME = "time";
 
     /**
      * Returns the duration of an event
      */
-    static final String LONG_DURATION = "duration";
+    public static final String LONG_DURATION = "duration";
 
     /**
      * Used for responses with single results
      */
-    static final String OBJECT_RESULT = "result";
+    public static final String OBJECT_RESULT = "result";
 
     /**
      * Geographic information
      */
-    static final String OBJECT_GEOMETRY = "geometry";
+    public static final String OBJECT_GEOMETRY = "geometry";
 
     /**
      * Contains latitude and longitude coordinates
      */
-    static final String OBJECT_LOCATION = "location";
+    public static final String OBJECT_LOCATION = "location";
 
     /**
      * Contains open_now
      */
-    static final String OBJECT_HOURS = "opening_hours";
+    public static final String OBJECT_HOURS = "opening_hours";
 
     /**
      * The beginning of a period
      */
-    static final String OBJECT_OPEN = "open";
+    public static final String OBJECT_OPEN = "open";
 
     /**
      * The end of a period
      */
-    static final String OBJECT_CLOSE = "close";
+    public static final String OBJECT_CLOSE = "close";
 
     /**
      * The unique, stable, identifier for this place
      */
-    static final String STRING_ID = "id";
+    public static final String STRING_ID = "id";
 
     /**
      * Url to the icon to represent this place
      */
-    static final String STRING_ICON = "icon";
+    public static final String STRING_ICON = "icon";
 
     /**
      * The name of the place
      */
-    static final String STRING_NAME = "name";
+    public static final String STRING_NAME = "name";
 
     /**
      * The address of the place
      */
-    static final String STRING_ADDRESS = "formatted_address";
+    public static final String STRING_ADDRESS = "formatted_address";
 
     /**
      * The reference to use to get more details about the place
      */
-    static final String STRING_REFERENCE = "reference";
+    public static final String STRING_REFERENCE = "reference";
 
     /**
      * The vicinity of which the place can be found (sometimes replaces formatted_address)
      */
-    static final String STRING_VICINITY = "vicinity";
+    public static final String STRING_VICINITY = "vicinity";
 
     /**
      * The unique identifier for an event at a place
      */
-    static final String STRING_EVENT_ID = "event_id";
+    public static final String STRING_EVENT_ID = "event_id";
 
     /**
      * The summary of an event
      */
-    static final String STRING_SUMMARY = "summary";
+    public static final String STRING_SUMMARY = "summary";
 
     /**
      * The url for an event at a place
      */
-    static final String STRING_URL = "url";
+    public static final String STRING_URL = "url";
 
     /**
      * A root element to indicate the status of the query.
      */
-    static final String STRING_STATUS = "status";
+    public static final String STRING_STATUS = "status";
 
     /**
      * A token used for getting the next page of results
      */
-    static final String STRING_NEXT_PAGE_TOKEN = "next_page_token";
+    public static final String STRING_NEXT_PAGE_TOKEN = "next_page_token";
 
     /**
      * The phone number of the place
      */
-    static final String STRING_PHONE_NUMBER = "formatted_phone_number";
+    public static final String STRING_PHONE_NUMBER = "formatted_phone_number";
 
     /**
      * The phone number of the place with an international country code
      */
-    static final String STRING_INTERNATIONAL_PHONE_NUMBER = "international_phone_number";
+    public static final String STRING_INTERNATIONAL_PHONE_NUMBER = "international_phone_number";
 
     /**
      * The website associated with a place
      */
-    static final String STRING_WEBSITE = "website";
+    public static final String STRING_WEBSITE = "website";
 
     /**
      * A time represented by an hhmm format
      */
-    static final String STRING_TIME = "time";
+    public static final String STRING_TIME = "time";
 
     /**
      * A reference to an actual photo
      */
-    static final String STRING_PHOTO_REFERENCE = "photo_reference";
+    public static final String STRING_PHOTO_REFERENCE = "photo_reference";
 
     /**
      * Represents an address component's long name
      */
-    static final String STRING_LONG_NAME = "long_name";
+    public static final String STRING_LONG_NAME = "long_name";
 
     /**
      * Represents an address component's short name
      */
-    static final String STRING_SHORT_NAME = "short_name";
+    public static final String STRING_SHORT_NAME = "short_name";
 
     /**
      * Name of a review author
      */
-    static final String STRING_AUTHOR_NAME = "author_name";
+    public static final String STRING_AUTHOR_NAME = "author_name";
 
     /**
      * Url of author
      */
-    static final String STRING_AUTHOR_URL = "author_url";
+    public static final String STRING_AUTHOR_URL = "author_url";
 
     /**
      * Language for review localization
      */
-    static final String STRING_LANGUAGE = "language";
+    public static final String STRING_LANGUAGE = "language";
 
     /**
      * Review content
      */
-    static final String STRING_TEXT = "text";
+    public static final String STRING_TEXT = "text";
 
     /**
      * Description of autocomplete prediction
      */
-    static final String STRING_DESCRIPTION = "description";
+    public static final String STRING_DESCRIPTION = "description";
 
     /**
      * Used for autocomplete terms
      */
-    static final String STRING_VALUE = "value";
+    public static final String STRING_VALUE = "value";
 
     /**
      * Used for singular types in review aspects
      */
-    static final String STRING_TYPE = "type";
+    public static final String STRING_TYPE = "type";
 
     /**
      * Restricts the results to places matching at least one of the specified types.
      */
-    static final String STRING_TYPES = "types";
+    public static final String STRING_TYPES = "types";
 
     /**
      * Returns true if the device has a location sensor.
@@ -352,7 +352,7 @@ public interface GooglePlacesInterface extends Types, Statuses {
      * @deprecated the sensor parameter is no longer required
      */
     @Deprecated
-    boolean isSensorEnabled();
+    public boolean isSensorEnabled();
 
     /**
      * Set this to true if the device you are using has a location detector such as GPS.
@@ -361,49 +361,49 @@ public interface GooglePlacesInterface extends Types, Statuses {
      * @deprecated the sensor parameter is no longer required
      */
     @Deprecated
-    void setSensorEnabled(boolean sensor);
+    public void setSensorEnabled(boolean sensor);
 
     /**
      * Returns true if the client is running in debug mode.
      *
      * @return true if debug mode
      */
-    boolean isDebugModeEnabled();
+    public boolean isDebugModeEnabled();
 
     /**
      * Sets if the client should run in debug mode.
      *
      * @param debugModeEnabled true if in debug mode
      */
-    void setDebugModeEnabled(boolean debugModeEnabled);
+    public void setDebugModeEnabled(boolean debugModeEnabled);
 
     /**
      * Returns the API key associated with this GooglePlaces object.
      *
      * @return api key
      */
-    String getApiKey();
+    public String getApiKey();
 
     /**
      * Sets the API key associated with this GooglePlaces object.
      *
      * @param apiKey to set
      */
-    void setApiKey(String apiKey);
+    public void setApiKey(String apiKey);
 
     /**
      * Returns the interface that handles HTTP requests to Google's server.
      *
      * @return request handler for HTTP traffic
      */
-    RequestHandler getRequestHandler();
+    public RequestHandler getRequestHandler();
 
     /**
      * Sets the request handler to delegate HTTP traffic.
      *
      * @param requestHandler to handle HTTP traffic
      */
-    void setRequestHandler(RequestHandler requestHandler);
+    public void setRequestHandler(RequestHandler requestHandler);
 
     /**
      * Returns the places at the specified latitude and longitude within the specified radius. If the specified limit
@@ -416,7 +416,7 @@ public interface GooglePlacesInterface extends Types, Statuses {
      * @param extraParams any extra parameters to include in the request URL
      * @return a list of places that were found
      */
-    List<Place> getNearbyPlaces(double lat, double lng, double radius, int limit, Param... extraParams);
+    public List<Place> getNearbyPlaces(double lat, double lng, double radius, int limit, Param... extraParams);
 
     /**
      * Returns the places at the specified latitude and longitude within the specified radius. No more than
@@ -429,7 +429,7 @@ public interface GooglePlacesInterface extends Types, Statuses {
      * @param extraParams any extra parameters to include in the request URL
      * @return a list of places that were found
      */
-    List<Place> getNearbyPlaces(double lat, double lng, double radius, Param... extraParams);
+    public List<Place> getNearbyPlaces(double lat, double lng, double radius, Param... extraParams);
 
     /**
      * Returns the places that match the specified search query.  If the specified limit
@@ -440,7 +440,7 @@ public interface GooglePlacesInterface extends Types, Statuses {
      * @param extraParams any extra parameters to include in the request URL
      * @return a list of places that were found
      */
-    List<Place> getPlacesByQuery(String query, int limit, Param... extraParams);
+    public List<Place> getPlacesByQuery(String query, int limit, Param... extraParams);
 
     /**
      * Returns the places that match the specified search query. No more than {@link #DEFAULT_RESULTS} will be returned
@@ -450,7 +450,7 @@ public interface GooglePlacesInterface extends Types, Statuses {
      * @param extraParams any extra parameters to include in the request URL
      * @return a list of places that were found
      */
-    List<Place> getPlacesByQuery(String query, Param... extraParams);
+    public List<Place> getPlacesByQuery(String query, Param... extraParams);
 
     /**
      * Returns the places at the specified latitude and longitude according to the "radar" method specified by Google
@@ -464,7 +464,7 @@ public interface GooglePlacesInterface extends Types, Statuses {
      * @param extraParams any extra parameters to include in the request URL
      * @return a list of places that were found
      */
-    List<Place> getPlacesByRadar(double lat, double lng, double radius, int limit, Param... extraParams);
+    public List<Place> getPlacesByRadar(double lat, double lng, double radius, int limit, Param... extraParams);
 
     /**
      * Returns the places at the specified latitude and longitude according to the "radar" method specified by Google
@@ -477,7 +477,7 @@ public interface GooglePlacesInterface extends Types, Statuses {
      * @param extraParams any extra parameters to include in the request URL
      * @return a list of places that were found
      */
-    List<Place> getPlacesByRadar(double lat, double lng, double radius, Param... extraParams);
+    public List<Place> getPlacesByRadar(double lat, double lng, double radius, Param... extraParams);
 
     /**
      * Returns the place using the specified reference ID.
@@ -486,7 +486,7 @@ public interface GooglePlacesInterface extends Types, Statuses {
      * @param extraParams to append to request url
      * @return place
      */
-    Place getPlace(String reference, Param... extraParams);
+    public Place getPlace(String reference, Param... extraParams);
 
     /**
      * Adds a new place to Places API and gets the newly created place if returnPlace is set to true.
@@ -501,7 +501,7 @@ public interface GooglePlacesInterface extends Types, Statuses {
      * @param extraParams to append to request url
      * @return newly created place
      */
-    Place addPlace(String name, String lang, double lat, double lng, int accuracy, Collection<String> types,
+    public Place addPlace(String name, String lang, double lat, double lng, int accuracy, Collection<String> types,
                    boolean returnPlace, Param... extraParams);
 
     /**
@@ -516,7 +516,7 @@ public interface GooglePlacesInterface extends Types, Statuses {
      * @return newly created place
      * \
      */
-    Place addPlace(String name, String lang, double lat, double lng, int accuracy, Collection<String> types,
+    public Place addPlace(String name, String lang, double lat, double lng, int accuracy, Collection<String> types,
                    Param... extraParams);
 
     /**
@@ -530,7 +530,7 @@ public interface GooglePlacesInterface extends Types, Statuses {
      * @param type     type of place
      * @return newly created place
      */
-    Place addPlace(String name, String lang, double lat, double lng, int accuracy, String type,
+    public Place addPlace(String name, String lang, double lat, double lng, int accuracy, String type,
                    Param... extraParams);
 
     /**
@@ -544,7 +544,7 @@ public interface GooglePlacesInterface extends Types, Statuses {
      * @param type     type of place
      * @return newly created place
      */
-    Place addPlace(String name, String lang, double lat, double lng, int accuracy, String type,
+    public Place addPlace(String name, String lang, double lat, double lng, int accuracy, String type,
                    boolean returnPlace, Param... extraParams);
 
     /**
@@ -552,14 +552,14 @@ public interface GooglePlacesInterface extends Types, Statuses {
      *
      * @param reference id
      */
-    void deletePlace(String reference, Param... extraParams);
+    public void deletePlace(String reference, Param... extraParams);
 
     /**
      * Deletes the specified place.
      *
      * @param place to delete
      */
-    void deletePlace(Place place, Param... extraParams);
+    public void deletePlace(Place place, Param... extraParams);
 
     /**
      * Bumps a place within the application. Bumps are reflected in your place searches for your application only.
@@ -568,7 +568,7 @@ public interface GooglePlacesInterface extends Types, Statuses {
      * @param place       to bump
      * @param extraParams to append to request url
      */
-    void bumpPlace(Place place, Param... extraParams);
+    public void bumpPlace(Place place, Param... extraParams);
 
     /**
      * Bumps an event within the application. Bumps are reflected in your place searches for your application only.
@@ -577,7 +577,7 @@ public interface GooglePlacesInterface extends Types, Statuses {
      * @param event       to bump
      * @param extraParams to append to request url
      */
-    void bumpEvent(Event event, Param... extraParams);
+    public void bumpEvent(Event event, Param... extraParams);
 
     /**
      * Returns the event at the specified place with the specified event id.
@@ -587,7 +587,7 @@ public interface GooglePlacesInterface extends Types, Statuses {
      * @param extraParams to append to request url
      * @return event
      */
-    Event getEvent(Place place, String eventId, Param... extraParams);
+    public Event getEvent(Place place, String eventId, Param... extraParams);
 
     /**
      * Adds a new Event to Google Places API.
@@ -601,7 +601,7 @@ public interface GooglePlacesInterface extends Types, Statuses {
      * @param extraParams to append to request url
      * @return newly created event
      */
-    Event addEvent(Place place, String summary, long duration, String lang, String url, boolean returnEvent,
+    public Event addEvent(Place place, String summary, long duration, String lang, String url, boolean returnEvent,
                    Param... extraParams);
 
     /**
@@ -615,7 +615,7 @@ public interface GooglePlacesInterface extends Types, Statuses {
      * @param extraParams to append to request url
      * @return newly created event
      */
-    Event addEvent(Place place, String summary, long duration, String lang, String url, Param... extraParams);
+    public Event addEvent(Place place, String summary, long duration, String lang, String url, Param... extraParams);
 
     /**
      * Adds a new Event to Google Places API.
@@ -626,7 +626,7 @@ public interface GooglePlacesInterface extends Types, Statuses {
      * @param extraParams to append to request url
      * @return newly created event
      */
-    Event addEvent(Place place, String summary, long duration, boolean returnEvent, Param... extraParams);
+    public Event addEvent(Place place, String summary, long duration, boolean returnEvent, Param... extraParams);
 
     /**
      * Adds a new Event to Google Places API.
@@ -637,7 +637,7 @@ public interface GooglePlacesInterface extends Types, Statuses {
      * @param extraParams to append to request url
      * @return newly created event
      */
-    Event addEvent(Place place, String summary, long duration, Param... extraParams);
+    public Event addEvent(Place place, String summary, long duration, Param... extraParams);
 
     /**
      * Deletes the specified event from Places API.
@@ -646,7 +646,7 @@ public interface GooglePlacesInterface extends Types, Statuses {
      * @param eventId        unique event id
      * @param extraParams    to append to request url
      */
-    void deleteEvent(String placeReference, String eventId, Param... extraParams);
+    public void deleteEvent(String placeReference, String eventId, Param... extraParams);
 
     /**
      * Deletes the specified event from Places API.
@@ -654,7 +654,7 @@ public interface GooglePlacesInterface extends Types, Statuses {
      * @param event       to delete
      * @param extraParams to append to request url
      */
-    void deleteEvent(Event event, Param... extraParams);
+    public void deleteEvent(Event event, Param... extraParams);
 
     /**
      * Returns a list of auto-complete predictions for searching for a specific place.
@@ -663,7 +663,7 @@ public interface GooglePlacesInterface extends Types, Statuses {
      * @param extraParams to append to request url
      * @return list of predictions
      */
-    List<Prediction> getPlacePredictions(String input, Param... extraParams);
+    public List<Prediction> getPlacePredictions(String input, Param... extraParams);
 
     /**
      * Returns a list of auto-complete predictions for searching for a place by a query.
@@ -672,6 +672,6 @@ public interface GooglePlacesInterface extends Types, Statuses {
      * @param extraParams to append to request url
      * @return list of predictions
      */
-    List<Prediction> getQueryPredictions(String input, Param... extraParams);
+    public List<Prediction> getQueryPredictions(String input, Param... extraParams);
 
 }

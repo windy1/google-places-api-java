@@ -6,6 +6,8 @@ import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
 import java.io.InputStream;
 
+import static se.walkercrou.places.GooglePlaces.*;
+
 /**
  * Represents a referenced photo.
  */
@@ -42,7 +44,7 @@ public class Photo {
      * @return this
      */
     public Photo download(Param... extraParams) {
-        return download(GooglePlaces.MAX_PHOTO_SIZE, GooglePlaces.MAX_PHOTO_SIZE, extraParams);
+        return download(MAX_PHOTO_SIZE, MAX_PHOTO_SIZE, extraParams);
     }
 
     /**

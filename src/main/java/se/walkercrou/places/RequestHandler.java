@@ -9,9 +9,20 @@ import java.io.InputStream;
  * Represents an interface to handle HTTP traffic between the client and Google Places API.
  */
 public interface RequestHandler {
-    String getCharacterEncoding();
 
-    void setCharacterEncoding(String characterEncoding);
+    /**
+     * Returns the character encoding used by this handler.
+     *
+     * @return character encoding
+     */
+    public String getCharacterEncoding();
+
+    /**
+     * Sets the character encoding used by this handler.
+     *
+     * @param characterEncoding to use
+     */
+    public void setCharacterEncoding(String characterEncoding);
 
     /**
      * Returns an InputStream from the specified URI.
