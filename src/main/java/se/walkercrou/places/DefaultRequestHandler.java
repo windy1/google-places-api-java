@@ -39,6 +39,7 @@ public class DefaultRequestHandler implements RequestHandler {
      *
      * @return character encoding
      */
+    @Override
     public String getCharacterEncoding() {
         return characterEncoding;
     }
@@ -48,6 +49,7 @@ public class DefaultRequestHandler implements RequestHandler {
      *
      * @param characterEncoding to use
      */
+    @Override
     public void setCharacterEncoding(String characterEncoding) {
         this.characterEncoding = characterEncoding;
     }

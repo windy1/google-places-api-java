@@ -6,6 +6,8 @@ import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
 import java.io.InputStream;
 
+import static se.walkercrou.places.GooglePlaces.*;
+
 /**
  * Represents a referenced photo.
  */
@@ -30,7 +32,7 @@ public class Photo {
      * @param extraParams to append to request url
      * @return this
      */
-    public Photo download(int maxWidth, int maxHeight, GooglePlaces.Param... extraParams) {
+    public Photo download(int maxWidth, int maxHeight, Param... extraParams) {
         image = place.getClient().downloadPhoto(this, maxWidth, maxHeight, extraParams);
         return this;
     }
@@ -41,12 +43,12 @@ public class Photo {
      * @param extraParams to append to request url
      * @return this
      */
-    public Photo download(GooglePlaces.Param... extraParams) {
-        return download(GooglePlaces.MAX_PHOTO_SIZE, GooglePlaces.MAX_PHOTO_SIZE, extraParams);
+    public Photo download(Param... extraParams) {
+        return download(MAX_PHOTO_SIZE, MAX_PHOTO_SIZE, extraParams);
     }
 
     /**
-     * Returns the input stream of the image. {@link #download(int, int, se.walkercrou.places.GooglePlaces.Param...)}
+     * Returns the input stream of the image. {@link #download(int, int, Param...)}
      * must be called prior to calling this.
      *
      * @return input stream
