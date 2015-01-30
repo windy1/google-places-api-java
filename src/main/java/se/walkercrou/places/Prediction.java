@@ -8,7 +8,7 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 
-import static se.walkercrou.places.GooglePlaces.*;
+import static se.walkercrou.places.GooglePlaces.checkStatus;
 
 /**
  * Represents a autocomplete prediction based on a query.

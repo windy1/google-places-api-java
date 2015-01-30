@@ -502,7 +502,7 @@ public interface GooglePlacesInterface extends Types, Statuses {
      * @return newly created place
      */
     public Place addPlace(String name, String lang, double lat, double lng, int accuracy, Collection<String> types,
-                   boolean returnPlace, Param... extraParams);
+                          boolean returnPlace, Param... extraParams);
 
     /**
      * Adds a new place to Places API and returns the newly created Place.
@@ -517,7 +517,7 @@ public interface GooglePlacesInterface extends Types, Statuses {
      * \
      */
     public Place addPlace(String name, String lang, double lat, double lng, int accuracy, Collection<String> types,
-                   Param... extraParams);
+                          Param... extraParams);
 
     /**
      * Adds a new place to Places API and returns the newly created Place.
@@ -531,7 +531,7 @@ public interface GooglePlacesInterface extends Types, Statuses {
      * @return newly created place
      */
     public Place addPlace(String name, String lang, double lat, double lng, int accuracy, String type,
-                   Param... extraParams);
+                          Param... extraParams);
 
     /**
      * Adds a new place to Places API and returns the newly created Place.
@@ -545,7 +545,7 @@ public interface GooglePlacesInterface extends Types, Statuses {
      * @return newly created place
      */
     public Place addPlace(String name, String lang, double lat, double lng, int accuracy, String type,
-                   boolean returnPlace, Param... extraParams);
+                          boolean returnPlace, Param... extraParams);
 
     /**
      * Deletes the place specified by the specified reference ID.
@@ -602,7 +602,7 @@ public interface GooglePlacesInterface extends Types, Statuses {
      * @return newly created event
      */
     public Event addEvent(Place place, String summary, long duration, String lang, String url, boolean returnEvent,
-                   Param... extraParams);
+                          Param... extraParams);
 
     /**
      * Adds a new Event to Google Places API.

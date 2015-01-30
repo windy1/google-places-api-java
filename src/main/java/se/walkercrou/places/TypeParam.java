@@ -5,7 +5,7 @@ import java.util.List;
 /**
  * Represents an extra, optional type parameter that restricts the results to places matching at least one of the specified types.
  */
-public class TypeParam extends Param{
+public class TypeParam extends Param {
 
     private TypeParam(String name) {
         super(name);
@@ -29,9 +29,9 @@ public class TypeParam extends Param{
      */
     public Param value(List<String> values) {
         StringBuilder valuesSb = new StringBuilder();
-        for(int i=0; i< values.size(); i++){
+        for (int i = 0; i < values.size(); i++) {
             valuesSb.append(values.get(i));
-            if(i != (values.size() -1)){
+            if (i != (values.size() - 1)) {
                 valuesSb.append("%7C"); // it represents a pipeline character |
             }
         }

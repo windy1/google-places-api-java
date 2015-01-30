@@ -6,7 +6,7 @@ import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
 import java.io.InputStream;
 
-import static se.walkercrou.places.GooglePlaces.*;
+import static se.walkercrou.places.GooglePlaces.MAX_PHOTO_SIZE;
 
 /**
  * Represents a referenced photo.
