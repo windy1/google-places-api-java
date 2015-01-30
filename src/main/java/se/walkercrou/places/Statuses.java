@@ -1,5 +1,8 @@
 package se.walkercrou.places;
 
+/**
+ * Google Places API official "status" replies.
+ */
 public interface Statuses {
     /**
      * Indicates the request was successful.
