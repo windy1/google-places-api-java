@@ -221,6 +221,11 @@ public interface GooglePlacesInterface extends Types, Statuses {
     public static final String STRING_ID = "id";
 
     /**
+     * The unique identifier for retrieving information about a place
+     */
+    public static final String STRING_PLACE_ID = "place_id";
+
+    /**
      * Url to the icon to represent this place
      */
     public static final String STRING_ICON = "icon";
