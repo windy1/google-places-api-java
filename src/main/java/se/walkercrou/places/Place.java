@@ -25,6 +25,7 @@ public class Place {
     private final List<AddressComponent> addressComponents = new ArrayList<>();
     private GooglePlaces client;
     private String id;
+    private String placeId;
     private double lat = -1, lng = -1;
     private JSONObject json;
     private String iconUrl;
@@ -79,6 +80,7 @@ public class Place {
 
         // easy stuff
         String id = result.getString(STRING_ID);
+        String placeId = result.getString(STRING_PLACE_ID);
         String name = result.getString(STRING_NAME);
         String address = result.optString(STRING_ADDRESS, null);
         String phone = result.optString(STRING_PHONE_NUMBER, null);
@@ -241,7 +243,7 @@ public class Place {
                 .setReferenceId(reference).setStatus(status).setVicinity(vicinity).setPhoneNumber(phone)
                 .setInternationalPhoneNumber(internationalPhone).setGoogleUrl(url).setWebsite(website)
                 .addPhotos(photos).addAddressComponents(addressComponents).setHours(schedule).addReviews(reviews)
-                .setUtcOffset(utcOffset).setJson(result);
+                .setPlaceId(placeId).setUtcOffset(utcOffset).setJson(result);
     }
 
     /**
@@ -281,6 +283,26 @@ public class Place {
      */
     protected Place setId(String id) {
         this.id = id;
+        return this;
+    }
+
+    /**
+     * Returns the unique place id for retrieving information about this place.
+     *
+     * @return placeId
+     */
+    public String getPlaceId() {
+        return placeId;
+    }
+
+    /**
+     * Sets the unique place id for retrieving information about this place.
+     *
+     * @param placeId placeId
+     * @return this
+     */
+    protected Place setPlaceId(String placeId) {
+        this.placeId = placeId;
         return this;
     }
 
