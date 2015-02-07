@@ -1,5 +1,7 @@
 package se.walkercrou.places;
 
+import se.walkercrou.places.exception.GooglePlacesException;
+
 import java.util.Collection;
 import java.util.List;
 
@@ -420,8 +422,7 @@ public interface GooglePlacesInterface extends Types, Statuses {
 
     /**
      * Returns the places at the specified latitude and longitude within the specified radius. No more than
-     * {@link #DEFAULT_RESULTS} will be returned and no more than one HTTP GET request will be sent. The 'sensor'
-     * parameter defaults to false.
+     * {@link #DEFAULT_RESULTS} will be returned and no more than one HTTP GET request will be sent.
      *
      * @param lat         latitude
      * @param lng         longitude
@@ -430,6 +431,37 @@ public interface GooglePlacesInterface extends Types, Statuses {
      * @return a list of places that were found
      */
     public List<Place> getNearbyPlaces(double lat, double lng, double radius, Param... extraParams);
+
+    /**
+     * Returns the places at the specified latitude and longitude in order of proximity to the specified location. If
+     * the specified limit is greater than {@link #MAXIMUM_PAGE_RESULTS}, multiple HTTP GET requests may be made if
+     * necessary. One or more of the parameters 'keyword', 'name', or 'types' is required or else a
+     * {@link se.walkercrou.places.exception.GooglePlacesException} will be thrown.
+     *
+     * @param lat latitude
+     * @param lng longitude
+     * @param limit the maximum amount of places to return
+     * @param params parameters to append to url, one or more being 'keyword', 'name', or 'types'
+     * @throws se.walkercrou.places.exception.GooglePlacesException if 'keyword', 'name' or 'types' is not included.
+     * @return list of places in order of proximity to the specified location
+     */
+    public List<Place> getNearbyPlacesRankedByDistance(double lat, double lng, int limit, Param... params)
+            throws GooglePlacesException;
+
+    /**
+     * Returns the places at the specified latitude and longitude in order of proximity to the specified location. No
+     * more than {@link #DEFAULT_RESULTS} will be returned and no more than one HTTP GET request will be sent. One or
+     * more of the parameters 'keyword', 'name', or 'types' is required or else a
+     * {@link se.walkercrou.places.exception.GooglePlacesException} will be thrown.
+     *
+     * @param lat latitude
+     * @param lng longitude
+     * @param params parameters to append to url, one or more being 'keyword', 'name', or 'types'
+     * @throws se.walkercrou.places.exception.GooglePlacesException if 'keyword', 'name' or 'types' is not included.
+     * @return list of places in order of proximity to the specified location
+     */
+    public List<Place> getNearbyPlacesRankedByDistance(double lat, double lng, Param... params)
+            throws GooglePlacesException;
 
     /**
      * Returns the places that match the specified search query.  If the specified limit

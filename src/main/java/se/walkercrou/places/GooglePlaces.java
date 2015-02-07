@@ -240,6 +240,22 @@ public class GooglePlaces implements GooglePlacesInterface {
     }
 
     @Override
+    public List<Place> getNearbyPlacesRankedByDistance(double lat, double lng, int limit, Param... params) {
+        try {
+            String uri = buildUrl(METHOD_NEARBY_SEARCH, String.format("key=%s&location=%f,%f&rankby=distance",
+                    apiKey, lat, lng), params);
+            return getPlaces(uri, METHOD_NEARBY_SEARCH, limit);
+        } catch (Exception e) {
+            throw new GooglePlacesException(e);
+        }
+    }
+
+    @Override
+    public List<Place> getNearbyPlacesRankedByDistance(double lat, double lng, Param... params) {
+        return getNearbyPlacesRankedByDistance(lat, lng, DEFAULT_RESULTS, params);
+    }
+
+    @Override
     public List<Place> getPlacesByQuery(String query, int limit, Param... extraParams) {
         try {
             String uri = buildUrl(METHOD_TEXT_SEARCH, String.format("query=%s&key=%s", query, apiKey),

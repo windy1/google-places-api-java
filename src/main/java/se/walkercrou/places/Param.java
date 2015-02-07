@@ -4,7 +4,6 @@ package se.walkercrou.places;
  * Represents an extra, optional parameter that can be specified.
  */
 public class Param {
-    //Please note the change from private to protected for the variable "name"
     protected final String name;
     protected String value;
 
