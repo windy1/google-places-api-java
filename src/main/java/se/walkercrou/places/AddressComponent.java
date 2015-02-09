@@ -1,7 +1,6 @@
 package se.walkercrou.places;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 
@@ -58,17 +57,6 @@ public class AddressComponent {
     }
 
     /**
-     * Adds a collection of types to this components list of types.
-     *
-     * @param types to add
-     * @return this
-     */
-    protected AddressComponent addTypes(Collection<String> types) {
-        this.types.addAll(types);
-        return this;
-    }
-
-    /**
      * Adds a type to this components list of types
      *
      * @param type to add
@@ -76,27 +64,6 @@ public class AddressComponent {
      */
     protected AddressComponent addType(String type) {
         types.add(type);
-        return this;
-    }
-
-    /**
-     * Removes the specified type from the list of types.
-     *
-     * @param type to remove
-     * @return this
-     */
-    protected AddressComponent removeType(String type) {
-        types.remove(type);
-        return this;
-    }
-
-    /**
-     * Clears all of this components types.
-     *
-     * @return this
-     */
-    protected AddressComponent clearTypes() {
-        types.clear();
         return this;
     }
 

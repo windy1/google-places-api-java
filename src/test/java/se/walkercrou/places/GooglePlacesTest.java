@@ -9,7 +9,6 @@ import java.util.Arrays;
 import java.util.List;
 
 import static org.junit.Assert.fail;
-
 import static se.walkercrou.places.GooglePlaces.*;
 
 public class GooglePlacesTest {
@@ -88,7 +87,7 @@ public class GooglePlacesTest {
         return found;
     }
 
-    private boolean hasAtLeastAPlace(List<Place> places){
+    private boolean hasAtLeastAPlace(List<Place> places) {
         return (places != null) && places.size() > 0;
     }
 }

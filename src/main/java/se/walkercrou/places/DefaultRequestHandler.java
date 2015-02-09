@@ -5,7 +5,7 @@ import org.apache.http.HttpResponse;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
-import org.apache.http.impl.client.DefaultHttpClient;
+import org.apache.http.impl.client.HttpClientBuilder;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -15,7 +15,7 @@ public class DefaultRequestHandler implements RequestHandler {
      * The default and recommended character encoding.
      */
     public static final String DEFAULT_CHARACTER_ENCODING = "UTF-8";
-    private final HttpClient client = new DefaultHttpClient();
+    private final HttpClient client = HttpClientBuilder.create().build();
     private String characterEncoding;
 
     /**

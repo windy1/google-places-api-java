@@ -2,7 +2,6 @@ package se.walkercrou.places;
 
 import se.walkercrou.places.exception.GooglePlacesException;
 
-import java.util.Collection;
 import java.util.List;
 
 /**
@@ -43,10 +42,6 @@ public interface GooglePlacesInterface extends Types, Statuses {
     public static final String METHOD_DETAILS = "details";
     public static final String METHOD_ADD = "add";
     public static final String METHOD_DELETE = "delete";
-    public static final String METHOD_EVENT_DETAILS = "event/details";
-    public static final String METHOD_EVENT_ADD = "event/add";
-    public static final String METHOD_EVENT_DELETE = "event/delete";
-    public static final String METHOD_BUMP = "bump";
     public static final String METHOD_AUTOCOMPLETE = "autocomplete";
     public static final String METHOD_QUERY_AUTOCOMPLETE = "queryautocomplete";
 
@@ -61,11 +56,6 @@ public interface GooglePlacesInterface extends Types, Statuses {
      * Array for results
      */
     public static final String ARRAY_RESULTS = "results";
-
-    /**
-     * The events occurring at the place
-     */
-    public static final String ARRAY_EVENTS = "events";
 
     /**
      * Signifies the hours of operation of a place
@@ -106,6 +96,11 @@ public interface GooglePlacesInterface extends Types, Statuses {
      * Used for matching matched substrings for autocompletion
      */
     public static final String ARRAY_MATCHED_SUBSTRINGS = "matched_substrings";
+
+    /**
+     * Defines alternate entries for a specified place.
+     */
+    public static final String ARRAY_ALT_IDS = "alt_ids";
 
     /**
      * If the place is opened now
@@ -173,19 +168,9 @@ public interface GooglePlacesInterface extends Types, Statuses {
     public static final String INTEGER_LENGTH = "length";
 
     /**
-     * The start time for an event
-     */
-    public static final String LONG_START_TIME = "start_time";
-
-    /**
      * Used for the date of a review
      */
     public static final String LONG_TIME = "time";
-
-    /**
-     * Returns the duration of an event
-     */
-    public static final String LONG_DURATION = "duration";
 
     /**
      * Used for responses with single results
@@ -220,7 +205,7 @@ public interface GooglePlacesInterface extends Types, Statuses {
     /**
      * The unique, stable, identifier for this place
      */
-    public static final String STRING_ID = "id";
+    public static final String STRING_PLACE_ID = "place_id";
 
     /**
      * Url to the icon to represent this place
@@ -238,24 +223,9 @@ public interface GooglePlacesInterface extends Types, Statuses {
     public static final String STRING_ADDRESS = "formatted_address";
 
     /**
-     * The reference to use to get more details about the place
-     */
-    public static final String STRING_REFERENCE = "reference";
-
-    /**
      * The vicinity of which the place can be found (sometimes replaces formatted_address)
      */
     public static final String STRING_VICINITY = "vicinity";
-
-    /**
-     * The unique identifier for an event at a place
-     */
-    public static final String STRING_EVENT_ID = "event_id";
-
-    /**
-     * The summary of an event
-     */
-    public static final String STRING_SUMMARY = "summary";
 
     /**
      * The url for an event at a place
@@ -348,22 +318,11 @@ public interface GooglePlacesInterface extends Types, Statuses {
     public static final String STRING_TYPES = "types";
 
     /**
-     * Returns true if the device has a location sensor.
+     * Defines what scope a location resides in.
      *
-     * @return false
-     * @deprecated the sensor parameter is no longer required
+     * @see se.walkercrou.places.Scope
      */
-    @Deprecated
-    public boolean isSensorEnabled();
-
-    /**
-     * Set this to true if the device you are using has a location detector such as GPS.
-     *
-     * @param sensor if sensor is enabled
-     * @deprecated the sensor parameter is no longer required
-     */
-    @Deprecated
-    public void setSensorEnabled(boolean sensor);
+    public static final String STRING_SCOPE = "scope";
 
     /**
      * Returns true if the client is running in debug mode.
@@ -438,12 +397,12 @@ public interface GooglePlacesInterface extends Types, Statuses {
      * necessary. One or more of the parameters 'keyword', 'name', or 'types' is required or else a
      * {@link se.walkercrou.places.exception.GooglePlacesException} will be thrown.
      *
-     * @param lat latitude
-     * @param lng longitude
-     * @param limit the maximum amount of places to return
+     * @param lat    latitude
+     * @param lng    longitude
+     * @param limit  the maximum amount of places to return
      * @param params parameters to append to url, one or more being 'keyword', 'name', or 'types'
-     * @throws se.walkercrou.places.exception.GooglePlacesException if 'keyword', 'name' or 'types' is not included.
      * @return list of places in order of proximity to the specified location
+     * @throws se.walkercrou.places.exception.GooglePlacesException if 'keyword', 'name' or 'types' is not included.
      */
     public List<Place> getNearbyPlacesRankedByDistance(double lat, double lng, int limit, Param... params)
             throws GooglePlacesException;
@@ -454,11 +413,11 @@ public interface GooglePlacesInterface extends Types, Statuses {
      * more of the parameters 'keyword', 'name', or 'types' is required or else a
      * {@link se.walkercrou.places.exception.GooglePlacesException} will be thrown.
      *
-     * @param lat latitude
-     * @param lng longitude
+     * @param lat    latitude
+     * @param lng    longitude
      * @param params parameters to append to url, one or more being 'keyword', 'name', or 'types'
-     * @throws se.walkercrou.places.exception.GooglePlacesException if 'keyword', 'name' or 'types' is not included.
      * @return list of places in order of proximity to the specified location
+     * @throws se.walkercrou.places.exception.GooglePlacesException if 'keyword', 'name' or 'types' is not included.
      */
     public List<Place> getNearbyPlacesRankedByDistance(double lat, double lng, Param... params)
             throws GooglePlacesException;
@@ -512,79 +471,31 @@ public interface GooglePlacesInterface extends Types, Statuses {
     public List<Place> getPlacesByRadar(double lat, double lng, double radius, Param... extraParams);
 
     /**
-     * Returns the place using the specified reference ID.
+     * Returns the place specified by the 'placeid'.
      *
-     * @param reference   id
-     * @param extraParams to append to request url
+     * @param placeId     to get
+     * @param extraParams params to append to url
      * @return place
      */
-    public Place getPlace(String reference, Param... extraParams);
+    public Place getPlaceById(String placeId, Param... extraParams);
 
     /**
-     * Adds a new place to Places API and gets the newly created place if returnPlace is set to true.
+     * Adds a new place to the Places API and gets the newly created place if returnPlace is set to true.
      *
-     * @param name        of place
-     * @param lang        language of place
-     * @param lat         latitude coordinate
-     * @param lng         longitude coordinate
-     * @param accuracy    of coordinates in meters
-     * @param types       collection of types
+     * @param builder     to get place details from
      * @param returnPlace true if the newly created place should be returned
      * @param extraParams to append to request url
      * @return newly created place
      */
-    public Place addPlace(String name, String lang, double lat, double lng, int accuracy, Collection<String> types,
-                          boolean returnPlace, Param... extraParams);
+    public Place addPlace(PlaceBuilder builder, boolean returnPlace, Param... extraParams);
 
     /**
-     * Adds a new place to Places API and returns the newly created Place.
+     * Deletes the place of the specified placeId.
      *
-     * @param name     of place
-     * @param lang     language of place
-     * @param lat      latitude coordinate
-     * @param lng      longitude coordinate
-     * @param accuracy of coordinates in meters
-     * @param types    collection of types
-     * @return newly created place
-     * \
+     * @param placeId     place id
+     * @param extraParams params to append to url
      */
-    public Place addPlace(String name, String lang, double lat, double lng, int accuracy, Collection<String> types,
-                          Param... extraParams);
-
-    /**
-     * Adds a new place to Places API and returns the newly created Place.
-     *
-     * @param name     of place
-     * @param lang     language of place
-     * @param lat      latitude coordinate
-     * @param lng      longitude coordinate
-     * @param accuracy of coordinates in meters
-     * @param type     type of place
-     * @return newly created place
-     */
-    public Place addPlace(String name, String lang, double lat, double lng, int accuracy, String type,
-                          Param... extraParams);
-
-    /**
-     * Adds a new place to Places API and returns the newly created Place.
-     *
-     * @param name     of place
-     * @param lang     language of place
-     * @param lat      latitude coordinate
-     * @param lng      longitude coordinate
-     * @param accuracy of coordinates in meters
-     * @param type     type of place
-     * @return newly created place
-     */
-    public Place addPlace(String name, String lang, double lat, double lng, int accuracy, String type,
-                          boolean returnPlace, Param... extraParams);
-
-    /**
-     * Deletes the place specified by the specified reference ID.
-     *
-     * @param reference id
-     */
-    public void deletePlace(String reference, Param... extraParams);
+    public void deletePlaceById(String placeId, Param... extraParams);
 
     /**
      * Deletes the specified place.
@@ -594,114 +505,84 @@ public interface GooglePlacesInterface extends Types, Statuses {
     public void deletePlace(Place place, Param... extraParams);
 
     /**
-     * Bumps a place within the application. Bumps are reflected in your place searches for your application only.
-     * Bumping a place makes it appear higher in the result set.
+     * Returns a list of auto-complete predictions for searching for a specific place. The 'offset' is the position, in
+     * the input term, of the last character that the service uses to match predictions. For example, if the input is
+     * 'Google' and the offset is 3, the service will match on 'Goo'. The string determined by the offset is matched
+     * against the first word in the input term only. For example, if the input term is 'Google abc' and the offset is
+     * 3, the service will attempt to match against 'Goo abc'. If no offset is supplied, the service will use the whole
+     * term. The offset should generally be set to the position of the text caret. The lat, lng, and radius parameter
+     * specify and area in which you would like to search.
      *
-     * @param place       to bump
+     * @param input       user input
+     * @param offset      offset of text caret
+     * @param lat         latitude
+     * @param lng         longitude
+     * @param radius      radius
      * @param extraParams to append to request url
+     * @return list of predictions
      */
-    public void bumpPlace(Place place, Param... extraParams);
+    public List<Prediction> getPlacePredictions(String input, int offset, int lat, int lng, int radius,
+                                                Param... extraParams);
 
     /**
-     * Bumps an event within the application. Bumps are reflected in your place searches for your application only.
-     * Bumping an event makes it appear higher in the result set.
+     * Returns a list of auto-complete predictions for searching for a specific place. The 'offset' is the position, in
+     * the input term, of the last character that the service uses to match predictions. For example, if the input is
+     * 'Google' and the offset is 3, the service will match on 'Goo'. The string determined by the offset is matched
+     * against the first word in the input term only. For example, if the input term is 'Google abc' and the offset is
+     * 3, the service will attempt to match against 'Goo abc'. If no offset is supplied, the service will use the whole
+     * term. The offset should generally be set to the position of the text caret.
      *
-     * @param event       to bump
-     * @param extraParams to append to request url
+     * @param input  user input
+     * @param offset offset of text caret
+     * @return list of predictions
      */
-    public void bumpEvent(Event event, Param... extraParams);
-
-    /**
-     * Returns the event at the specified place with the specified event id.
-     *
-     * @param place       reference to place the event is at
-     * @param eventId     id of event
-     * @param extraParams to append to request url
-     * @return event
-     */
-    public Event getEvent(Place place, String eventId, Param... extraParams);
-
-    /**
-     * Adds a new Event to Google Places API.
-     *
-     * @param place       to add to
-     * @param summary     of event
-     * @param lang        language of event
-     * @param url         url of event
-     * @param duration    length of event in seconds
-     * @param returnEvent if GET request should be made to retrieve the newly created event
-     * @param extraParams to append to request url
-     * @return newly created event
-     */
-    public Event addEvent(Place place, String summary, long duration, String lang, String url, boolean returnEvent,
-                          Param... extraParams);
-
-    /**
-     * Adds a new Event to Google Places API.
-     *
-     * @param place       to add to
-     * @param summary     of event
-     * @param lang        language of event
-     * @param url         url of event
-     * @param duration    length of event in seconds
-     * @param extraParams to append to request url
-     * @return newly created event
-     */
-    public Event addEvent(Place place, String summary, long duration, String lang, String url, Param... extraParams);
-
-    /**
-     * Adds a new Event to Google Places API.
-     *
-     * @param place       to add to
-     * @param summary     of event
-     * @param duration    length of event in seconds
-     * @param extraParams to append to request url
-     * @return newly created event
-     */
-    public Event addEvent(Place place, String summary, long duration, boolean returnEvent, Param... extraParams);
-
-    /**
-     * Adds a new Event to Google Places API.
-     *
-     * @param place       to add to
-     * @param summary     of event
-     * @param duration    length of event in seconds
-     * @param extraParams to append to request url
-     * @return newly created event
-     */
-    public Event addEvent(Place place, String summary, long duration, Param... extraParams);
-
-    /**
-     * Deletes the specified event from Places API.
-     *
-     * @param placeReference that contains event
-     * @param eventId        unique event id
-     * @param extraParams    to append to request url
-     */
-    public void deleteEvent(String placeReference, String eventId, Param... extraParams);
-
-    /**
-     * Deletes the specified event from Places API.
-     *
-     * @param event       to delete
-     * @param extraParams to append to request url
-     */
-    public void deleteEvent(Event event, Param... extraParams);
+    public List<Prediction> getPlacePredictions(String input, int offset, Param... extraParams);
 
     /**
      * Returns a list of auto-complete predictions for searching for a specific place.
      *
      * @param input       user input
-     * @param extraParams to append to request url
+     * @param extraParams extra params to include in url
      * @return list of predictions
      */
     public List<Prediction> getPlacePredictions(String input, Param... extraParams);
 
     /**
-     * Returns a list of auto-complete predictions for searching for a place by a query.
+     * Returns a list of auto-complete predictions for searching for a place by a query. The 'offset' is the position,
+     * in the input term, of the last character that the service uses to match predictions. For example, if the input is
+     * 'Google' and the offset is 3, the service will match on 'Goo'. The string determined by the offset is matched
+     * against the first word in the input term only. For example, if the input term is 'Google abc' and the offset is
+     * 3, the service will attempt to match against 'Goo abc'. If no offset is supplied, the service will use the whole
+     * term. The offset should generally be set to the position of the text caret. The lat, lng, and radius parameter
+     * specify and area in which you would like to search.
      *
      * @param input       user input
      * @param extraParams to append to request url
+     * @return list of predictions
+     */
+    public List<Prediction> getQueryPredictions(String input, int offset, int lat, int lng, int radius,
+                                                Param... extraParams);
+
+    /**
+     * Returns a list of auto-complete predictions for searching for a place by a query. The 'offset' is the position,
+     * in the input term, of the last character that the service uses to match predictions. For example, if the input is
+     * 'Google' and the offset is 3, the service will match on 'Goo'. The string determined by the offset is matched
+     * against the first word in the input term only. For example, if the input term is 'Google abc' and the offset is
+     * 3, the service will attempt to match against 'Goo abc'. If no offset is supplied, the service will use the whole
+     * term. The offset should generally be set to the position of the text caret.
+     *
+     * @param input       user input
+     * @param offset      offset of text caret
+     * @param extraParams extra params to append to url
+     * @return list of predictions
+     */
+    public List<Prediction> getQueryPredictions(String input, int offset, Param... extraParams);
+
+    /**
+     * Returns a list of auto-complete predictions for searching for a place by a query.
+     *
+     * @param input       user input
+     * @param extraParams extra parameters to append to url
      * @return list of predictions
      */
     public List<Prediction> getQueryPredictions(String input, Param... extraParams);

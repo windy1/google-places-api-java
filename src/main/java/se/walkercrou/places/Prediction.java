@@ -8,7 +8,7 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 
-import static se.walkercrou.places.GooglePlaces.checkStatus;
+import static se.walkercrou.places.GooglePlaces.*;
 
 /**
  * Represents a autocomplete prediction based on a query.
@@ -17,7 +17,7 @@ public class Prediction {
     private final List<DescriptionTerm> terms = new ArrayList<>();
     private final List<String> types = new ArrayList<>();
     private GooglePlaces client;
-    private String placeId, placeReference;
+    private String placeId;
     private String description;
     private int substrOffset, substrLength;
 
@@ -33,26 +33,25 @@ public class Prediction {
      */
     public static List<Prediction> parse(GooglePlaces client, String rawJson) {
         JSONObject json = new JSONObject(rawJson);
-        checkStatus(json.getString(GooglePlaces.STRING_STATUS));
+        checkStatus(json.getString(STRING_STATUS));
 
         List<Prediction> predictions = new ArrayList<>();
-        JSONArray jsonPredictions = json.getJSONArray(GooglePlaces.ARRAY_PREDICTIONS);
+        JSONArray jsonPredictions = json.getJSONArray(ARRAY_PREDICTIONS);
         for (int i = 0; i < jsonPredictions.length(); i++) {
             JSONObject jsonPrediction = jsonPredictions.getJSONObject(i);
-            String description = jsonPrediction.getString(GooglePlaces.STRING_DESCRIPTION);
-            String id = jsonPrediction.optString(GooglePlaces.STRING_ID, null);
-            String reference = jsonPrediction.optString(GooglePlaces.STRING_REFERENCE, null);
+            String placeId = jsonPrediction.getString(STRING_PLACE_ID);
+            String description = jsonPrediction.getString(STRING_DESCRIPTION);
 
-            JSONArray jsonTerms = jsonPrediction.getJSONArray(GooglePlaces.ARRAY_TERMS);
+            JSONArray jsonTerms = jsonPrediction.getJSONArray(ARRAY_TERMS);
             List<DescriptionTerm> terms = new ArrayList<>();
             for (int a = 0; a < jsonTerms.length(); a++) {
                 JSONObject jsonTerm = jsonTerms.getJSONObject(a);
-                String value = jsonTerm.getString(GooglePlaces.STRING_VALUE);
-                int offset = jsonTerm.getInt(GooglePlaces.INTEGER_OFFSET);
+                String value = jsonTerm.getString(STRING_VALUE);
+                int offset = jsonTerm.getInt(INTEGER_OFFSET);
                 terms.add(new DescriptionTerm(value, offset));
             }
 
-            JSONArray jsonTypes = jsonPrediction.optJSONArray(GooglePlaces.ARRAY_TYPES);
+            JSONArray jsonTypes = jsonPrediction.optJSONArray(ARRAY_TYPES);
             List<String> types = new ArrayList<>();
             if (jsonTypes != null) {
                 for (int b = 0; b < jsonTypes.length(); b++) {
@@ -60,14 +59,13 @@ public class Prediction {
                 }
             }
 
-            JSONArray substrArray = jsonPrediction.getJSONArray(GooglePlaces.ARRAY_MATCHED_SUBSTRINGS);
+            JSONArray substrArray = jsonPrediction.getJSONArray(ARRAY_MATCHED_SUBSTRINGS);
             JSONObject substr = substrArray.getJSONObject(0);
-            int substrOffset = substr.getInt(GooglePlaces.INTEGER_OFFSET);
-            int substrLength = substr.getInt(GooglePlaces.INTEGER_LENGTH);
+            int substrOffset = substr.getInt(INTEGER_OFFSET);
+            int substrLength = substr.getInt(INTEGER_LENGTH);
 
-            predictions.add(new Prediction().setDescription(description).setPlaceId(id)
-                    .setPlaceReference(reference).addTerms(terms).addTypes(types).setSubstringLength(substrLength)
-                    .setSubstringOffset(substrOffset).setClient(client));
+            predictions.add(new Prediction().setPlaceId(placeId).setDescription(description).addTerms(terms).addTypes(types)
+                    .setSubstringLength(substrLength).setSubstringOffset(substrOffset).setClient(client));
         }
 
         return predictions;
@@ -94,7 +92,7 @@ public class Prediction {
      * @return place
      */
     public Place getPlace(Param... extraParams) {
-        return client.getPlace(placeReference, extraParams);
+        return client.getPlaceById(placeId, extraParams);
     }
 
     /**
@@ -109,17 +107,6 @@ public class Prediction {
     }
 
     /**
-     * Adds a new type to this place.
-     *
-     * @param type to add
-     * @return this
-     */
-    protected Prediction addType(String type) {
-        types.add(type);
-        return this;
-    }
-
-    /**
      * Returns all of this place's types in an unmodifiable list.
      *
      * @return types
@@ -128,44 +115,8 @@ public class Prediction {
         return Collections.unmodifiableList(types);
     }
 
-    /**
-     * Removes a type from this place.
-     *
-     * @param type to remove
-     * @return this
-     */
-    protected Prediction removeType(String type) {
-        types.remove(type);
-        return this;
-    }
-
-    /**
-     * Clears all types from this place.
-     *
-     * @return this
-     */
-    protected Prediction clearTypes() {
-        types.clear();
-        return this;
-    }
-
     protected Prediction addTerms(Collection<DescriptionTerm> terms) {
         this.terms.addAll(terms);
-        return this;
-    }
-
-    protected Prediction addTerm(DescriptionTerm term) {
-        terms.add(term);
-        return this;
-    }
-
-    protected Prediction removeTerm(DescriptionTerm term) {
-        terms.remove(term);
-        return this;
-    }
-
-    protected Prediction clearTerms() {
-        terms.clear();
         return this;
     }
 
@@ -189,20 +140,6 @@ public class Prediction {
 
     protected Prediction setPlaceId(String placeId) {
         this.placeId = placeId;
-        return this;
-    }
-
-    /**
-     * Returns the reference to the place being suggested.
-     *
-     * @return place reference
-     */
-    public String getPlaceReference() {
-        return placeReference;
-    }
-
-    protected Prediction setPlaceReference(String placeReference) {
-        this.placeReference = placeReference;
         return this;
     }
 

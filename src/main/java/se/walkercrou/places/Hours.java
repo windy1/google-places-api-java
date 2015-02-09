@@ -1,7 +1,6 @@
 package se.walkercrou.places;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 
@@ -36,17 +35,6 @@ public class Hours {
     }
 
     /**
-     * Adds a collection of periods to the list of periods.
-     *
-     * @param periods to add
-     * @return this
-     */
-    protected Hours addPeriods(Collection<Period> periods) {
-        this.periods.addAll(periods);
-        return this;
-    }
-
-    /**
      * Adds a period to this schedule's list of periods.
      *
      * @param period to add
@@ -54,27 +42,6 @@ public class Hours {
      */
     protected Hours addPeriod(Period period) {
         periods.add(period);
-        return this;
-    }
-
-    /**
-     * Removes the specified period.
-     *
-     * @param period to remove
-     * @return this
-     */
-    protected Hours removePeriod(Period period) {
-        periods.remove(period);
-        return this;
-    }
-
-    /**
-     * Clears the schedule.
-     *
-     * @return this
-     */
-    protected Hours clearPeriods() {
-        periods.clear();
         return this;
     }
 

@@ -19,12 +19,13 @@ import static se.walkercrou.places.GooglePlaces.*;
  */
 public class Place {
     private final List<String> types = new ArrayList<>();
-    private final List<Event> events = new ArrayList<>();
     private final List<Photo> photos = new ArrayList<>();
     private final List<Review> reviews = new ArrayList<>();
     private final List<AddressComponent> addressComponents = new ArrayList<>();
+    private final List<AltId> altIds = new ArrayList<>();
     private GooglePlaces client;
-    private String id;
+    private String placeId;
+    private Scope scope;
     private double lat = -1, lng = -1;
     private JSONObject json;
     private String iconUrl;
@@ -35,7 +36,6 @@ public class Place {
     private double rating = -1;
     private Status status = Status.NONE;
     private Price price = Price.NONE;
-    private String referenceId;
     private String phone, internationalPhone;
     private String googleUrl, website;
     private Hours hours;
@@ -44,25 +44,6 @@ public class Place {
     private String lang;
 
     protected Place() {
-    }
-
-    /**
-     * Creates a JSON object for POSTing new places to Google Places API.
-     *
-     * @return JSON object to represent place
-     */
-    public static JSONObject buildInput(double lat, double lng, int accuracy, String name, Collection<String> types,
-                                        String lang, Param... extraParams) {
-        JSONObject jsonInput = new JSONObject().put(OBJECT_LOCATION, new JSONObject().put("lat", lat).put("lng", lng))
-                .put(INTEGER_ACCURACY, accuracy).put(STRING_NAME, name).put(ARRAY_TYPES, new JSONArray(types))
-                .put(STRING_LANGUAGE, lang);
-        //all extraParams will be part of the POST body
-        if (extraParams != null) {
-            for (Param param : extraParams) {
-                jsonInput.put(param.name, param.value);
-            }
-        }
-        return jsonInput;
     }
 
     /**
@@ -78,18 +59,18 @@ public class Place {
         JSONObject result = json.getJSONObject(OBJECT_RESULT);
 
         // easy stuff
-        String id = result.getString(STRING_ID);
         String name = result.getString(STRING_NAME);
         String address = result.optString(STRING_ADDRESS, null);
         String phone = result.optString(STRING_PHONE_NUMBER, null);
         String iconUrl = result.optString(STRING_ICON, null);
         String internationalPhone = result.optString(STRING_INTERNATIONAL_PHONE_NUMBER, null);
         double rating = result.optDouble(DOUBLE_RATING, -1);
-        String reference = result.optString(STRING_REFERENCE, null);
         String url = result.optString(STRING_URL, null);
         String vicinity = result.optString(STRING_VICINITY, null);
         String website = result.optString(STRING_WEBSITE, null);
         int utcOffset = result.optInt(INTEGER_UTC_OFFSET, -1);
+        String scopeName = result.optString(STRING_SCOPE);
+        Scope scope = scopeName == null ? null : Scope.valueOf(scopeName);
 
         // grab the price rank
         Price price = Price.NONE;
@@ -180,22 +161,6 @@ public class Place {
             }
         }
 
-        // events
-        JSONArray events = result.optJSONArray(ARRAY_EVENTS);
-        List<Event> eventList = new ArrayList<>();
-        if (events != null) {
-            for (int i = 0; i < events.length(); i++) {
-                JSONObject event = events.getJSONObject(i);
-                String eventId = event.optString(STRING_EVENT_ID, null);
-                long startTime = event.optLong(LONG_START_TIME, -1);
-                String summary = event.optString(STRING_SUMMARY, null);
-                String eventUrl = event.optString(STRING_URL, null);
-
-                eventList.add(new Event().setId(eventId).setSummary(summary).setUrl(eventUrl).setStartTime(startTime)
-                        .setPlace(place));
-            }
-        }
-
         // types
         JSONArray jsonTypes = result.optJSONArray(ARRAY_TYPES);
         List<String> types = new ArrayList<>();
@@ -236,12 +201,27 @@ public class Place {
             }
         }
 
-        return place.setClient(client).setId(id).setName(name).setAddress(address).setIconUrl(iconUrl).setPrice(price)
-                .setLatitude(lat).setLongitude(lng).addEvents(eventList).addTypes(types).setRating(rating)
-                .setReferenceId(reference).setStatus(status).setVicinity(vicinity).setPhoneNumber(phone)
-                .setInternationalPhoneNumber(internationalPhone).setGoogleUrl(url).setWebsite(website)
-                .addPhotos(photos).addAddressComponents(addressComponents).setHours(schedule).addReviews(reviews)
-                .setUtcOffset(utcOffset).setJson(result);
+        // alt-ids
+        JSONArray jsonAltIds = result.optJSONArray(ARRAY_ALT_IDS);
+        List<AltId> altIds = new ArrayList<>();
+        if (jsonAltIds != null) {
+            for (int i = 0; i < jsonAltIds.length(); i++) {
+                JSONObject jsonAltId = jsonAltIds.getJSONObject(i);
+
+                String placeId = jsonAltId.getString(STRING_PLACE_ID);
+                String sn = jsonAltId.getString(STRING_SCOPE);
+                Scope s = sn == null ? null : Scope.valueOf(sn);
+
+                altIds.add(new AltId(client, placeId, s));
+            }
+        }
+
+        return place.setClient(client).setName(name).setAddress(address).setIconUrl(iconUrl).setPrice(price)
+                .setLatitude(lat).setLongitude(lng).addTypes(types).setRating(rating).setStatus(status)
+                .setVicinity(vicinity).setPhoneNumber(phone).setInternationalPhoneNumber(internationalPhone)
+                .setGoogleUrl(url).setWebsite(website).addPhotos(photos).addAddressComponents(addressComponents)
+                .setHours(schedule).addReviews(reviews).setUtcOffset(utcOffset).setScope(scope).addAltIds(altIds)
+                .setJson(result);
     }
 
     /**
@@ -265,22 +245,22 @@ public class Place {
     }
 
     /**
-     * Returns the id associated with this place.
+     * Returns the unique identifier for this place.
      *
      * @return id
      */
-    public String getId() {
-        return id;
+    public String getPlaceId() {
+        return placeId;
     }
 
     /**
-     * Sets the unique id associated with this place.
+     * Sets the unique, stable, identifier for this place.
      *
-     * @param id id
+     * @param placeId to use
      * @return this
      */
-    protected Place setId(String id) {
-        this.id = id;
+    protected Place setPlaceId(String placeId) {
+        this.placeId = placeId;
         return this;
     }
 
@@ -577,38 +557,6 @@ public class Place {
     }
 
     /**
-     * Adds an address component to this place.
-     *
-     * @param c component to add
-     * @return this
-     */
-    protected Place addAddressComponent(AddressComponent c) {
-        addressComponents.add(c);
-        return this;
-    }
-
-    /**
-     * Removes the specified address components.
-     *
-     * @param c component to remove
-     * @return this
-     */
-    protected Place removeAddressComponent(AddressComponent c) {
-        addressComponents.remove(c);
-        return this;
-    }
-
-    /**
-     * Clears the address components for this place.
-     *
-     * @return this
-     */
-    protected Place clearAddressComponent() {
-        addressComponents.clear();
-        return this;
-    }
-
-    /**
      * Returns the address components for this place.
      *
      * @return address components
@@ -625,38 +573,6 @@ public class Place {
      */
     protected Place addPhotos(Collection<Photo> photos) {
         this.photos.addAll(photos);
-        return this;
-    }
-
-    /**
-     * Adds a photo.
-     *
-     * @param photo to add
-     * @return this
-     */
-    protected Place addPhoto(Photo photo) {
-        photos.add(photo);
-        return this;
-    }
-
-    /**
-     * Removes the specified photo.
-     *
-     * @param photo to remove
-     * @return this
-     */
-    protected Place removePhoto(Photo photo) {
-        photos.remove(photo);
-        return this;
-    }
-
-    /**
-     * Clears all photos for this place.
-     *
-     * @return this
-     */
-    protected Place clearPhotos() {
-        photos.clear();
         return this;
     }
 
@@ -681,96 +597,12 @@ public class Place {
     }
 
     /**
-     * Adds a review to this place.
-     *
-     * @param review to add
-     * @return this
-     */
-    protected Place addReview(Review review) {
-        reviews.add(review);
-        return this;
-    }
-
-    /**
-     * Removes the specified review.
-     *
-     * @param review to remove
-     * @return this
-     */
-    protected Place removeReview(Review review) {
-        reviews.remove(review);
-        return this;
-    }
-
-    /**
-     * Clears this place's reviews.
-     *
-     * @return this
-     */
-    protected Place clearReviews() {
-        reviews.clear();
-        return this;
-    }
-
-    /**
      * Returns this place's reviews in an unmodifiable list.
      *
      * @return reviews
      */
     public List<Review> getReviews() {
         return Collections.unmodifiableList(reviews);
-    }
-
-    /**
-     * Adds a collection of events to this place. This does not send a Event add request to the Google Places API.
-     *
-     * @param events to add
-     * @return this
-     */
-    protected Place addEvents(Collection<Event> events) {
-        this.events.addAll(events);
-        return this;
-    }
-
-    /**
-     * Adds an event to this place. This does not send a Event add request to the Google Places API.
-     *
-     * @param event to add
-     * @return this
-     */
-    protected Place addEvent(Event event) {
-        events.add(event);
-        return this;
-    }
-
-    /**
-     * Returns the events of this place in an unmodifiable list.
-     *
-     * @return unmodifiable list of events
-     */
-    public List<Event> getEvents() {
-        return Collections.unmodifiableList(events);
-    }
-
-    /**
-     * Removes the specified event from the place. This does not send a Event deletion request to Google Places API.
-     *
-     * @param event to remove
-     * @return this
-     */
-    protected Place removeEvent(Event event) {
-        events.remove(event);
-        return this;
-    }
-
-    /**
-     * Clears all events in this place. This does not send a Event deletion request to Google Places API.
-     *
-     * @return this
-     */
-    protected Place clearEvents() {
-        events.clear();
-        return this;
     }
 
     /**
@@ -785,17 +617,6 @@ public class Place {
     }
 
     /**
-     * Adds a new type to this place.
-     *
-     * @param type to add
-     * @return this
-     */
-    protected Place addType(String type) {
-        types.add(type);
-        return this;
-    }
-
-    /**
      * Returns all of this place's types in an unmodifiable list.
      *
      * @return types
@@ -805,24 +626,23 @@ public class Place {
     }
 
     /**
-     * Removes a type from this place.
+     * Adds a collection of {@link se.walkercrou.places.AltId}s.
      *
-     * @param type to remove
+     * @param altIds to add
      * @return this
      */
-    protected Place removeType(String type) {
-        types.remove(type);
+    protected Place addAltIds(Collection<AltId> altIds) {
+        this.altIds.addAll(altIds);
         return this;
     }
 
     /**
-     * Clears all types from this place.
+     * Returns all of this place's alt-ids in an unmodifiable list.
      *
-     * @return this
+     * @return alt-ids
      */
-    protected Place clearTypes() {
-        types.clear();
-        return this;
+    public List<AltId> getAltIds() {
+        return Collections.unmodifiableList(altIds);
     }
 
     /**
@@ -882,26 +702,6 @@ public class Place {
      */
     protected Place setPrice(Price price) {
         this.price = price;
-        return this;
-    }
-
-    /**
-     * Returns the reference id, used for getting more details about this place.
-     *
-     * @return reference id
-     */
-    public String getReferenceId() {
-        return referenceId;
-    }
-
-    /**
-     * Returns the reference id to find more details about this place.
-     *
-     * @param referenceId to get details from
-     * @return this
-     */
-    protected Place setReferenceId(String referenceId) {
-        this.referenceId = referenceId;
         return this;
     }
 
@@ -967,13 +767,24 @@ public class Place {
     }
 
     /**
-     * Bumps a place within the application. Bumps are reflected in your place searches for your application only.
-     * Bumping a place makes it appear higher in the result set.
+     * Returns the scope of this place.
      *
-     * @param extraParams to append to request url
+     * @return scope
+     * @see se.walkercrou.places.Scope
      */
-    public Place bump(Param... extraParams) {
-        client.bumpPlace(this, extraParams);
+    public Scope getScope() {
+        return scope;
+    }
+
+    /**
+     * Sets the scope of the location.
+     *
+     * @param scope to set
+     * @return this
+     * @see se.walkercrou.places.Scope
+     */
+    protected Place setScope(Scope scope) {
+        this.scope = scope;
         return this;
     }
 
@@ -984,16 +795,16 @@ public class Place {
      * @return a new place with more details
      */
     public Place getDetails(Param... params) {
-        return client.getPlace(referenceId, params);
+        return client.getPlaceById(placeId, params);
     }
 
     @Override
     public String toString() {
-        return String.format("Place{id=%s,loc=%f,%f,name=%s,addr=%s,ref=%s", id, lat, lng, name, addr, referenceId);
+        return String.format("Place{id=%s}", placeId);
     }
 
     @Override
     public boolean equals(Object obj) {
-        return obj instanceof Place && ((Place) obj).id.equals(id);
+        return obj instanceof Place && ((Place) obj).placeId.equals(placeId);
     }
 }
