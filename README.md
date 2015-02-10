@@ -1,11 +1,14 @@
 # google-places-api-java
 
-**Notice:** Before using this library, you must [register an API key for Google Places API](https://developers.google.com/places/documentation/#Authentication).
+**Notice:** Before using this library, you must
+[register an API key for Google Places API](https://developers.google.com/places/documentation/#Authentication).
+
+
 **Notice 2:** The release of v2 brings many breaking changes. You will almost certainly need to make adjustments and
 recompile after upgrading to the latest version. This is because many deprecations from previous iterations of this
-library and the Google Places API specification have been removed for conciseness. **Previous iterations of this library
-will stop working once the deprecations in the API specification are removed and it is imperative that you update ASAP
-to ensure your applications continue to work.**
+library and the Google Places API specification have been removed for conciseness including the removal of Events.
+**Previous iterations of this library will stop working once the deprecations in the API specification are removed and
+it is imperative that you update ASAP to ensure your applications continue to work.**
 
 ## Contents
 
