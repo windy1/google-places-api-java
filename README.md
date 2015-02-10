@@ -1,6 +1,11 @@
 # google-places-api-java
 
 **Notice:** Before using this library, you must [register an API key for Google Places API](https://developers.google.com/places/documentation/#Authentication).
+**Notice 2:** The release of v2 brings many breaking changes. You will almost certainly need to make adjustments and
+recompile after upgrading to the latest version. This is because many deprecations from previous iterations of this
+library and the Google Places API specification have been removed for conciseness. **Previous iterations of this library
+will stop working once the deprecations in the API specification are removed and it is imperative that you update ASAP
+to ensure your applications continue to work.**
 
 ## Contents
 
@@ -152,25 +157,30 @@ Bitmap bitmap = BitmapFactory.decodeStream(stream);
 
 ### Add Place
 
-You can add and delete your own places to Google Places API.
+Places can be added to Google Places API through this library. Added Places are only visible to your application until
+they are approved by Google's moderation process. This can be checked with `Place.getScope()`.
+
+You must begin by building the Place input via the `PlaceBuilder` class.
 
 ```java
-Place place = client.addPlace("Test Location", "en", lat, lng, 50, "spa");
+PlaceBuilder builder = new PlaceBuilder(locationName, latitude, longitude, "type1", "type2"...)
 ```
 
-The parameters are as followed: Name, Language Code, latitude, longitude, accuracy of location (in meters), and types.
-The types parameter may be a single type or a collection of types.
-
-These fields must be set when adding a new place or a `GooglePlacesException` will be thrown. The name field must not be
-over 250 characters long, the language must be one of
-[these approved codes](https://spreadsheets.google.com/pub?key=p9pdwsai2hDMsLkXsoM05KQ&gid=1), and the type must be one
-of [these approved types](https://developers.google.com/places/documentation/supported_types).
-
-Creating a place with this method sends one POST request and one GET request to retrieve the newly created place. If you
-would like to skip the GET request, create a place using this method.
+The constructor arguments are the only required arguments to add a place to Google Places but filling out the building
+more completely will help your Place get approved by the moderation process faster.
 
 ```java
-Place place = client.addPlace("Test Location", "en", lat, lng, 50, "spa", false);
+builder.accuracy(50)
+       .phoneNumber("(000) 000-0000")
+       .address("4 John St")
+       .website("http://walkercrou.se")
+       .locale(Locale.ENGLISH);
+```
+
+You must then pass the builder as an argument of `GooglePlaces.addPlace()`.
+
+```java
+Place place = client.addPlace(builder, true);
 ```
 
 ### Delete Place
@@ -179,28 +189,6 @@ You can delete places with:
 
 ```java
 client.deletePlace(place);
-```
-
-### Add Event
-
-You can add an delete your own place events to Google Places API.
-
-```java
-Event event = client.addEvent(place, "Test Event", 100000, "en", "http://www.example.com");
-```
-
-The parameters are as followed: Place to add event to, summary, duration (in seconds), language code, url. The language
-code an URL are both optional.
-
-These fields must be set when adding a new place or a `GooglePlacesException` will be thrown. The language must be one
-of [these approved codes](https://spreadsheets.google.com/pub?key=p9pdwsai2hDMsLkXsoM05KQ&gid=1) and the type must be
-one of [these approved types](https://developers.google.com/places/documentation/supported_types).
-
-Creating an event with this method sends one POST request and one GET request to retrieve the newly created place. If
-you would like to skip the GET request, create an event using this method.
-
-```java
-Event event = client.addEvent(place, "Test Event", 100000, "en", "http://www.example.com", false);
 ```
 
 ## Place Photos
