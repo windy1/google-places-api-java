@@ -10,8 +10,16 @@ library and the Google Places API specification have been removed for concisenes
 **Previous iterations of this library will stop working once the deprecations in the API specification are removed and
 it is imperative that you update ASAP to ensure your applications continue to work.**
 
+
+Walker Crouse is an aspiring software developer, open source contributor, and starving college student. If you like my
+projects, please consider donating a small amount so that I may continue to devote time to them. Thank you.
+
+[![Donate](https://www.paypalobjects.com/en_US/i/btn/btn_donate_LG.gif)](https://www.paypal.com/cgi-bin/webscr?cmd=_donations&business=BR4TEJ4R39SFY&lc=US&item_name=Walker%20Crouse&currency_code=USD&bn=PP%2dDonationsBF%3abtn_donate_LG%2egif%3aNonHosted)
+
+
 ## Contents
 
+* [Quickstart](#quickstart)
 * [Creating the client](#creating-the-client)
 * [Place Searches](#place-searches)
     * [Nearby Search](#nearby-search-requests)
@@ -29,8 +37,38 @@ it is imperative that you update ASAP to ensure your applications continue to wo
     * [Query prediction](#query-prediction)
 * [Android integration](#android-integration)
 * [Documentation](#documentation)
-* [Download](#download)
 * [Build](#build)
+
+
+## Quickstart
+
+With Maven (make sure you are using the latest version):
+
+```xml
+<dependencies>
+    <dependency>
+        <groupId>se.walkercrou</groupId>
+        <artifactId>google-places-api-java</artifactId>
+        <version>2.0.2</version>
+    </dependency>
+</dependencies>
+```
+
+With Gradle (make sure you are using the latest version):
+
+```java
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    compile 'se.walkercrou:google-places-api-java:2.0.2'
+}
+```
+
+Or just download the JAR with all dependencies included from the
+[releases](https://github.com/windy1/google-places-api-java/releases).
+
 
 ## Creating the client
 
@@ -43,6 +81,7 @@ You may optionally provide your own RequestHandler to delegate HTTP traffic
 ```java
 GooglePlaces client = new GooglePlaces("yourApiKey", new MyRequestHandler());
 ```
+
 
 ## Place Searches
 
@@ -80,6 +119,7 @@ If you need to add additional URL parameters to the request URL you can append a
 ```java
 List<Place> places = client.getPlacesByQuery("Empire State Building", GooglePlaces.MAXIMUM_RESULTS, Param.name("language").value("en"), Param.name("opennow").value(true));
 ```
+
 
 ## Place Details
 
@@ -156,6 +196,7 @@ InputStream stream = place.downloadIcon().getIconInputStream();
 Bitmap bitmap = BitmapFactory.decodeStream(stream);
 ```
 
+
 ## Place Actions
 
 ### Add Place
@@ -227,6 +268,7 @@ Bitmap bitmap = BitmapFactory.decodeStream(stream);
 
 Remember not to execute this code on the main thread.
 
+
 ## Autocomplete
 
 ### Place prediction
@@ -264,15 +306,13 @@ new Thread(new Runnable() {
 
 ...or run it in an [AsyncTask](http://developer.android.com/reference/android/os/AsyncTask.html).
 
+
 ## Documentation
 
 Documentation for this project can be found at [this location](http://windy1.github.io/google-places-api-java/).
 
-## Download
-
-Releases can be downloaded at https://github.com/windy1/google-places-api-java/releases
 
 ## Build
 
-This project uses [Apache Maven](http://maven.apache.org/). Create a file called `places_api.key` with your Google
-Places API key before running tests and building with `mvn`.
+This project uses [Apache Maven](http://maven.apache.org/). Create a file called `src/main/resources/places_api.key`
+with your Google Places API key before running tests and building with `mvn`.
