@@ -309,7 +309,7 @@ new Thread(new Runnable() {
 
 ## Documentation
 
-Documentation for this project can be found at [this location](http://windy1.github.io/google-places-api-java/).
+Documentation for this project can be found at [this location](http://windy1.github.io/google-places-api-java/docs).
 
 
 ## Build
