@@ -1,12 +1,10 @@
 language: java
-script: mvn install -DskipTests
+script: mvn -P shade
 deploy:
   provider: releases
   api_key:
     secure: NA64y1Jxz/QBygjr/5Gi0KtpRmHcWBQdZnGieNM5ApSuPRMJo9M/KDyffi5CYFscB8EV+vdsnJwyGCkNoJt4H33f/0G56FlEe2Q9GiKWm/9fDzTallkQiAiHmXvN95FVfCkNQWhT4SDEHpNgmmF+ElCcQWQbMLBL3XNuOnszp1s=
-  file:
-    - "target/google-places-api-java.jar"
-    - "target/original-google-places-api-java.jar"
+  file: "target/google-places-api-java.jar"
   skip_cleanup: true
   on:
     tags: true

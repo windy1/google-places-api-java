@@ -1,31 +1,15 @@
 <project>
     <modelVersion>4.0.0</modelVersion>
 
-    <name>Google Places API</name>
-    <description>Comprehensive and FULL Java client for the Google Places API</description>
     <groupId>se.walkercrou</groupId>
     <artifactId>google-places-api-java</artifactId>
     <version>2.0.1</version>
-    <url>https://github.com/windy1/google-places-api-java</url>
-    <inceptionYear>2014</inceptionYear>
     <packaging>jar</packaging>
 
-    <issueManagement>
-        <system>GitHub</system>
-        <url>https://github.com/windy1/google-places-api-java/issues</url>
-    </issueManagement>
-
-    <properties>
-        <compiler.version>1.7</compiler.version>
-        <json.version>20140107</json.version>
-        <httpclient.version>4.3.5</httpclient.version>
-        <commons-io.version>1.3.2</commons-io.version>
-        <junit.version>4.11</junit.version>
-        <mavenPlugins.groupId>org.apache.maven.plugins</mavenPlugins.groupId>
-        <gpg-plugin.version>1.6</gpg-plugin.version>
-        <source-plugin.version>2.4</source-plugin.version>
-        <javadoc-plugin.version>2.10.1</javadoc-plugin.version>
-    </properties>
+    <name>Google Places API</name>
+    <description>Comprehensive and FULL Java client for the Google Places API</description>
+    <url>https://github.com/windy1/google-places-api-java</url>
+    <inceptionYear>2014</inceptionYear>
 
     <licenses>
         <license>
@@ -39,6 +23,7 @@
         <developer>
             <name>Walker Crouse</name>
             <email>walkercrouse@hotmail.com</email>
+            <timezone>EST</timezone>
         </developer>
     </developers>
 
@@ -49,11 +34,10 @@
         </contributor>
     </contributors>
 
-    <scm>
-        <connection>scm:git:git@github.com:windy1/google-places-api-java.git</connection>
-        <developerConnection>scm:git:git@github.com:windy1/google-places-api-java.git</developerConnection>
-        <url>git@github.com:windy1/google-places-api-java.git</url>
-    </scm>
+    <issueManagement>
+        <system>GitHub</system>
+        <url>https://github.com/windy1/google-places-api-java/issues</url>
+    </issueManagement>
 
     <distributionManagement>
         <snapshotRepository>
@@ -61,6 +45,29 @@
             <url>https://oss.sonatype.org/content/repositories/snapshots</url>
         </snapshotRepository>
     </distributionManagement>
+
+    <scm>
+        <connection>scm:git:git@github.com:windy1/google-places-api-java.git</connection>
+        <developerConnection>scm:git:git@github.com:windy1/google-places-api-java.git</developerConnection>
+        <url>git@github.com:windy1/google-places-api-java.git</url>
+    </scm>
+
+    <properties>
+        <json.version>20140107</json.version>
+        <httpclient.version>4.3.5</httpclient.version>
+        <commons-io.version>1.3.2</commons-io.version>
+        <junit.version>4.11</junit.version>
+
+        <mavenPlugins.groupId>org.apache.maven.plugins</mavenPlugins.groupId>
+        <compiler-plugin.version>3.2</compiler-plugin.version>
+        <compiler.version>1.7</compiler.version>
+        <gpg-plugin.version>1.6</gpg-plugin.version>
+        <source-plugin.version>2.4</source-plugin.version>
+        <javadoc-plugin.version>2.10.1</javadoc-plugin.version>
+        <shade-plugin.version>2.3</shade-plugin.version>
+        <nexus-plugin.version>1.6.5</nexus-plugin.version>
+        <ghp-plugin.version>1.0</ghp-plugin.version>
+    </properties>
 
     <dependencies>
         <dependency>
@@ -133,45 +140,63 @@
                 </plugins>
             </build>
         </profile>
+        <profile>
+            <id>shade</id>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>${mavenPlugins.groupId}</groupId>
+                        <artifactId>maven-shade-plugin</artifactId>
+                        <version>${shade-plugin.version}</version>
+                        <configuration>
+                            <createDependencyReducedPom>false</createDependencyReducedPom>
+                            <createSourcesJar>false</createSourcesJar>
+                            <artifactSet>
+                                <excludes>
+                                    <exclude>junit:junit</exclude>
+                                </excludes>
+                            </artifactSet>
+                        </configuration>
+                        <executions>
+                            <execution>
+                                <phase>package</phase>
+                                <goals>
+                                    <goal>shade</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
     </profiles>
 
     <build>
-        <defaultGoal>clean package install</defaultGoal>
-        <finalName>google-places-api-java</finalName>
+        <defaultGoal>clean install</defaultGoal>
+        <finalName>${artifactId}</finalName>
+        <resources>
+            <resource>
+                <directory>src/main/resources</directory>
+                <filtering>true</filtering>
+                <includes>
+                    <include>places_api.key</include>
+                </includes>
+            </resource>
+        </resources>
         <plugins>
             <plugin>
                 <groupId>${mavenPlugins.groupId}</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
-                <version>3.2</version>
+                <version>${compiler-plugin.version}</version>
                 <configuration>
                     <source>${compiler.version}</source>
                     <target>${compiler.version}</target>
                 </configuration>
             </plugin>
             <plugin>
-                <groupId>${mavenPlugins.groupId}</groupId>
-                <artifactId>maven-shade-plugin</artifactId>
-                <version>2.3</version>
-                <configuration>
-                    <artifactSet>
-                        <excludes>
-                            <exclude>junit:junit</exclude>
-                        </excludes>
-                    </artifactSet>
-                </configuration>
-                <executions>
-                    <execution>
-                        <phase>package</phase>
-                        <goals>
-                            <goal>shade</goal>
-                        </goals>
-                    </execution>
-                </executions>
-            </plugin>
-            <plugin>
                 <groupId>org.sonatype.plugins</groupId>
                 <artifactId>nexus-staging-maven-plugin</artifactId>
-                <version>1.6.3</version>
+                <version>${nexus-plugin.version}</version>
                 <extensions>true</extensions>
                 <configuration>
                     <serverId>ossrh</serverId>
@@ -180,13 +205,5 @@
                 </configuration>
             </plugin>
         </plugins>
-        <resources>
-            <resource>
-                <directory>.</directory>
-                <includes>
-                    <include>places_api.key</include>
-                </includes>
-            </resource>
-        </resources>
     </build>
 </project>
