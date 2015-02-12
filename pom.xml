@@ -131,8 +131,26 @@
                         <executions>
                             <execution>
                                 <id>attach-javadocs</id>
+                                <phase>install</phase>
                                 <goals>
                                     <goal>jar</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                    </plugin>
+                    <plugin>
+                        <groupId>se.walkercrou</groupId>
+                        <artifactId>ghp-maven-plugin</artifactId>
+                        <version>${ghp-plugin.version}</version>
+                        <configuration>
+                            <contentDestination>docs/</contentDestination>
+                        </configuration>
+                        <executions>
+                            <execution>
+                                <id>update-javadocs</id>
+                                <phase>install</phase>
+                                <goals>
+                                    <goal>update</goal>
                                 </goals>
                             </execution>
                         </executions>
