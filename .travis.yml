@@ -1,5 +1,5 @@
 language: java
-script: mvn -P shade -DskipTests
+script: mvn -P shade
 deploy:
   provider: releases
   api_key:
