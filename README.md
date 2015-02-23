@@ -63,6 +63,7 @@ repositories {
 
 dependencies {
     compile 'se.walkercrou:google-places-api-java:2.0.2'
+    compile 'org.apache.httpcomponents:httpclient-android:4.3.5.1'
 }
 ```
 
