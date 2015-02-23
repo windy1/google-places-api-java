@@ -33,7 +33,7 @@ public class Prediction {
      */
     public static List<Prediction> parse(GooglePlaces client, String rawJson) {
         JSONObject json = new JSONObject(rawJson);
-        checkStatus(json.getString(STRING_STATUS));
+        checkStatus(json.getString(STRING_STATUS), json.optString(STRING_ERROR_MESSAGE));
 
         List<Prediction> predictions = new ArrayList<>();
         JSONArray jsonPredictions = json.getJSONArray(ARRAY_PREDICTIONS);

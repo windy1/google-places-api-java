@@ -238,6 +238,11 @@ public interface GooglePlacesInterface extends Types, Statuses {
     public static final String STRING_STATUS = "status";
 
     /**
+     * A message that may or may not be present when an error occurs.
+     */
+    public static final String STRING_ERROR_MESSAGE = "error_message";
+
+    /**
      * A token used for getting the next page of results
      */
     public static final String STRING_NEXT_PAGE_TOKEN = "next_page_token";

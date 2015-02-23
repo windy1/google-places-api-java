@@ -64,23 +64,10 @@ public class GooglePlaces implements GooglePlacesInterface {
         return url;
     }
 
-    protected static void checkStatus(String statusCode) {
-        switch (statusCode) {
-            case STATUS_OVER_QUERY_LIMIT:
-                throw new GooglePlacesException(statusCode,
-                        "You have fufilled the maximum amount of queries permitted by your API key.");
-            case STATUS_REQUEST_DENIED:
-                throw new GooglePlacesException(statusCode,
-                        "The request to the server was denied. (are you missing the sensor parameter?)");
-            case STATUS_INVALID_REQUEST:
-                throw new GooglePlacesException(statusCode,
-                        "The request sent to the server was invalid. (are you missing a required parameter?)");
-            case STATUS_UNKNOWN_ERROR:
-                throw new GooglePlacesException(statusCode,
-                        "An internal server-side error occurred. Trying again may be successful.");
-            case STATUS_NOT_FOUND:
-                throw new GooglePlacesException(statusCode, "The requested resource was not found.");
-        }
+    protected static void checkStatus(String statusCode, String errorMessage) {
+        GooglePlacesException e = GooglePlacesException.parse(statusCode, errorMessage);
+        if (e != null)
+            throw e;
     }
 
     /**
@@ -98,7 +85,7 @@ public class GooglePlaces implements GooglePlacesInterface {
 
         // check root elements
         String statusCode = json.getString(STRING_STATUS);
-        checkStatus(statusCode);
+        checkStatus(statusCode, json.optString(STRING_ERROR_MESSAGE));
         if (statusCode.equals(STATUS_ZERO_RESULTS))
             return null;
 
@@ -282,7 +269,7 @@ public class GooglePlaces implements GooglePlacesInterface {
             post.setEntity(new StringEntity(input.toString()));
             JSONObject response = new JSONObject(requestHandler.post(post));
             String status = response.getString(STRING_STATUS);
-            checkStatus(status);
+            checkStatus(status, response.optString(STRING_ERROR_MESSAGE));
             return returnPlace ? getPlaceById(response.getString(STRING_PLACE_ID)) : null;
         } catch (Exception e) {
             throw new GooglePlacesException(e);
@@ -298,7 +285,7 @@ public class GooglePlaces implements GooglePlacesInterface {
             post.setEntity(new StringEntity(input.toString()));
             JSONObject response = new JSONObject(requestHandler.post(post));
             String status = response.getString(STRING_STATUS);
-            checkStatus(status);
+            checkStatus(status, response.optString(STRING_ERROR_MESSAGE));
         } catch (Exception e) {
             throw new GooglePlacesException(e);
         }
@@ -380,7 +367,7 @@ public class GooglePlaces implements GooglePlacesInterface {
             params.add(Param.name("offset").value(offset));
         if (lat == -1 && lng == -1)
             params.add(Param.name("location").value(lat + "," + lng));
-        params.addAll(new ArrayList<Param>(Arrays.asList(extraParams)));
+        params.addAll(new ArrayList<>(Arrays.asList(extraParams)));
 
         return getPredictions(input, METHOD_QUERY_AUTOCOMPLETE, params.toArray(new Param[params.size()]));
     }
@@ -400,15 +387,12 @@ public class GooglePlaces implements GooglePlacesInterface {
         limit = Math.min(limit, MAXIMUM_RESULTS); // max of 60 results possible
         int pages = (int) Math.ceil(limit / (double) MAXIMUM_PAGE_RESULTS);
 
-        debug("Downloading and parsing place data from " + uri + "...");
-        debug("Limit: " + limit);
-        debug("Maximum pages: " + pages);
-
         List<Place> places = new ArrayList<>();
         // new request for each page
         for (int i = 0; i < pages; i++) {
             debug("Page: " + (i + 1));
             String raw = requestHandler.get(uri);
+            debug(raw);
             String nextPage = parse(this, places, raw, limit);
             if (nextPage != null) {
                 limit -= MAXIMUM_PAGE_RESULTS;
