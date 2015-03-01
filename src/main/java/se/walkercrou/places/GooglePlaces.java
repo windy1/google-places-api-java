@@ -296,7 +296,8 @@ public class GooglePlaces implements GooglePlacesInterface {
         deletePlaceById(place.getPlaceId(), extraParams);
     }
 
-    protected InputStream download(String uri) {
+    @Override
+    public InputStream download(String uri) {
         try {
             InputStream in = requestHandler.getInputStream(uri);
             if (in == null)
@@ -308,7 +309,8 @@ public class GooglePlaces implements GooglePlacesInterface {
         }
     }
 
-    protected InputStream downloadPhoto(Photo photo, int maxWidth, int maxHeight, Param... extraParams) {
+    @Override
+    public InputStream downloadPhoto(Photo photo, int maxWidth, int maxHeight, Param... extraParams) {
         try {
             String uri = String.format("%sphoto?photoreference=%s&key=%s", API_URL, photo.getReference(),
                     apiKey);

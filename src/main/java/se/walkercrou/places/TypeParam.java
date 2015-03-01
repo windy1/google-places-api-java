@@ -7,6 +7,11 @@ import java.util.List;
  */
 public class TypeParam extends Param {
 
+    /**
+     * It represents a pipeline character |
+     */
+    public static final String PIPE_CHARACTER = "%7C";
+
     private TypeParam(String name) {
         super(name);
     }
@@ -32,12 +37,10 @@ public class TypeParam extends Param {
         for (int i = 0; i < values.size(); i++) {
             valuesSb.append(values.get(i));
             if (i != (values.size() - 1)) {
-                valuesSb.append("%7C"); // it represents a pipeline character |
+                valuesSb.append(PIPE_CHARACTER);
             }
         }
         this.value = valuesSb.toString();
         return this;
     }
-
-
 }

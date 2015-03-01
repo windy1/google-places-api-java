@@ -2,6 +2,7 @@ package se.walkercrou.places;
 
 import se.walkercrou.places.exception.GooglePlacesException;
 
+import java.io.InputStream;
 import java.util.List;
 
 /**
@@ -508,6 +509,10 @@ public interface GooglePlacesInterface extends Types, Statuses {
      * @param place to delete
      */
     public void deletePlace(Place place, Param... extraParams);
+
+    public InputStream download(String uri);
+
+    public InputStream downloadPhoto(Photo photo, int maxWidth, int maxHeight, Param... extraParams);
 
     /**
      * Returns a list of auto-complete predictions for searching for a specific place. The 'offset' is the position, in
