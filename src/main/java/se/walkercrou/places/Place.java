@@ -60,6 +60,7 @@ public class Place {
 
         // easy stuff
         String name = result.getString(STRING_NAME);
+        String id = result.getString(STRING_PLACE_ID);
         String address = result.optString(STRING_ADDRESS, null);
         String phone = result.optString(STRING_PHONE_NUMBER, null);
         String iconUrl = result.optString(STRING_ICON, null);
@@ -74,9 +75,8 @@ public class Place {
 
         // grab the price rank
         Price price = Price.NONE;
-        if (result.has(INTEGER_PRICE_LEVEL)) {
+        if (result.has(INTEGER_PRICE_LEVEL))
             price = Price.values()[result.getInt(INTEGER_PRICE_LEVEL)];
-        }
 
         // location
         JSONObject location = result.getJSONObject(OBJECT_GEOMETRY).getJSONObject(OBJECT_LOCATION);
@@ -216,7 +216,7 @@ public class Place {
             }
         }
 
-        return place.setClient(client).setName(name).setAddress(address).setIconUrl(iconUrl).setPrice(price)
+        return place.setPlaceId(id).setClient(client).setName(name).setAddress(address).setIconUrl(iconUrl).setPrice(price)
                 .setLatitude(lat).setLongitude(lng).addTypes(types).setRating(rating).setStatus(status)
                 .setVicinity(vicinity).setPhoneNumber(phone).setInternationalPhoneNumber(internationalPhone)
                 .setGoogleUrl(url).setWebsite(website).addPhotos(photos).addAddressComponents(addressComponents)
