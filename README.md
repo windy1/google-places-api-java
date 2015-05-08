@@ -49,7 +49,7 @@ With Maven (make sure you are using the latest version):
     <dependency>
         <groupId>se.walkercrou</groupId>
         <artifactId>google-places-api-java</artifactId>
-        <version>2.0.2</version>
+        <version>2.1.2</version>
     </dependency>
 </dependencies>
 ```
@@ -62,7 +62,7 @@ repositories {
 }
 
 dependencies {
-    compile 'se.walkercrou:google-places-api-java:2.0.2'
+    compile 'se.walkercrou:google-places-api-java:2.1.2'
     compile 'org.apache.httpcomponents:httpclient-android:4.3.5.1'
 }
 ```
