@@ -68,7 +68,7 @@ dependencies {
 ```
 
 Or just download the JAR with all dependencies included from the
-[releases](https://github.com/windy1/google-places-api-java/releases).
+[releases](https://github.com/windy1/google-places-api-java/releases). **Do not use the JAR if you are using Android, it will cause an error.**
 
 
 ## Creating the client
