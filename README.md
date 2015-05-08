@@ -42,7 +42,7 @@ projects, please consider donating a small amount so that I may continue to devo
 
 ## Quickstart
 
-With Maven (make sure you are using the latest version):
+With Maven (make sure you are using the [latest version](http://search.maven.org/#search%7Cgav%7C1%7Cg%3A%22se.walkercrou%22%20AND%20a%3A%22google-places-api-java%22)):
 
 ```xml
 <dependencies>
@@ -54,7 +54,7 @@ With Maven (make sure you are using the latest version):
 </dependencies>
 ```
 
-With Gradle (make sure you are using the latest version):
+With Gradle (make sure you are using the [latest version](http://search.maven.org/#search%7Cgav%7C1%7Cg%3A%22se.walkercrou%22%20AND%20a%3A%22google-places-api-java%22)):
 
 ```java
 repositories {
