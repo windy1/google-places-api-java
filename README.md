@@ -1,7 +1,7 @@
 # google-places-api-java
 
 **Notice:** Before using this library, you must
-[register an API key for Google Places API](https://developers.google.com/places/documentation/#Authentication).
+[register an API key for Google Places API](https://developers.google.com/places/webservice/intro#Authentication).
 
 
 **Notice 2:** The release of v2 brings many breaking changes. You will almost certainly need to make adjustments and
