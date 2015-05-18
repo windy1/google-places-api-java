@@ -12,7 +12,7 @@ import java.util.List;
 public interface GooglePlacesInterface extends Types, Statuses {
 
     /**
-     * The URL of which Google Places API is located.
+     * The default URL of which Google Places API is located.
      */
     public static final String API_URL = "https://maps.googleapis.com/maps/api/place/";
 

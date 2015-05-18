@@ -16,11 +16,13 @@ import java.util.Locale;
 public class GooglePlaces implements GooglePlacesInterface {
 
     private String apiKey;
+    private String apiUrl = GooglePlacesInterface.API_URL;
     private RequestHandler requestHandler;
     private boolean debugModeEnabled;
 
     /**
      * Creates a new GooglePlaces object using the specified API key and the specified {@link RequestHandler}.
+     * Uses the default API Url, {@value #API_URL}
      *
      * @param apiKey         that has been registered on the Google Developer Console
      * @param requestHandler to handle HTTP traffic
@@ -31,7 +33,20 @@ public class GooglePlaces implements GooglePlacesInterface {
     }
 
     /**
+     * Creates a new GooglePlaces object using the specified API key and the specified {@link RequestHandler}.
+     *
+     * @param apiKey         that has been registered on the Google Developer Console
+     * @param requestHandler to handle HTTP traffic
+     * @param apiUrl         to specify a URL to send requests to.
+     */
+    public GooglePlaces(String apiKey, RequestHandler requestHandler, String apiUrl) {
+        this(apiKey, requestHandler);
+        this.apiUrl = apiUrl;
+    }
+
+    /**
      * Creates a new GooglePlaces object using the specified API key.
+     * Uses the default API Url, {@value #API_URL}
      *
      * @param apiKey that has been registered on the Google Developer Console
      */
@@ -50,6 +65,19 @@ public class GooglePlaces implements GooglePlacesInterface {
         this(apiKey, new DefaultRequestHandler(characterEncoding));
     }
 
+    /**
+     * Creates a new GooglePlaces object using the specified API key and character encoding. Using a character encoding
+     * other than UTF-8 is not advised.
+     *
+     * @param apiKey            that has been registered on the Google Developer Console
+     * @param characterEncoding to parse data with
+     * @param apiUrl            to specify a url to send requests to
+     */
+    public GooglePlaces(String apiKey, String characterEncoding, String apiUrl) {
+        this(apiKey, characterEncoding);
+        this.apiUrl = apiUrl;
+    }
+
     private static String addExtraParams(String base, Param... extraParams) {
         for (Param param : extraParams) {
             base += "&" + param.name + (param.value != null ? "=" + param.value : "");
@@ -57,8 +85,8 @@ public class GooglePlaces implements GooglePlacesInterface {
         return base;
     }
 
-    private static String buildUrl(String method, String params, Param... extraParams) {
-        String url = String.format(Locale.ENGLISH, "%s%s/json?%s", API_URL, method, params);
+    private String buildUrl(String method, String params, Param... extraParams) {
+        String url = String.format(Locale.ENGLISH, "%s%s/json?%s", apiUrl, method, params);
         url = addExtraParams(url, extraParams);
         url = url.replace(' ', '+');
         return url;
@@ -312,7 +340,7 @@ public class GooglePlaces implements GooglePlacesInterface {
     @Override
     public InputStream downloadPhoto(Photo photo, int maxWidth, int maxHeight, Param... extraParams) {
         try {
-            String uri = String.format("%sphoto?photoreference=%s&key=%s", API_URL, photo.getReference(),
+            String uri = String.format("%sphoto?photoreference=%s&key=%s", apiUrl, photo.getReference(),
                     apiKey);
 
             List<Param> params = new ArrayList<>(Arrays.asList(extraParams));
@@ -399,7 +427,7 @@ public class GooglePlaces implements GooglePlacesInterface {
             if (nextPage != null) {
                 limit -= MAXIMUM_PAGE_RESULTS;
                 uri = String.format("%s%s/json?pagetoken=%s&key=%s",
-                        API_URL, method, nextPage, apiKey);
+                        apiUrl, method, nextPage, apiKey);
                 sleep(3000); // Page tokens have a delay before they are available
             } else {
                 break;
