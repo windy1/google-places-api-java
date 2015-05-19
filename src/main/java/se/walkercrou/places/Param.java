@@ -21,6 +21,10 @@ public class Param {
         return new Param(name);
     }
 
+    public String getName() {
+        return name;
+    }
+
     /**
      * Sets the value of the Param.
      *
@@ -30,5 +34,29 @@ public class Param {
     public Param value(Object value) {
         this.value = value.toString();
         return this;
+    }
+
+    public String getValue() {
+        return value;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Param param = (Param) o;
+
+        if (name != null ? !name.equals(param.name) : param.name != null) return false;
+        if (value != null ? !value.equals(param.value) : param.value != null) return false;
+
+        return true;
+    }
+
+    @Override
+    public int hashCode() {
+        int result = name != null ? name.hashCode() : 0;
+        result = 31 * result + (value != null ? value.hashCode() : 0);
+        return result;
     }
 }

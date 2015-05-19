@@ -23,7 +23,7 @@ public class Place {
     private final List<Review> reviews = new ArrayList<>();
     private final List<AddressComponent> addressComponents = new ArrayList<>();
     private final List<AltId> altIds = new ArrayList<>();
-    private GooglePlaces client;
+    private GooglePlacesInterface client;
     private String placeId;
     private Scope scope;
     private double lat = -1, lng = -1;
@@ -43,7 +43,7 @@ public class Place {
     private int accuracy;
     private String lang;
 
-    protected Place() {
+    public Place() {
     }
 
     /**
@@ -229,17 +229,17 @@ public class Place {
      *
      * @return client
      */
-    public GooglePlaces getClient() {
+    public GooglePlacesInterface getClient() {
         return client;
     }
 
     /**
-     * Sets the {@link se.walkercrou.places.GooglePlaces} client associated with this Place object.
+     * Sets the {@link se.walkercrou.places.GooglePlacesInterface} client associated with this Place object.
      *
      * @param client to set
      * @return this
      */
-    protected Place setClient(GooglePlaces client) {
+    public Place setClient(GooglePlacesInterface client) {
         this.client = client;
         return this;
     }
@@ -259,7 +259,7 @@ public class Place {
      * @param placeId to use
      * @return this
      */
-    protected Place setPlaceId(String placeId) {
+    public Place setPlaceId(String placeId) {
         this.placeId = placeId;
         return this;
     }
@@ -279,7 +279,7 @@ public class Place {
      * @param lat latitude
      * @return this
      */
-    protected Place setLatitude(double lat) {
+    public Place setLatitude(double lat) {
         this.lat = lat;
         return this;
     }
@@ -299,7 +299,7 @@ public class Place {
      * @param lon longitude
      * @return this
      */
-    protected Place setLongitude(double lon) {
+    public Place setLongitude(double lon) {
         this.lng = lon;
         return this;
     }
@@ -319,7 +319,7 @@ public class Place {
      * @param utcOffset in seconds
      * @return this
      */
-    protected Place setUtcOffset(int utcOffset) {
+    public Place setUtcOffset(int utcOffset) {
         this.utcOffset = utcOffset;
         return this;
     }
@@ -339,7 +339,7 @@ public class Place {
      * @param hours of operation
      * @return this
      */
-    protected Place setHours(Hours hours) {
+    public Place setHours(Hours hours) {
         this.hours = hours;
         return this;
     }
@@ -368,7 +368,7 @@ public class Place {
      * @param phone number
      * @return this
      */
-    protected Place setPhoneNumber(String phone) {
+    public Place setPhoneNumber(String phone) {
         this.phone = phone;
         return this;
     }
@@ -388,7 +388,7 @@ public class Place {
      * @param internationalPhone phone number
      * @return this
      */
-    protected Place setInternationalPhoneNumber(String internationalPhone) {
+    public Place setInternationalPhoneNumber(String internationalPhone) {
         this.internationalPhone = internationalPhone;
         return this;
     }
@@ -408,7 +408,7 @@ public class Place {
      * @param googleUrl google plus page
      * @return this
      */
-    protected Place setGoogleUrl(String googleUrl) {
+    public Place setGoogleUrl(String googleUrl) {
         this.googleUrl = googleUrl;
         return this;
     }
@@ -428,7 +428,7 @@ public class Place {
      * @param website of place
      * @return this
      */
-    protected Place setWebsite(String website) {
+    public Place setWebsite(String website) {
         this.website = website;
         return this;
     }
@@ -448,7 +448,7 @@ public class Place {
      * @param vicinity of place
      * @return this
      */
-    protected Place setVicinity(String vicinity) {
+    public Place setVicinity(String vicinity) {
         this.vicinity = vicinity;
         return this;
     }
@@ -468,7 +468,7 @@ public class Place {
      * @param iconUrl to represent place.
      * @return this
      */
-    protected Place setIconUrl(String iconUrl) {
+    public Place setIconUrl(String iconUrl) {
         this.iconUrl = iconUrl;
         return this;
     }
@@ -520,7 +520,7 @@ public class Place {
      * @param name of place
      * @return this
      */
-    protected Place setName(String name) {
+    public Place setName(String name) {
         this.name = name;
         return this;
     }
@@ -540,7 +540,7 @@ public class Place {
      * @param addr address
      * @return this
      */
-    protected Place setAddress(String addr) {
+    public Place setAddress(String addr) {
         this.addr = addr;
         return this;
     }
@@ -551,7 +551,7 @@ public class Place {
      * @param c components to add
      * @return this
      */
-    protected Place addAddressComponents(Collection<AddressComponent> c) {
+    public Place addAddressComponents(Collection<AddressComponent> c) {
         this.addressComponents.addAll(c);
         return this;
     }
@@ -571,7 +571,7 @@ public class Place {
      * @param photos to add
      * @return this
      */
-    protected Place addPhotos(Collection<Photo> photos) {
+    public Place addPhotos(Collection<Photo> photos) {
         this.photos.addAll(photos);
         return this;
     }
@@ -591,7 +591,7 @@ public class Place {
      * @param reviews to add
      * @return this
      */
-    protected Place addReviews(Collection<Review> reviews) {
+    public Place addReviews(Collection<Review> reviews) {
         this.reviews.addAll(reviews);
         return this;
     }
@@ -611,7 +611,7 @@ public class Place {
      * @param types to add
      * @return this
      */
-    protected Place addTypes(Collection<String> types) {
+    public Place addTypes(Collection<String> types) {
         this.types.addAll(types);
         return this;
     }
@@ -631,7 +631,7 @@ public class Place {
      * @param altIds to add
      * @return this
      */
-    protected Place addAltIds(Collection<AltId> altIds) {
+    public Place addAltIds(Collection<AltId> altIds) {
         this.altIds.addAll(altIds);
         return this;
     }
@@ -660,7 +660,7 @@ public class Place {
      * @param rating of place
      * @return this
      */
-    protected Place setRating(double rating) {
+    public Place setRating(double rating) {
         this.rating = rating;
         return this;
     }
@@ -680,7 +680,7 @@ public class Place {
      * @param status to set
      * @return this
      */
-    protected Place setStatus(Status status) {
+    public Place setStatus(Status status) {
         this.status = status;
         return this;
     }
@@ -700,7 +700,7 @@ public class Place {
      * @param price to set
      * @return this
      */
-    protected Place setPrice(Price price) {
+    public Place setPrice(Price price) {
         this.price = price;
         return this;
     }
@@ -721,7 +721,7 @@ public class Place {
      * @param json representation
      * @return this
      */
-    protected Place setJson(JSONObject json) {
+    public Place setJson(JSONObject json) {
         this.json = json;
         return this;
     }
@@ -741,7 +741,7 @@ public class Place {
      * @param accuracy of location
      * @return this
      */
-    protected Place setAccuracy(int accuracy) {
+    public Place setAccuracy(int accuracy) {
         this.accuracy = accuracy;
         return this;
     }
@@ -761,7 +761,7 @@ public class Place {
      * @param lang place language
      * @return this
      */
-    protected Place setLanguage(String lang) {
+    public Place setLanguage(String lang) {
         this.lang = lang;
         return this;
     }
@@ -783,7 +783,7 @@ public class Place {
      * @return this
      * @see se.walkercrou.places.Scope
      */
-    protected Place setScope(Scope scope) {
+    public Place setScope(Scope scope) {
         this.scope = scope;
         return this;
     }
