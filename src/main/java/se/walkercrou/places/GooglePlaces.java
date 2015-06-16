@@ -205,7 +205,7 @@ public class GooglePlaces implements GooglePlacesInterface {
     @Override
     public List<Place> getNearbyPlacesRankedByDistance(double lat, double lng, int limit, Param... params) {
         try {
-            String uri = buildUrl(METHOD_NEARBY_SEARCH, String.format("key=%s&location=%f,%f&rankby=distance",
+            String uri = buildUrl(METHOD_NEARBY_SEARCH, String.format(Locale.ENGLISH, "key=%s&location=%f,%f&rankby=distance",
                     apiKey, lat, lng), params);
             return getPlaces(uri, METHOD_NEARBY_SEARCH, limit);
         } catch (Exception e) {
