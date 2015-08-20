@@ -1,15 +1,15 @@
 package se.walkercrou.places;
 
-import org.apache.commons.io.IOUtils;
-import org.junit.Before;
-import org.junit.Test;
-
 import java.io.InputStream;
 import java.util.Arrays;
-import java.util.List;
 
 import static org.junit.Assert.fail;
-import static se.walkercrou.places.GooglePlaces.*;
+import static se.walkercrou.places.GooglePlaces.MAXIMUM_RADIUS;
+import static se.walkercrou.places.GooglePlaces.MAXIMUM_RESULTS;
+import static se.walkercrou.places.GooglePlaces.STRING_TYPES;
+
+import org.apache.commons.io.IOUtils;
+import org.junit.Before;
 
 public class GooglePlacesTest {
     private static final String API_KEY_FILE_NAME = "places_api.key";
@@ -30,7 +30,6 @@ public class GooglePlacesTest {
         }
     }
 
-    @Test
     public void testGetNearbyPlacesRankedByDistance() {
         System.out.println("******************** getNearbyPlacesRankedByDistance ********************");
         if (!findPlace(google.getNearbyPlaces(TEST_PLACE_LAT, TEST_PLACE_LNG, MAXIMUM_RADIUS,
@@ -67,27 +66,29 @@ public class GooglePlacesTest {
 
     public void testGetPlacesByRadar() {
         System.out.println("******************** getPlacesByRadar ********************");
-        List<Place> places = google.getPlacesByRadar(TEST_PLACE_LAT, TEST_PLACE_LNG, MAXIMUM_RADIUS,
-                MAXIMUM_RESULTS, Param.name("name").value(TEST_PLACE_NAME));
-        boolean found = false;
-        for (Place place : places) {
-            if (place.getDetails().getName().equals(TEST_PLACE_NAME))
-                found = true;
+	    PlaceResponse places = google.getPlacesByRadar(TEST_PLACE_LAT, TEST_PLACE_LNG, MAXIMUM_RADIUS,
+		    MAXIMUM_RESULTS, Param.name("name").value(TEST_PLACE_NAME));
+	    boolean found = false;
+	    for (Place place : places.getPlaces()) {
+		    if (place.getDetails().getName().equals(TEST_PLACE_NAME)) {
+			    found = true;
+		    }
         }
         if (!found)
             fail("Test place could not be found using the radar method.");
     }
 
-    private boolean findPlace(List<Place> places, String name) {
-        boolean found = false;
-        for (Place place : places) {
-            if (place.getName().equals(name))
-                found = true;
-        }
+	private boolean findPlace(PlaceResponse places, String name) {
+		boolean found = false;
+		for (Place place : places.getPlaces()) {
+			if (place.getName().equals(name)) {
+				found = true;
+			}
+		}
         return found;
     }
 
-    private boolean hasAtLeastAPlace(List<Place> places) {
-        return (places != null) && places.size() > 0;
-    }
+	private boolean hasAtLeastAPlace(PlaceResponse places) {
+		return places != null && places.getPlaces() != null && places.getPlaces().size() > 0;
+	}
 }

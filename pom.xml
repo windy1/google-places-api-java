@@ -33,7 +33,7 @@
             <email>paulo.ubuntu@gmail.com</email>
         </contributor>
     </contributors>
-
+<!--
     <issueManagement>
         <system>GitHub</system>
         <url>https://github.com/windy1/google-places-api-java/issues</url>
@@ -51,6 +51,7 @@
         <developerConnection>scm:git:git@github.com:windy1/google-places-api-java.git</developerConnection>
         <url>git@github.com:windy1/google-places-api-java.git</url>
     </scm>
+-->
 
     <properties>
         <json.version>20140107</json.version>
@@ -211,6 +212,7 @@
                     <target>${compiler.version}</target>
                 </configuration>
             </plugin>
+<!--
             <plugin>
                 <groupId>org.sonatype.plugins</groupId>
                 <artifactId>nexus-staging-maven-plugin</artifactId>
@@ -222,6 +224,7 @@
                     <autoReleaseAfterClose>true</autoReleaseAfterClose>
                 </configuration>
             </plugin>
+-->
         </plugins>
     </build>
 </project>
