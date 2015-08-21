@@ -64,21 +64,25 @@ public class DefaultRequestHandler implements RequestHandler {
 
     @Override
     public InputStream getInputStream(String uri) throws IOException {
+        HttpGet get = new HttpGet(uri);
         try {
-            HttpGet get = new HttpGet(uri);
             return client.execute(get).getEntity().getContent();
         } catch (Exception e) {
             throw new IOException(e);
+        } finally {
+            get.releaseConnection();
         }
     }
 
     @Override
     public String get(String uri) throws IOException {
+        HttpGet get = new HttpGet(uri);
         try {
-            HttpGet get = new HttpGet(uri);
             return readString(client.execute(get));
         } catch (Exception e) {
             throw new IOException(e);
+        } finally {
+            get.releaseConnection();
         }
     }
 
@@ -88,6 +92,8 @@ public class DefaultRequestHandler implements RequestHandler {
             return readString(client.execute(data));
         } catch (Exception e) {
             throw new IOException(e);
+        } finally {
+            data.releaseConnection();
         }
     }
 }
