@@ -394,7 +394,8 @@ public class GooglePlaces implements GooglePlacesInterface {
             String raw = requestHandler.get(uri);
             debug(raw);
             String nextPage = parse(this, places, raw, limit);
-            if (nextPage != null) {
+            // reduce the limit, update the uri and wait for token, but only if there are more pages to read
+            if (nextPage != null && i < pages - 1) {
                 limit -= MAXIMUM_PAGE_RESULTS;
                 uri = String.format("%s%s/json?pagetoken=%s&key=%s",
                         API_URL, method, nextPage, apiKey);
