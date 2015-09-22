@@ -15,14 +15,14 @@ public interface RequestHandler {
      *
      * @return character encoding
      */
-    public String getCharacterEncoding();
+    String getCharacterEncoding();
 
     /**
      * Sets the character encoding used by this handler.
      *
      * @param characterEncoding to use
      */
-    public void setCharacterEncoding(String characterEncoding);
+    void setCharacterEncoding(String characterEncoding);
 
     /**
      * Returns an InputStream from the specified URI.
@@ -31,7 +31,7 @@ public interface RequestHandler {
      * @return input stream at uri
      * @throws IOException
      */
-    public InputStream getInputStream(String uri) throws IOException;
+    InputStream getInputStream(String uri) throws IOException;
 
     /**
      * Returns the returned data at the specified URI.
@@ -40,7 +40,7 @@ public interface RequestHandler {
      * @return string data at uri
      * @throws IOException
      */
-    public String get(String uri) throws IOException;
+    String get(String uri) throws IOException;
 
     /**
      * Posts new data to the server and returns the response as a string.
@@ -49,5 +49,5 @@ public interface RequestHandler {
      * @return string returned
      * @throws IOException
      */
-    public String post(HttpPost data) throws IOException;
+    String post(HttpPost data) throws IOException;
 }

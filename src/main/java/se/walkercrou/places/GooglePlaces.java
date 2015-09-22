@@ -13,7 +13,17 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Locale;
 
+/**
+ * Main class of API. Used for all entry web-api operations.
+ */
 public class GooglePlaces implements GooglePlacesInterface {
+
+    /*
+     * Argument #1: API Base URL
+     * Argument #2: API Method
+     * Argument #3: API Method arguments
+     */
+    public static String API_URL_FORMAT_STRING = "%s%s/json?%s";
 
     private String apiKey;
     private RequestHandler requestHandler;
@@ -51,14 +61,13 @@ public class GooglePlaces implements GooglePlacesInterface {
     }
 
     private static String addExtraParams(String base, Param... extraParams) {
-        for (Param param : extraParams) {
+        for (Param param : extraParams)
             base += "&" + param.name + (param.value != null ? "=" + param.value : "");
-        }
         return base;
     }
 
     private static String buildUrl(String method, String params, Param... extraParams) {
-        String url = String.format(Locale.ENGLISH, "%s%s/json?%s", API_URL, method, params);
+        String url = String.format(Locale.ENGLISH, API_URL_FORMAT_STRING, API_URL, method, params);
         url = addExtraParams(url, extraParams);
         url = url.replace(' ', '+');
         return url;
