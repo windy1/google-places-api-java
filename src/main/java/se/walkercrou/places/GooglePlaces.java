@@ -248,7 +248,7 @@ public class GooglePlaces implements GooglePlacesInterface {
         try {
             String uri = buildUrl(METHOD_RADAR_SEARCH, String.format(Locale.ENGLISH, "key=%s&location=%f,%f&radius=%f",
                     apiKey, lat, lng, radius), extraParams);
-            return getPlaces(uri, METHOD_RADAR_SEARCH, limit);
+            return getRadarPlaces(uri, METHOD_RADAR_SEARCH, limit);
         } catch (Exception e) {
             throw new GooglePlacesException(e);
         }
@@ -392,7 +392,6 @@ public class GooglePlaces implements GooglePlacesInterface {
     }
 
     private List<Place> getPlaces(String uri, String method, int limit) throws IOException {
-
         limit = Math.min(limit, MAXIMUM_RESULTS); // max of 60 results possible
         int pages = (int) Math.ceil(limit / (double) MAXIMUM_PAGE_RESULTS);
 
@@ -415,6 +414,17 @@ public class GooglePlaces implements GooglePlacesInterface {
         }
 
         return places;
+    }
+
+    private List<Place> getRadarPlaces(String uri, String method, int limit) throws IOException {
+      limit = Math.min(limit, MAXIMUM_RADAR_RESULTS); // max of 200 results possible
+
+      List<Place> places = new ArrayList<>();
+      String raw = requestHandler.get(uri);
+      debug(raw);
+      parse(this, places, raw, limit);
+
+      return places;
     }
 
     private void sleep(long millis) {
