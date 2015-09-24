@@ -85,10 +85,9 @@ public class GooglePlaces implements GooglePlacesInterface {
      * @param places to parse into
      * @param str    raw json
      * @param limit  the maximum amount of places to return
-     * @return list of parsed places
+     * @return Next page token
      */
     public static String parse(GooglePlaces client, List<Place> places, String str, int limit) {
-
         // parse json
         JSONObject json = new JSONObject(str);
 
@@ -99,13 +98,33 @@ public class GooglePlaces implements GooglePlacesInterface {
             return null;
 
         JSONArray results = json.getJSONArray(ARRAY_RESULTS);
-        parseResults(client, places, results, limit);
+        parseResults(client, places, results, Math.min(limit, MAXIMUM_PAGE_RESULTS));
 
         return json.optString(STRING_NEXT_PAGE_TOKEN, null);
     }
+    
+    /**
+     * Parses the specified Radar raw json String into a list of places.
+     *
+     * @param places to parse into
+     * @param str    Radar raw json
+     * @param limit  the maximum amount of places to return
+     */
+    public static void parseRadar(GooglePlaces client, List<Place> places, String str, int limit) {
+      // parse json
+      JSONObject json = new JSONObject(str);
+      
+      // check root elements
+      String statusCode = json.getString(STRING_STATUS);
+      checkStatus(statusCode, json.optString(STRING_ERROR_MESSAGE));
+      if (statusCode.equals(STATUS_ZERO_RESULTS))
+        return;
+      
+      JSONArray results = json.getJSONArray(ARRAY_RESULTS);
+      parseResults(client, places, results, Math.min(limit, MAXIMUM_RADAR_RESULTS));
+    }
 
     private static void parseResults(GooglePlaces client, List<Place> places, JSONArray results, int limit) {
-        limit = Math.min(limit, MAXIMUM_PAGE_RESULTS);
         for (int i = 0; i < limit; i++) {
 
             // reached the end of the page
