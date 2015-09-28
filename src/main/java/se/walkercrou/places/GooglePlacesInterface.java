@@ -29,6 +29,11 @@ public interface GooglePlacesInterface extends Types, Statuses {
      * The maximum results that can be returned.
      */
     int MAXIMUM_RESULTS = 60;
+    
+    /**
+     * The maximum radar results that can be returned.
+     */
+    int MAXIMUM_RADAR_RESULTS = 200;
 
     /**
      * The maximum search radius for places.
