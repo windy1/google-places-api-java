@@ -380,7 +380,8 @@ interface GooglePlacesInterface extends Types, Statuses {
      * @param radius      radius
      * @param limit       the maximum amount of places to return
      * @param extraParams any extra parameters to include in the request URL
-     * @return a list of places that were found
+     *
+     * @return a PlaceResponse object containing a list of places and possibly a next page token.
      */
     PlaceResponse getNearbyPlaces(double lat, double lng, double radius, int limit, Param... extraParams);
 
@@ -392,51 +393,83 @@ interface GooglePlacesInterface extends Types, Statuses {
      * @param lng         longitude
      * @param radius      radius
      * @param extraParams any extra parameters to include in the request URL
-     * @return a list of places that were found
+     *
+     * @return a PlaceResponse object containing a list of places and possibly a next page token.
      */
     PlaceResponse getNearbyPlaces(double lat, double lng, double radius, Param... extraParams);
 
-    /**
-     * Returns the places at the specified latitude and longitude in order of proximity to the specified location. If
-     * the specified limit is greater than {@link #MAXIMUM_PAGE_RESULTS}, multiple HTTP GET requests may be made if
-     * necessary. One or more of the parameters 'keyword', 'name', or 'types' is required or else a
-     * {@link se.walkercrou.places.exception.GooglePlacesException} will be thrown.
-     *
-     * @param lat    latitude
-     * @param lng    longitude
-     * @param limit  the maximum amount of places to return
-     * @param params parameters to append to url, one or more being 'keyword', 'name', or 'types'
-     * @return list of places in order of proximity to the specified location
-     * @throws se.walkercrou.places.exception.GooglePlacesException if 'keyword', 'name' or 'types' is not included.
-     */
-    PlaceResponse getNearbyPlacesRankedByDistance(double lat, double lng, int limit, Param... params)
-            throws GooglePlacesException;
+	/**
+	 * Returns the next page of places of a previous query at the specified latitude and longitude in order of proximity
+	 * to the specified location. No more than {@link #DEFAULT_RESULTS} will be returned and no more than one HTTP GET
+	 * request will be sent.
+	 *
+	 * @param nextPageToken token for the next page of results
+	 *
+	 * @return a PlaceResponse object containing a list of places and possibly a next page token.
+	 *
+	 * @throws GooglePlacesException
+	 */
+	PlaceResponse getNearbyPlaces(String nextPageToken) throws GooglePlacesException;
 
-    /**
-     * Returns the places at the specified latitude and longitude in order of proximity to the specified location. No
-     * more than {@link #DEFAULT_RESULTS} will be returned and no more than one HTTP GET request will be sent. One or
-     * more of the parameters 'keyword', 'name', or 'types' is required or else a
-     * {@link se.walkercrou.places.exception.GooglePlacesException} will be thrown.
-     *
-     * @param lat    latitude
-     * @param lng    longitude
-     * @param params parameters to append to url, one or more being 'keyword', 'name', or 'types'
-     * @return list of places in order of proximity to the specified location
-     * @throws se.walkercrou.places.exception.GooglePlacesException if 'keyword', 'name' or 'types' is not included.
-     */
-    PlaceResponse getNearbyPlacesRankedByDistance(double lat, double lng, Param... params)
-            throws GooglePlacesException;
+	/**
+	 * Returns the places at the specified latitude and longitude in order of proximity to the specified location. If
+	 * the specified limit is greater than {@link #MAXIMUM_PAGE_RESULTS}, multiple HTTP GET requests may be made if
+	 * necessary. One or more of the parameters 'keyword', 'name', or 'types' is required or else a
+	 * {@link se.walkercrou.places.exception.GooglePlacesException} will be thrown.
+	 *
+	 * @param lat latitude
+	 * @param lng longitude
+	 * @param limit the maximum amount of places to return
+	 * @param params parameters to append to url, one or more being 'keyword', 'name', or 'types'
+	 *
+	 * @return a PlaceResponse object containing a list of places and possibly a next page token.
+	 *
+	 * @throws se.walkercrou.places.exception.GooglePlacesException if 'keyword', 'name' or 'types' is not included.
+	 */
+	PlaceResponse getNearbyPlacesRankedByDistance(double lat, double lng, int limit, Param... params)
+		throws GooglePlacesException;
 
-    /**
-     * Returns the places that match the specified search query.  If the specified limit
-     * is greater than {@link #MAXIMUM_PAGE_RESULTS}, multiple HTTP GET requests may be made if necessary.
-     *
-     * @param query       search query
-     * @param limit       the maximum amount of places to return
-     * @param extraParams any extra parameters to include in the request URL
-     * @return a list of places that were found
-     */
-    PlaceResponse getPlacesByQuery(String query, int limit, Param... extraParams);
+	/**
+	 * Returns the places at the specified latitude and longitude in order of proximity to the specified location. No
+	 * more than {@link #DEFAULT_RESULTS} will be returned and no more than one HTTP GET request will be sent. One or
+	 * more of the parameters 'keyword', 'name', or 'types' is required or else a
+	 * {@link se.walkercrou.places.exception.GooglePlacesException} will be thrown.
+	 *
+	 * @param lat latitude
+	 * @param lng longitude
+	 * @param params parameters to append to url, one or more being 'keyword', 'name', or 'types'
+	 *
+	 * @return a PlaceResponse object containing a list of places and possibly a next page token.
+	 *
+	 * @throws se.walkercrou.places.exception.GooglePlacesException if 'keyword', 'name' or 'types' is not included.
+	 */
+	PlaceResponse getNearbyPlacesRankedByDistance(double lat, double lng, Param... params)
+		throws GooglePlacesException;
+
+	/**
+	 * Returns the next page of places of a previous query at the specified latitude and longitude in order of proximity
+	 * to the specified location. No more than {@link #DEFAULT_RESULTS} will be returned and no more than one HTTP GET
+	 * request will be sent.
+	 *
+	 * @param nextPageToken token for the next page of results
+	 *
+	 * @return a PlaceResponse object containing a list of places and possibly a next page token.
+	 *
+	 * @throws GooglePlacesException
+	 */
+	PlaceResponse getNearbyPlacesRankedByDistance(String nextPageToken) throws GooglePlacesException;
+
+	/**
+	 * Returns the places that match the specified search query.  If the specified limit
+	 * is greater than {@link #MAXIMUM_PAGE_RESULTS}, multiple HTTP GET requests may be made if necessary.
+	 *
+	 * @param query search query
+	 * @param limit the maximum amount of places to return
+	 * @param extraParams any extra parameters to include in the request URL
+	 *
+	 * @return a PlaceResponse object containing a list of places and possibly a next page token.
+	 */
+	PlaceResponse getPlacesByQuery(String query, int limit, Param... extraParams);
 
     /**
      * Returns the places that match the specified search query. No more than {@link #DEFAULT_RESULTS} will be returned
@@ -444,9 +477,20 @@ interface GooglePlacesInterface extends Types, Statuses {
      *
      * @param query       search query
      * @param extraParams any extra parameters to include in the request URL
-     * @return a list of places that were found
+     *
+     * @return a PlaceResponse object containing a list of places and possibly a next page token.
      */
     PlaceResponse getPlacesByQuery(String query, Param... extraParams);
+
+	/**
+	 * Returns the next page of the places that match the specified search query. No more than {@link #DEFAULT_RESULTS}
+	 * will be returned and no more than one HTTP GET request will be sent. The 'sensor' parameter defaults to false.
+	 *
+	 * @param nextPageToken token for the next page of results
+	 *
+	 * @return a PlaceResponse object containing a list of places and possibly a next page token.
+	 */
+	PlaceResponse getPlacesByQuery(String nextPageToken);
 
     /**
      * Returns the places at the specified latitude and longitude according to the "radar" method specified by Google
@@ -458,7 +502,8 @@ interface GooglePlacesInterface extends Types, Statuses {
      * @param radius      radius
      * @param limit       the maximum amount of places to return
      * @param extraParams any extra parameters to include in the request URL
-     * @return a list of places that were found
+     *
+     * @return a PlaceResponse object containing a list of places and possibly a next page token.
      */
     PlaceResponse getPlacesByRadar(double lat, double lng, double radius, int limit, Param... extraParams);
 
@@ -471,7 +516,8 @@ interface GooglePlacesInterface extends Types, Statuses {
      * @param lng         longitude
      * @param radius      radius
      * @param extraParams any extra parameters to include in the request URL
-     * @return a list of places that were found
+     *
+     * @return a PlaceResponse object containing a list of places and possibly a next page token.
      */
     PlaceResponse getPlacesByRadar(double lat, double lng, double radius, Param... extraParams);
 
@@ -480,6 +526,7 @@ interface GooglePlacesInterface extends Types, Statuses {
      *
      * @param placeId     to get
      * @param extraParams params to append to url
+     *
      * @return place
      */
     Place getPlaceById(String placeId, Param... extraParams);
@@ -490,6 +537,7 @@ interface GooglePlacesInterface extends Types, Statuses {
      * @param builder     to get place details from
      * @param returnPlace true if the newly created place should be returned
      * @param extraParams to append to request url
+     *
      * @return newly created place
      */
     Place addPlace(PlaceBuilder builder, boolean returnPlace, Param... extraParams);
@@ -524,6 +572,7 @@ interface GooglePlacesInterface extends Types, Statuses {
      * @param lng         longitude
      * @param radius      radius
      * @param extraParams to append to request url
+     *
      * @return list of predictions
      */
     List<Prediction> getPlacePredictions(String input, int offset, int lat, int lng, int radius,
@@ -539,6 +588,7 @@ interface GooglePlacesInterface extends Types, Statuses {
      *
      * @param input  user input
      * @param offset offset of text caret
+     *
      * @return list of predictions
      */
     List<Prediction> getPlacePredictions(String input, int offset, Param... extraParams);
@@ -548,6 +598,7 @@ interface GooglePlacesInterface extends Types, Statuses {
      *
      * @param input       user input
      * @param extraParams extra params to include in url
+     *
      * @return list of predictions
      */
     List<Prediction> getPlacePredictions(String input, Param... extraParams);
@@ -563,6 +614,7 @@ interface GooglePlacesInterface extends Types, Statuses {
      *
      * @param input       user input
      * @param extraParams to append to request url
+     *
      * @return list of predictions
      */
     List<Prediction> getQueryPredictions(String input, int offset, int lat, int lng, int radius,
@@ -579,6 +631,7 @@ interface GooglePlacesInterface extends Types, Statuses {
      * @param input       user input
      * @param offset      offset of text caret
      * @param extraParams extra params to append to url
+     *
      * @return list of predictions
      */
     List<Prediction> getQueryPredictions(String input, int offset, Param... extraParams);
@@ -588,8 +641,8 @@ interface GooglePlacesInterface extends Types, Statuses {
      *
      * @param input       user input
      * @param extraParams extra parameters to append to url
+     *
      * @return list of predictions
      */
     List<Prediction> getQueryPredictions(String input, Param... extraParams);
-
 }

@@ -1,10 +1,5 @@
 package se.walkercrou.places;
 
-import org.json.JSONArray;
-import org.json.JSONObject;
-import se.walkercrou.places.exception.GooglePlacesException;
-
-import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
 import java.io.InputStream;
 import java.util.ArrayList;
@@ -12,7 +7,13 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 
+import javax.imageio.ImageIO;
+
 import static se.walkercrou.places.GooglePlaces.*;
+
+import org.json.JSONArray;
+import org.json.JSONObject;
+import se.walkercrou.places.exception.GooglePlacesException;
 
 /**
  * Represents a place returned by Google Places API_
@@ -71,7 +72,7 @@ public class Place {
         String website = result.optString(STRING_WEBSITE, null);
         int utcOffset = result.optInt(INTEGER_UTC_OFFSET, -1);
         String scopeName = result.optString(STRING_SCOPE);
-        Scope scope = scopeName == null ? null : Scope.valueOf(scopeName);
+	    Scope scope = scopeName == null || scopeName.isEmpty() ? null : Scope.valueOf(scopeName);
 
         // grab the price rank
         Price price = Price.NONE;

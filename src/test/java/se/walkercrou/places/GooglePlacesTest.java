@@ -85,8 +85,8 @@ public class GooglePlacesTest {
 				found = true;
 			}
 		}
-        return found;
-    }
+		return found;
+	}
 
 	private boolean hasAtLeastAPlace(PlaceResponse places) {
 		return places != null && places.getPlaces() != null && places.getPlaces().size() > 0;
