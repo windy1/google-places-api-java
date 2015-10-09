@@ -441,7 +441,7 @@ public class GooglePlaces implements GooglePlacesInterface {
       List<Place> places = new ArrayList<>();
       String raw = requestHandler.get(uri);
       debug(raw);
-      parse(this, places, raw, limit);
+      parseRadar(this, places, raw, limit);
 
       return places;
     }
