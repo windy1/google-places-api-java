@@ -1,18 +1,18 @@
 package se.walkercrou.places;
 
-import org.json.JSONArray;
-import org.json.JSONObject;
-import se.walkercrou.places.exception.GooglePlacesException;
+import static se.walkercrou.places.GooglePlaces.*;
 
-import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
+import javax.imageio.ImageIO;
 
-import static se.walkercrou.places.GooglePlaces.*;
+import org.json.JSONArray;
+import org.json.JSONObject;
+import se.walkercrou.places.exception.GooglePlacesException;
 
 /**
  * Represents a place returned by Google Places API_
@@ -130,7 +130,14 @@ public class Place {
                 JSONObject jsonPhoto = jsonPhotos.getJSONObject(i);
                 String photoReference = jsonPhoto.getString(STRING_PHOTO_REFERENCE);
                 int width = jsonPhoto.getInt(INTEGER_WIDTH), height = jsonPhoto.getInt(INTEGER_HEIGHT);
-                photos.add(new Photo(place, photoReference, width, height));
+                Photo photo = new Photo(place, photoReference, width, height);
+                JSONArray jsonAttributions = jsonPhoto.optJSONArray(ARRAY_HTML_ATTRIBUTIONS);
+                if (jsonAttributions != null) {
+                    for (int j = 0; j < jsonAttributions.length(); j++) {
+                        photo.addHtmlAttribution(jsonAttributions.getString(j));
+                    }
+                }
+                photos.add(photo);
             }
         }
 

@@ -1,12 +1,15 @@
 package se.walkercrou.places;
 
-import se.walkercrou.places.exception.GooglePlacesException;
+import static se.walkercrou.places.GooglePlaces.MAX_PHOTO_SIZE;
 
-import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
 import java.io.InputStream;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+import javax.imageio.ImageIO;
 
-import static se.walkercrou.places.GooglePlaces.MAX_PHOTO_SIZE;
+import se.walkercrou.places.exception.GooglePlacesException;
 
 /**
  * Represents a referenced photo.
@@ -15,6 +18,7 @@ public class Photo {
     private final Place place;
     private final String reference;
     private final int width, height;
+    private final List<String> htmlAttributions = new ArrayList<>();
     private InputStream image;
 
     protected Photo(Place place, String reference, int width, int height) {
@@ -95,5 +99,23 @@ public class Photo {
      */
     public int getHeight() {
         return height;
+    }
+
+    /**
+     * Returns the HTML attributions of the photo. This array may be empty but is never null.
+     *
+     * @return photo attributions
+     */
+    public List<String> getHtmlAttributions() {
+        return Collections.unmodifiableList(htmlAttributions);
+    }
+
+    /**
+     * Add an HTML attribution to the photo.
+     *
+     * @param attribution the attribution to add
+     */
+    public void addHtmlAttribution(String attribution) {
+        htmlAttributions.add(attribution);
     }
 }
