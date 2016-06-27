@@ -39,7 +39,7 @@ public class ProtocolTests {
     @Test
     public void testNearbySearch() {
         System.out.println("---- Nearby Search ---");
-        List<Place> places = google.getNearbyPlaces(UVM_LAT, UVM_LNG, MAXIMUM_RADIUS);
+        List<Place> places = google.getNearbyPlaces(UVM_LAT, UVM_LNG, MAXIMUM_RADIUS, TypeParam.name("types").value(Types.TYPE_UNIVERSITY));
         assertContainsPlace(places, UVM_NAME);
         testTextSearch();
     }
