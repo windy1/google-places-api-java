@@ -34,7 +34,7 @@ public class GooglePlacesTest {
     public void testGetNearbyPlacesRankedByDistance() {
         System.out.println("******************** getNearbyPlacesRankedByDistance ********************");
         if (!findPlace(google.getNearbyPlaces(TEST_PLACE_LAT, TEST_PLACE_LNG, MAXIMUM_RADIUS,
-                MAXIMUM_RESULTS), TEST_PLACE_NAME))
+                MAXIMUM_RESULTS, TypeParam.name("types").value(Types.TYPE_UNIVERSITY)), TEST_PLACE_NAME))
             fail("Test place could not be found at coordinates.");
 
         if (!hasAtLeastAPlace(google.getNearbyPlacesRankedByDistance(TEST_PLACE_LAT, TEST_PLACE_LNG, MAXIMUM_RESULTS,
@@ -48,7 +48,7 @@ public class GooglePlacesTest {
     public void testGetNearbyPlaces() {
         System.out.println("******************** getNearbyPlaces ********************");
         if (!findPlace(google.getNearbyPlaces(TEST_PLACE_LAT, TEST_PLACE_LNG, MAXIMUM_RADIUS,
-                MAXIMUM_RESULTS), TEST_PLACE_NAME))
+                MAXIMUM_RESULTS, TypeParam.name("types").value(Types.TYPE_UNIVERSITY)), TEST_PLACE_NAME))
             fail("Test place could not be found at coordinates.");
 
         if (!hasAtLeastAPlace(google.getNearbyPlaces(TEST_PLACE_LAT, TEST_PLACE_LNG, MAXIMUM_RADIUS,

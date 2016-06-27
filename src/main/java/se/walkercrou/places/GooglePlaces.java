@@ -217,8 +217,8 @@ public class GooglePlaces implements GooglePlacesInterface {
     @Override
     public List<Place> getNearbyPlaces(double lat, double lng, double radius, int limit, Param... extraParams) {
         try {
-            String uri = buildUrl(METHOD_NEARBY_SEARCH, String.format(Locale.ENGLISH, "key=%s&location=%f,%f&radius=%f",
-                    apiKey, lat, lng, radius), extraParams);
+            String uri = buildUrl(METHOD_NEARBY_SEARCH, String.format(Locale.ENGLISH, "key=%s&location=%s,%s&radius=%s",
+                    apiKey, String.valueOf(lat), String.valueOf(lng), String.valueOf(radius)), extraParams);
             return getPlaces(uri, METHOD_NEARBY_SEARCH, limit);
         } catch (Exception e) {
             throw new GooglePlacesException(e);
@@ -233,8 +233,8 @@ public class GooglePlaces implements GooglePlacesInterface {
     @Override
     public List<Place> getNearbyPlacesRankedByDistance(double lat, double lng, int limit, Param... params) {
         try {
-            String uri = buildUrl(METHOD_NEARBY_SEARCH, String.format(Locale.ENGLISH, "key=%s&location=%f,%f&rankby=distance",
-                    apiKey, lat, lng), params);
+            String uri = buildUrl(METHOD_NEARBY_SEARCH, String.format(Locale.ENGLISH, "key=%s&location=%s,%s&rankby=distance",
+                    apiKey, String.valueOf(lat), String.valueOf(lng)), params);
             return getPlaces(uri, METHOD_NEARBY_SEARCH, limit);
         } catch (Exception e) {
             throw new GooglePlacesException(e);
