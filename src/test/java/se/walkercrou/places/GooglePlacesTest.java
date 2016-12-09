@@ -1,5 +1,6 @@
 package se.walkercrou.places;
 
+import java.io.File;
 import org.apache.commons.io.IOUtils;
 import org.junit.Before;
 import org.junit.Test;
@@ -7,6 +8,7 @@ import org.junit.Test;
 import java.io.InputStream;
 import java.util.Arrays;
 import java.util.List;
+import org.apache.commons.io.FileUtils;
 
 import static org.junit.Assert.fail;
 import static se.walkercrou.places.GooglePlaces.*;
@@ -20,12 +22,10 @@ public class GooglePlacesTest {
     @Before
     public void setUp() {
         try {
-            InputStream in = GooglePlacesTest.class.getResourceAsStream("/" + API_KEY_FILE_NAME);
-            String apiKey = null;
-            if (in == null) {
-                apiKey = System.getenv("GOOGLE_PLACES_API_KEY");
-            } else {
-                apiKey = IOUtils.toString(in);
+            String apiKey = System.getenv("GOOGLE_PLACES_API_KEY");
+            if (apiKey == null || "".equals(apiKey)) {
+                File file = new File(GooglePlacesTest.class.getResource("/" + API_KEY_FILE_NAME).getFile());
+                apiKey = FileUtils.readFileToString(file).replace("\n", "").replace("\r", "");
             }
             google = new GooglePlaces(apiKey);
             google.setDebugModeEnabled(true);
