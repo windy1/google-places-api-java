@@ -21,9 +21,13 @@ public class GooglePlacesTest {
     public void setUp() {
         try {
             InputStream in = GooglePlacesTest.class.getResourceAsStream("/" + API_KEY_FILE_NAME);
-            if (in == null)
-                throw new RuntimeException("API key not found.");
-            google = new GooglePlaces(IOUtils.toString(in));
+            String apiKey = null;
+            if (in == null) {
+                apiKey = System.getenv("GOOGLE_PLACES_API_KEY");
+            } else {
+                apiKey = IOUtils.toString(in);
+            }
+            google = new GooglePlaces(apiKey);
             google.setDebugModeEnabled(true);
         } catch (Exception e) {
             e.printStackTrace();
