@@ -71,7 +71,7 @@ public class Place {
         String website = result.optString(STRING_WEBSITE, null);
         int utcOffset = result.optInt(INTEGER_UTC_OFFSET, -1);
         String scopeName = result.optString(STRING_SCOPE);
-        Scope scope = scopeName == null ? null : Scope.valueOf(scopeName);
+        Scope scope = (scopeName == null || scopeName.isEmpty()) ? null : Scope.valueOf(scopeName);
 
         // grab the price rank
         Price price = Price.NONE;
