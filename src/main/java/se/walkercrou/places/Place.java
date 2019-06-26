@@ -70,7 +70,7 @@ public class Place {
         String vicinity = result.optString(STRING_VICINITY, null);
         String website = result.optString(STRING_WEBSITE, null);
         int utcOffset = result.optInt(INTEGER_UTC_OFFSET, -1);
-        String scopeName = result.optString(STRING_SCOPE);
+        String scopeName = result.optString(STRING_SCOPE, null);
         Scope scope = scopeName == null ? null : Scope.valueOf(scopeName);
 
         // grab the price rank
