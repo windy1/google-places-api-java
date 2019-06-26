@@ -2,8 +2,8 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>se.walkercrou</groupId>
-    <artifactId>google-places-api-java</artifactId>
-    <version>2.1.7</version>
+    <artifactId>mark43-google-places-api-java</artifactId>
+    <version>2.1.8</version>
     <packaging>jar</packaging>
 
     <name>Google Places API</name>
