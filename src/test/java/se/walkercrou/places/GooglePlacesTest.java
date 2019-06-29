@@ -62,20 +62,6 @@ public class GooglePlacesTest {
         System.out.println("******************** getPlacesByQuery ********************");
         if (!findPlace(google.getPlacesByQuery(TEST_PLACE_NAME, MAXIMUM_RESULTS), TEST_PLACE_NAME))
             fail("Test place could not be found by name");
-        testGetPlacesByRadar();
-    }
-
-    public void testGetPlacesByRadar() {
-        System.out.println("******************** getPlacesByRadar ********************");
-        List<Place> places = google.getPlacesByRadar(TEST_PLACE_LAT, TEST_PLACE_LNG, MAXIMUM_RADIUS,
-                MAXIMUM_RESULTS, Param.name("name").value(TEST_PLACE_NAME));
-        boolean found = false;
-        for (Place place : places) {
-            if (place.getDetails().getName().equals(TEST_PLACE_NAME))
-                found = true;
-        }
-        if (!found)
-            fail("Test place could not be found using the radar method.");
     }
 
     private boolean findPlace(List<Place> places, String name) {

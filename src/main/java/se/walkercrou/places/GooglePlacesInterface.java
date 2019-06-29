@@ -29,11 +29,6 @@ public interface GooglePlacesInterface extends Types, Statuses {
      * The maximum results that can be returned.
      */
     int MAXIMUM_RESULTS = 60;
-    
-    /**
-     * The maximum radar results that can be returned.
-     */
-    int MAXIMUM_RADAR_RESULTS = 200;
 
     /**
      * The maximum search radius for places.
@@ -43,7 +38,6 @@ public interface GooglePlacesInterface extends Types, Statuses {
     // METHODS
     String METHOD_NEARBY_SEARCH = "nearbysearch";
     String METHOD_TEXT_SEARCH = "textsearch";
-    String METHOD_RADAR_SEARCH = "radarsearch";
     String METHOD_DETAILS = "details";
     String METHOD_ADD = "add";
     String METHOD_DELETE = "delete";
@@ -452,33 +446,6 @@ public interface GooglePlacesInterface extends Types, Statuses {
      * @return a list of places that were found
      */
     List<Place> getPlacesByQuery(String query, Param... extraParams);
-
-    /**
-     * Returns the places at the specified latitude and longitude according to the "radar" method specified by Google
-     * Places API.  If the specified limit is greater than {@link #MAXIMUM_PAGE_RESULTS}, multiple HTTP GET requests
-     * may be made if necessary.
-     *
-     * @param lat         latitude
-     * @param lng         longitude
-     * @param radius      radius
-     * @param limit       the maximum amount of places to return
-     * @param extraParams any extra parameters to include in the request URL
-     * @return a list of places that were found
-     */
-    List<Place> getPlacesByRadar(double lat, double lng, double radius, int limit, Param... extraParams);
-
-    /**
-     * Returns the places at the specified latitude and longitude according to the "radar" method specified by Google
-     * Places API. No more than {@link #DEFAULT_RESULTS} will be returned and no more than one HTTP GET request will
-     * be sent.
-     *
-     * @param lat         latitude
-     * @param lng         longitude
-     * @param radius      radius
-     * @param extraParams any extra parameters to include in the request URL
-     * @return a list of places that were found
-     */
-    List<Place> getPlacesByRadar(double lat, double lng, double radius, Param... extraParams);
 
     /**
      * Returns the place specified by the 'placeid'.
