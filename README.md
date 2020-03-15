@@ -1,21 +1,19 @@
 # google-places-api-java
 
-**Notice:** Before using this library, you must
-[register an API key for Google Places API](https://developers.google.com/places/webservice/intro#Authentication).
+## UNMAINTAINED: DO NOT USE
+
+~~**Notice:** Before using this library, you must register an API key for Google Places API.~~
 
 
-**Notice 2:** The release of v2 brings many breaking changes. You will almost certainly need to make adjustments and
+~~**Notice 2:** The release of v2 brings many breaking changes. You will almost certainly need to make adjustments and
 recompile after upgrading to the latest version. This is because many deprecations from previous iterations of this
 library and the Google Places API specification have been removed for conciseness including the removal of Events.
 **Previous iterations of this library will stop working once the deprecations in the API specification are removed and
-it is imperative that you update ASAP to ensure your applications continue to work.**
+it is imperative that you update ASAP to ensure your applications continue to work.**~~
 
 
-Walker Crouse is an aspiring software developer, open source contributor, and starving college student. If you like my
-projects, please consider donating a small amount so that I may continue to devote time to them. Thank you.
-
-[![Donate](https://www.paypalobjects.com/en_US/i/btn/btn_donate_LG.gif)](https://www.paypal.com/cgi-bin/webscr?cmd=_donations&business=BR4TEJ4R39SFY&lc=US&item_name=Walker%20Crouse&currency_code=USD&bn=PP%2dDonationsBF%3abtn_donate_LG%2egif%3aNonHosted)
-
+~~Walker Crouse is an aspiring software developer, open source contributor, and starving college student. If you like my
+projects, please consider donating a small amount so that I may continue to devote time to them. Thank you.~~
 
 ## Contents
 
