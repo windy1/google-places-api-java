@@ -4,15 +4,18 @@ import org.apache.commons.io.IOUtils;
 import org.junit.Before;
 import org.junit.Test;
 
+import java.io.IOException;
 import java.io.InputStream;
 import java.util.Arrays;
 import java.util.List;
 
+import static org.junit.Assert.assertNull;
 import static org.junit.Assert.fail;
 import static se.walkercrou.places.GooglePlaces.*;
 
 public class GooglePlacesTest {
     private static final String API_KEY_FILE_NAME = "places_api.key";
+    private static final String PLACES_DETAIL = "placeDetail_1.json";
     private static final String TEST_PLACE_NAME = "University of Vermont";
     private static final double TEST_PLACE_LAT = 44.478025, TEST_PLACE_LNG = -73.196475;
     private GooglePlaces google;
@@ -28,6 +31,14 @@ public class GooglePlacesTest {
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+    @Test
+    public void testScope() throws IOException {
+        InputStream in =  GooglePlacesTest.class.getResourceAsStream("/" + PLACES_DETAIL);
+        String json = IOUtils.toString(in);
+        Place place = Place.parseDetails(google, json);
+        assertNull(place.getScope());
     }
 
     @Test

@@ -1,0 +1,164 @@
+{
+  "html_attributions": [],
+  "result": {
+    "address_components": [
+      {
+        "long_name": "Mecheria",
+        "short_name": "Mecheria",
+        "types": [
+          "locality",
+          "political"
+        ]
+      },
+      {
+        "long_name": "Naâma Province",
+        "short_name": "Naâma Province",
+        "types": [
+          "administrative_area_level_1",
+          "political"
+        ]
+      },
+      {
+        "long_name": "Algeria",
+        "short_name": "DZ",
+        "types": [
+          "country",
+          "political"
+        ]
+      }
+    ],
+    "adr_address": "<span class=\"locality\">Mecheria</span>, <span class=\"country-name\">Algeria</span>",
+    "formatted_address": "Mecheria, Algeria",
+    "geometry": {
+      "location": {
+        "lat": 33.5445731,
+        "lng": -0.2809339000000001
+      },
+      "viewport": {
+        "northeast": {
+          "lat": 33.5459369302915,
+          "lng": -0.279621119708498
+        },
+        "southwest": {
+          "lat": 33.5432389697085,
+          "lng": -0.282319080291502
+        }
+      }
+    },
+    "icon": "https://maps.gstatic.com/mapfiles/place_api/icons/library-71.png",
+    "id": "a0b4c6254cd25c32993e96855bb76031b8cdac61",
+    "name": "Elmostakbel (souaaji)",
+    "opening_hours": {
+      "open_now": true,
+      "periods": [
+        {
+          "close": {
+            "day": 0,
+            "time": "2120"
+          },
+          "open": {
+            "day": 0,
+            "time": "0900"
+          }
+        },
+        {
+          "close": {
+            "day": 1,
+            "time": "2120"
+          },
+          "open": {
+            "day": 1,
+            "time": "0900"
+          }
+        },
+        {
+          "close": {
+            "day": 2,
+            "time": "2120"
+          },
+          "open": {
+            "day": 2,
+            "time": "0900"
+          }
+        },
+        {
+          "close": {
+            "day": 3,
+            "time": "2120"
+          },
+          "open": {
+            "day": 3,
+            "time": "0900"
+          }
+        },
+        {
+          "close": {
+            "day": 4,
+            "time": "2120"
+          },
+          "open": {
+            "day": 4,
+            "time": "0900"
+          }
+        },
+        {
+          "close": {
+            "day": 5,
+            "time": "2120"
+          },
+          "open": {
+            "day": 5,
+            "time": "0900"
+          }
+        },
+        {
+          "close": {
+            "day": 6,
+            "time": "2120"
+          },
+          "open": {
+            "day": 6,
+            "time": "0900"
+          }
+        }
+      ],
+      "weekday_text": [
+        "Monday: 9:00 AM – 9:20 PM",
+        "Tuesday: 9:00 AM – 9:20 PM",
+        "Wednesday: 9:00 AM – 9:20 PM",
+        "Thursday: 9:00 AM – 9:20 PM",
+        "Friday: 9:00 AM – 9:20 PM",
+        "Saturday: 9:00 AM – 9:20 PM",
+        "Sunday: 9:00 AM – 9:20 PM"
+      ]
+    },
+    "place_id": "ChIJw191_0GTgA0RLQar8norubM",
+    "plus_code": {
+      "compound_code": "GPV9+RJ بن قدور ابراهيم، Mecheria, Algeria",
+      "global_code": "8C5XGPV9+RJ"
+    },
+    "rating": 5,
+    "reference": "ChIJw191_0GTgA0RLQar8norubM",
+    "reviews": [
+      {
+        "author_name": "bouchikhi hamza",
+        "author_url": "https://www.google.com/maps/contrib/100548272088556550646/reviews",
+        "profile_photo_url": "https://lh3.googleusercontent.com/-OfzBDgk_eWQ/AAAAAAAAAAI/AAAAAAAAA9Y/6Ep0AyEfzd0/s128-c0x00000000-cc-rp-mo/photo.jpg",
+        "rating": 5,
+        "relative_time_description": "a year ago",
+        "text": "",
+        "time": 1503070713
+      }
+    ],
+    "types": [
+      "library",
+      "point_of_interest",
+      "establishment"
+    ],
+    "url": "https://maps.google.com/?cid=12950430010537870893",
+    "user_ratings_total": 1,
+    "utc_offset": 60,
+    "vicinity": "Mecheria"
+  },
+  "status": "OK"
+}
