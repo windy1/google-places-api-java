@@ -1,8 +1,8 @@
 package se.walkercrou.places;
 
-import se.walkercrou.places.exception.GooglePlacesException;
-
 import java.util.List;
+
+import se.walkercrou.places.exception.GooglePlacesException;
 
 /**
  * A Java binding for the Google Places API:
@@ -106,6 +106,11 @@ public interface GooglePlacesInterface extends Types, Statuses {
      * Defines alternate entries for a specified place.
      */
     String ARRAY_ALT_IDS = "alt_ids";
+
+    /**
+     * Array of required HTML attributions on photos
+     */
+    String ARRAY_HTML_ATTRIBUTIONS = "html_attributions";
 
     /**
      * If the place is opened now
