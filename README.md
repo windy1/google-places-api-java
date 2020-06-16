@@ -22,7 +22,6 @@ projects, please consider donating a small amount so that I may continue to devo
 * [Place Searches](#place-searches)
     * [Nearby Search](#nearby-search-requests)
     * [Text Search](#text-search-requests)
-    * [Radar Search](#radar-search-requests)
     * [Adding extra URL parameters](#additional-url-parameters)
 * [Place Details](#place-details)
     * [Icons](#icons)
@@ -101,14 +100,6 @@ You can also search for locations by search query. This is the same backend syst
 
 ```java
 List<Place> places = client.getPlacesByQuery("Empire State Building", GooglePlaces.MAXIMUM_RESULTS);
-```
-
-### Radar Search Requests
-
-You can also use the ["radar"](https://developers.google.com/places/documentation/search#RadarSearchRequests) method of finding locations.
-
-```java
-List<Place> places = client.getPlacesByRadar(lat, lng, radius, GooglePlaces.MAXIMUM_RESULTS);
 ```
 
 ### Additional Url Parameters

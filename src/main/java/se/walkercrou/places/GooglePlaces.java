@@ -102,27 +102,6 @@ public class GooglePlaces implements GooglePlacesInterface {
 
         return json.optString(STRING_NEXT_PAGE_TOKEN, null);
     }
-    
-    /**
-     * Parses the specified Radar raw json String into a list of places.
-     *
-     * @param places to parse into
-     * @param str    Radar raw json
-     * @param limit  the maximum amount of places to return
-     */
-    public static void parseRadar(GooglePlaces client, List<Place> places, String str, int limit) {
-      // parse json
-      JSONObject json = new JSONObject(str);
-      
-      // check root elements
-      String statusCode = json.getString(STRING_STATUS);
-      checkStatus(statusCode, json.optString(STRING_ERROR_MESSAGE));
-      if (statusCode.equals(STATUS_ZERO_RESULTS))
-        return;
-      
-      JSONArray results = json.getJSONArray(ARRAY_RESULTS);
-      parseResults(client, places, results, Math.min(limit, MAXIMUM_RADAR_RESULTS));
-    }
 
     private static void parseResults(GooglePlaces client, List<Place> places, JSONArray results, int limit) {
         for (int i = 0; i < limit; i++) {
@@ -260,22 +239,6 @@ public class GooglePlaces implements GooglePlacesInterface {
     @Override
     public List<Place> getPlacesByQuery(String query, Param... extraParams) {
         return getPlacesByQuery(query, DEFAULT_RESULTS, extraParams);
-    }
-
-    @Override
-    public List<Place> getPlacesByRadar(double lat, double lng, double radius, int limit, Param... extraParams) {
-        try {
-            String uri = buildUrl(METHOD_RADAR_SEARCH, String.format(Locale.ENGLISH, "key=%s&location=%f,%f&radius=%f",
-                    apiKey, lat, lng, radius), extraParams);
-            return getRadarPlaces(uri, METHOD_RADAR_SEARCH, limit);
-        } catch (Exception e) {
-            throw new GooglePlacesException(e);
-        }
-    }
-
-    @Override
-    public List<Place> getPlacesByRadar(double lat, double lng, double radius, Param... extraParams) {
-        return getPlacesByRadar(lat, lng, radius, MAXIMUM_RESULTS, extraParams);
     }
 
     @Override
@@ -433,17 +396,6 @@ public class GooglePlaces implements GooglePlacesInterface {
         }
 
         return places;
-    }
-
-    private List<Place> getRadarPlaces(String uri, String method, int limit) throws IOException {
-      limit = Math.min(limit, MAXIMUM_RADAR_RESULTS); // max of 200 results possible
-
-      List<Place> places = new ArrayList<>();
-      String raw = requestHandler.get(uri);
-      debug(raw);
-      parseRadar(this, places, raw, limit);
-
-      return places;
     }
 
     private void sleep(long millis) {
